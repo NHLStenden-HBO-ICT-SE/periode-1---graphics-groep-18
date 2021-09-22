@@ -1,7 +1,6 @@
-package com.company;
+package me.rik;
 
 public class Vector3 {
-
     public double x;
     public double y;
     public double z;
@@ -103,7 +102,7 @@ public class Vector3 {
     }
 
     //TODO: multiply(vector3)
-    
+
 
 
 

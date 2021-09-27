@@ -1,9 +1,12 @@
-package RayTracer18;
+package RayTracer18.Primitives;
+
+import RayTracer18.Ray;
+import RayTracer18.Vector3;
 
 public abstract class Object3D {
     public Vector3 position;
     private float rotation;
-    private int material;
+    private Material material;
 
     public Object3D(Vector3 pos){
 
@@ -11,6 +14,14 @@ public abstract class Object3D {
 
     public void rotate() {
 
+    }
+
+    public Material getMaterial(){
+        return this.material;
+    }
+
+    public void applyMaterial(Material m){
+        this.material = m;
     }
 
     public void intersectsRay(Ray ray) {

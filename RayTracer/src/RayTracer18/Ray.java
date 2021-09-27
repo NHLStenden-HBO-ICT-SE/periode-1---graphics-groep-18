@@ -1,16 +1,18 @@
 package RayTracer18;
 
 
+import RayTracer18.Primitives.Object3D;
 import RayTracer18.Primitives.Triangle;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 
 public class Ray {
     public Vector3 origin;
     public Vector3 direction;
     public Scene3D scene;
     public double t;
-    public Vector3 hitpoint;
-
+    public ArrayList<Vector3> hits;
     public Color color;
 
     public Ray(Vector3 origin, Vector3 direction, Scene3D scene){
@@ -18,6 +20,7 @@ public class Ray {
         this.direction = direction.normalize();
         this.scene = scene;
         this.origin = origin;
+        this.hits = new ArrayList<Vector3>();
 
     }
 
@@ -31,22 +34,14 @@ public class Ray {
 
     public Color shoot(){
         for(Object3D ob : this.scene.getObjects()){
-            if(ob instanceof Triangle){
 
-                Triangle c = ((Triangle)ob);
-                Vector3 hit = c.calculateIntersection(this);
+                Vector3 hit = ob.calculateIntersection(this);
                 if(hit != null){
-                    hitpoint = hit;
-
-
-
-                    return Color.GREEN;
-                }
-
-
+                    hits.add(hit);
+                    return ob.getMaterial().getColor();
             }
         }
-        return Color.BLACK;
+        return scene.voidColor;
     }
 
 

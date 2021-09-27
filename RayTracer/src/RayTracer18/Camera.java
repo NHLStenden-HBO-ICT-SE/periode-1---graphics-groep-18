@@ -50,14 +50,7 @@ public class Camera {
 
         Ray r = new Ray(this.position, Vector3.sub(worldPos, this.position.clone()).normalize(), this.scene);
         Color res = r.shoot();
-        if(x/projectorSize.x == 0.5 && y/projectorSize.y > 0.99){
-            System.out.println("POINT bot " + r.hitpoint);
-        }
-        if(x/projectorSize.x == 0.5 && y/projectorSize.y < 0.02){
-            System.out.println("------REQUESTED FOR " + y);
-            System.out.println("POINT top" + r.hitpoint);
-            System.out.println("RAY TOP " + r.getDirection());
-        }
+
         return res;
 
 

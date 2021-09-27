@@ -39,13 +39,22 @@ public class Main extends Application {
         b1.setOnAction(e->{
 
             //TEST FOR AN INTERSECTION
-            Ray r1 = new Ray(new Vector3(0,5,0),new Vector3(0,-1,0));
+            Ray r1 = new Ray(new Vector3(1,5,0),new Vector3(0,-1,0));
             Triangle t = new Triangle(
-                    new Vector3(-2,0,3),
-                    new Vector3(-2,0,-3),
-                    new Vector3(3,0,0)
+                    new Vector3(-3,0.1,0),
+                    new Vector3(0,0.1,3),
+                    new Vector3(3,0.1,-3)
             );
-            System.out.println(t.intersect(r1).toString());
+            float intersection = t.intersect(r1);
+            System.out.println(intersection);
+
+            Vector3 endpoint = new Vector3(r1.origin);
+            Vector3 towards = r1.direction.multiplyScalar(intersection);
+            endpoint.add(towards);
+            System.out.println("END: " + endpoint);
+
+
+
 
         });
         b1.setText("Render");

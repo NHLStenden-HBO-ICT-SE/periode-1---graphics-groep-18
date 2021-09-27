@@ -12,26 +12,44 @@ public class Vector3 {
         this.y = y;
         this.z = z;
     }
+    public Vector3(){
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+    }
 
     public Vector3 clone(){
         return new Vector3(this.x, this.y, this.z);
+    }
+
+    public Vector3 copy(Vector3 target){
+        this.x = target.x;
+        this.y = target.y;
+        this.z = target.z;
+        return this;
+    }
+    public Vector3(Vector3 copiable){
+        this.x = copiable.x;
+        this.y = copiable.y;
+        this.z = copiable.z;
     }
 
 
 
     public static Vector3 cross(Vector3 v0, Vector3 v1){
         return new Vector3(
-                v1.z * v0.y - v0.z * v1.y,
-                v1.x * v0.z - v0.x * v1.z,
-                v1.y * v0.x - v0.y * v1.x );
+
+
+                v1.y * v0.z - v0.z * v1.y,
+                v1.z * v0.x - v0.x * v1.z,
+                v1.x * v0.y - v0.y * v1.x );
     }
     public static Vector3 sub(Vector3 v1, Vector3 v2){
-        return new Vector3(
-                v2.x - v1.x,
-                v2.y - v1.y,
-                v2.z - v1.z
-        );
+        return new Vector3(v1.x - v2.x,
+                v1.y - v2.y,
+                v1.z - v2.z);
     }
+
     public static double dot(Vector3 v1, Vector3 v2){
         double an = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
         return an;
@@ -43,7 +61,7 @@ public class Vector3 {
                 v1.z*v2.z
         );
     }
-    public static Vector3 multiplyScalar(Vector3 v, float m){
+    public static Vector3 multiplyScalar(Vector3 v, double m){
         return new Vector3(
                 v.x * m,
                 v.y * m,
@@ -70,7 +88,7 @@ public class Vector3 {
         return this;
     }
 
-    public Vector3 sub(Vector3 v2){
+    public Vector3 subtract(Vector3 v2){
         this.x -= v2.x;
         this.y -= v2.y;
         this.z -= v2.z;
@@ -149,9 +167,10 @@ public class Vector3 {
      * @param target Vector to calculate the dot with
      * @return The dot product
      */
-    public double dot(Vector3 target){
-        double an = this.x * target.x + this.y * target.y + this.z * target.z;
-        return an;
+    public double dot(Vector3 v){
+        return this.x * v.x +
+                this.y * v.y +
+                this.z * v.z;
     }
 
     /**
@@ -164,6 +183,14 @@ public class Vector3 {
         double mag1 = this.getLength();
         double mag2 = target.getLength();
         return Math.acos(dot / (mag1*mag2));
+    }
+
+    public Vector3 cross(Vector3 v) {
+        return new Vector3(
+                this.y * v.z - this.z * v.y,
+                this.z * v.x - this.x * v.z,
+                this.x * v.y - this.y * v.x
+        );
     }
 
     @Override

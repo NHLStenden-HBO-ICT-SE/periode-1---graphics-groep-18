@@ -2,17 +2,23 @@ package RayTracer18;
 
 import java.util.ArrayList;
 
-public class Scene {
+public class Scene3D {
 
     private ArrayList<Object3D> objects;
     public Camera camera;
 
+    public boolean testhit = false;
 
-    public Scene(){
+
+    public Scene3D(){
         this.objects = new ArrayList<Object3D>();
-        this.camera = new Camera();
+        this.camera = new Camera(0.5, this);
 
 
+    }
+
+    public void add(Object3D ob){
+        this.objects.add(ob);
     }
 
     public ArrayList<Object3D> getObjects(){

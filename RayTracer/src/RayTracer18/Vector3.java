@@ -35,6 +35,17 @@ public class Vector3 {
     }
 
 
+    public double getX(){
+        return this.x;
+    }
+    public double getY(){
+        return this.y;
+    }
+    public double getZ(){
+        return this.z;
+    }
+
+
 
     public static Vector3 cross(Vector3 v0, Vector3 v1){
         return new Vector3(
@@ -77,14 +88,11 @@ public class Vector3 {
         this.y *=  v2.y;
         this.z *=  v2.z;
         return this;
-
-
     }
-    public Vector3 multiplyScalar(float m){
+    public Vector3 multiplyScalar(double m){
         this.x *= m;
         this.y *= m;
         this.z *= m;
-        System.out.println(this);
         return this;
     }
 
@@ -96,6 +104,9 @@ public class Vector3 {
     }
 
 
+    public double[] toArray(){
+        return new double[]{x, y, z};
+    }
 
 
 
@@ -164,7 +175,7 @@ public class Vector3 {
 
     /**
      * Get the dot product
-     * @param target Vector to calculate the dot with
+     * @param v Vector to calculate the dot with
      * @return The dot product
      */
     public double dot(Vector3 v){
@@ -203,6 +214,9 @@ public class Vector3 {
     }
 
     //TODO: All matrix functions
+
+
+
 
 
 

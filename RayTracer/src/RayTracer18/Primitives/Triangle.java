@@ -1,15 +1,19 @@
-package RayTracer18;
+package RayTracer18.Primitives;
+
+import RayTracer18.Object3D;
+import RayTracer18.Ray;
+import RayTracer18.Vector3;
 
 import static RayTracer18.Vector3.*;
-import static java.lang.Float.NEGATIVE_INFINITY;
-import static java.lang.Math.*;
-import static java.lang.System.currentTimeMillis;
-public class Triangle {
+
+public class Triangle extends Object3D {
 
 
     public Vector3 p1, p2, p3;
 
     public Triangle(Vector3 p1, Vector3 p2, Vector3 p3){
+
+        super(new Vector3(0,0,0));
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
@@ -18,8 +22,9 @@ public class Triangle {
 
 
 
-
-    float intersect(Ray r) {
+    //Möller–Trumbore intersection algorithm.
+    @Override
+    public Vector3 calculateIntersection(Ray r) {
 
         Vector3 v0 = this.p1;
         Vector3 v1 = this.p2;
@@ -31,21 +36,25 @@ public class Triangle {
         double det = v0v1.dot(pvec);
 
         if (det < 0.000001)
-            return NEGATIVE_INFINITY;
+            return null;
 
         float invDet = (float) (1.0 / det);
         Vector3 tvec = sub(r.origin,v0);
         double u = tvec.dot(pvec) * invDet;
 
         if (u < 0 || u > 1)
-            return NEGATIVE_INFINITY;
+            return null;
 
         Vector3 qvec = tvec.cross(v0v1);
         double v = r.direction.dot(qvec) * invDet;
 
         if (v < 0 || u + v > 1)
-            return NEGATIVE_INFINITY;
+            return null;
 
-        return (float) (v0v2.dot(qvec) * invDet);
+        float distance = (float) (v0v2.dot(qvec) * invDet);
+        Vector3 endpoint = new Vector3(r.origin);
+        Vector3 towards = r.direction.multiplyScalar(distance);
+        endpoint.add(towards);
+        return endpoint;
     }
 }

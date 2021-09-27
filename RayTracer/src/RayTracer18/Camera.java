@@ -27,7 +27,6 @@ public class Camera {
         this.fov = fov;
         this.position = new Vector3();
         this.scene = scene;
-        this.fov = 0.3;
         this.topRight = new Vector3(1, 0.5, fov);
         this.topLeft = new Vector3(-1, 0.5, fov);
         this.bottomLeft = new Vector3(-1, -0.5, fov);
@@ -41,13 +40,11 @@ public class Camera {
 
 
     public Color getColor(double x, double y){
-        double cury = bottomRight.y;
-        double perc = y/projectorSize.y;
-        double length = Vector3.sub(topRight, bottomRight).getLength();
-        double yc = cury + (perc * length);
-        Vector3 worldPos = new Vector3( topLeft.x + (x/projectorSize.x * Vector3.sub(topRight, topLeft).getLength()), yc, fov);
 
+        //Calculate the worldposition of the pixel on the projection plane
+        Vector3 worldPos = new Vector3( topLeft.x + (x/projectorSize.x * Vector3.sub(topRight, topLeft).getLength()), bottomRight.y + (y/projectorSize.y * Vector3.sub(topRight, bottomRight).getLength()), fov);
 
+        //Create the ray with the direction from eye(this.position) to the worldPos
         Ray r = new Ray(this.position, Vector3.sub(worldPos, this.position.clone()).normalize(), this.scene);
         Color res = r.shoot();
 

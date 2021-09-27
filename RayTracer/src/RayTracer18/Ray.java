@@ -33,11 +33,14 @@ public class Ray {
     }
 
     public Color shoot(){
+        //Loop through all objects in the scene to see if it intersects with the current ray
         for(Object3D ob : this.scene.getObjects()){
 
                 Vector3 hit = ob.calculateIntersection(this);
                 if(hit != null){
+                    //Add it to a list of hitted objects
                     hits.add(hit);
+
                     return ob.getMaterial().getColor();
             }
         }

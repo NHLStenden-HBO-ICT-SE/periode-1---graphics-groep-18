@@ -22,6 +22,12 @@ public class Triangle extends Object3D {
 
 
     //Möller–Trumbore intersection algorithm.
+
+    /**
+     *
+     * @param r Where to check intersections with
+     * @return Point where it hit.
+     */
     @Override
     public Vector3 calculateIntersection(Ray r) {
 

@@ -14,12 +14,13 @@ public class Scene3D {
     public Color voidColor;
 
 
-    public boolean testhit = false;
 
 
     public Scene3D(){
         this.objects = new ArrayList<Object3D>();
-        this.camera = new Camera(0.5, this);
+        this.camera = new Camera(0.3, this);
+
+        //Color if a pixel hits nothing
         this.voidColor = Color.BLACK;
 
     }

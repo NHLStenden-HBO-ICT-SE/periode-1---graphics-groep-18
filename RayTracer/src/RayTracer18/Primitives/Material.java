@@ -1,6 +1,5 @@
 package RayTracer18.Primitives;
 
-
 import javafx.scene.paint.Color;
 
 public class Material {

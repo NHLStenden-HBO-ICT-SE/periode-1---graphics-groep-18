@@ -20,7 +20,7 @@ public class Renderer {
                 if(c == null){
                     c = scene.voidColor;
                 }
-                pxw.setColor(x, useY,c );
+                pxw.setColor(x, useY,c);
             }
     }
 

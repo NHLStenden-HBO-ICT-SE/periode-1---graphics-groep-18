@@ -44,7 +44,6 @@ public class Ray {
 
 
 
-
     public Color shoot(){
         //Loop through all objects in the scene to see if it intersects with the current ray
         for(Object3D ob : this.scene.getObjects()){
@@ -60,12 +59,16 @@ public class Ray {
                             shadowRay.setType(RayType.SHADOW);
                             Color res = shadowRay.shoot();
                             if(res == null){
+                                //If you haven't implemented the normal function, set the "prod" to 1
                                 Vector3 normal = ob.getNormalAt(hit);
+
+                                System.out.println(hit);
                                 Vector3 lightDir = Vector3.sub(hit, this.origin).normalize();
+                                System.out.println("Dir  " + lightDir);
                                 double prod = normal.dot( lightDir);
                                 prod = Math.abs(prod);
-                                Color c = ob.getMaterial().getColor().interpolate(Color.BLACK, (1-prod)* 1/light.intensity);
-                                return c;
+                                System.out.println(prod);
+                                return ob.getMaterial().getColor().interpolate(Color.BLACK, 1-prod);
 
                             }
                             return res;
@@ -73,7 +76,7 @@ public class Ray {
                     }
                     if(this.type == RayType.SHADOW){
 
-                        return Color.ORANGE;
+                        return Color.GREY.darker();
                     }
 
 

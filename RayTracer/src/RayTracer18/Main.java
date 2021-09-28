@@ -3,6 +3,7 @@ package RayTracer18;
 
 import RayTracer18.Light.PointLight;
 import RayTracer18.Primitives.Material;
+import RayTracer18.Primitives.Sphere;
 import RayTracer18.Primitives.Triangle;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -24,7 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Canvas canvas = new Canvas(600,200);
+        Canvas canvas = new Canvas(1200,600);
 
         primaryStage.setTitle("Ray tracer");
         button = new Button();
@@ -32,18 +33,22 @@ public class Main extends Application {
         button.setOnAction(e->{
             Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0,6,4), new Vector3(3, 0,4));
             Triangle blocker = new Triangle(
-                    new Vector3(-0.3,1.5,1),
-                    new Vector3(0.3, 1.5, 1),
-                    new Vector3(0,2,1)
+                    new Vector3(-0.6,1.5,5),
+                    new Vector3(0.6, 1.5, 5),
+                    new Vector3(0,5,5)
             );
-            scene.add(blocker);
 
+
+            scene.add(t);
             Material blue = new Material(Color.BLUE);
+            Material green = new Material(Color.GREEN);
             t.applyMaterial(blue);
+            Sphere s = new Sphere(new Vector3(0,0,3), 1);
+            s.applyMaterial(green);
+            scene.add(s);
 
             blocker.applyMaterial(blue);
-            scene.add(t);
-            PointLight l = new PointLight(new Vector3(0, 2, 0), 1f, Color.WHITE);
+            PointLight l = new PointLight(new Vector3(0, 2, 0), 0.5f, Color.WHITE);
             scene.add(l);
             scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
             new Renderer().renderScene(scene, canvas);

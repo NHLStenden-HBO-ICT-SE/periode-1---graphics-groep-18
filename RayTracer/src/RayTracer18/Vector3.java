@@ -207,11 +207,7 @@ public class Vector3 {
 
     @Override
     public String toString() {
-        return "Vector3{" +
-                "x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                '}';
+        return String.format("Vector3{x=(%f, y=%f, z=%f)}", x, y, z);
     }
 
     //TODO: All matrix functions

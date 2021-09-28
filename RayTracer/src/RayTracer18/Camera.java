@@ -37,6 +37,10 @@ public class Camera {
         this.projectorSize = size;
     }
 
+    public void setFov(double fov){
+        this.fov = fov;
+    }
+
 
 
     public Color getColor(double x, double y){

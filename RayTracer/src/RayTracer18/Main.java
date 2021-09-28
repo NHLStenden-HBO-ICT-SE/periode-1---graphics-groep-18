@@ -30,8 +30,8 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Canvas canvas = new Canvas(600,300);
+    public void start(Stage primaryStage) throws Exception {
+        Canvas canvas = new Canvas(600, 300);
 
         primaryStage.setTitle("Ray tracer");
 
@@ -56,27 +56,31 @@ public class Main extends Application {
         button = new Button();
         button.setText("Trace da rays");
         button.setOnAction(e -> {
-            Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0, 6, 4), new Vector3(3, 0, 4));
-            Triangle blocker = new Triangle(
-                    new Vector3(-0.6,1.5,5),
-                    new Vector3(0.6, 1.5, 5),
-                    new Vector3(0,5,5)
-            );
-            scene.add(blocker);
-
-            //TODO: make this working
-//            Plane p = new Plane(1);
-//            scene.add(p);
-
-            scene.add(t);
             Material blue = new Material(Color.BLUE);
             Material green = new Material(Color.GREEN);
+
+            Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0, 6, 4), new Vector3(3, 0, 4));
+            scene.add(t);
             t.applyMaterial(blue);
-            Sphere s = new Sphere(new Vector3(0,0,3), 1);
+
+
+            Triangle blocker = new Triangle(
+                    new Vector3(-0.6, 1.5, 5),
+                    new Vector3(0.6, 1.5, 5),
+                    new Vector3(0, 5, 5)
+            );
+            scene.add(blocker);
+            blocker.applyMaterial(blue);
+
+            //TODO: make this working correclty
+            Plane p = new Plane(.2);
+            scene.add(p);
+            p.applyMaterial(green);
+
+            Sphere s = new Sphere(new Vector3(0, 0, 3), 1);
             s.applyMaterial(green);
             scene.add(s);
 
-            blocker.applyMaterial(blue);
             PointLight l = new PointLight(new Vector3(0, 2, 0), 0.5f, Color.WHITE);
             scene.add(l);
             scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));

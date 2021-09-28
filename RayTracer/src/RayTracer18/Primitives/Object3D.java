@@ -5,7 +5,7 @@ import RayTracer18.Vector3;
 
 public abstract class Object3D {
     public Vector3 position;
-    private float rotation;
+    private double rotation;
     private Material material;
 
     public Object3D(Vector3 pos){

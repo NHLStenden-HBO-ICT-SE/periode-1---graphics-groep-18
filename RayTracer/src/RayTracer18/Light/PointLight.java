@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 
 public class PointLight extends Light{
 
-    public PointLight(Vector3 position, float intensity, Color color) {
+    public PointLight(Vector3 position, double intensity, Color color) {
         super(position, intensity, color);
     }
 }

@@ -1,6 +1,7 @@
 package RayTracer18;
 
 
+import RayTracer18.Light.PointLight;
 import RayTracer18.Primitives.Material;
 import RayTracer18.Primitives.Triangle;
 import javafx.application.Application;
@@ -30,11 +31,15 @@ public class Main extends Application {
         button.setText("Trace da rays");
         button.setOnAction(e->{
             Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0,6,4), new Vector3(3, 0,4));
+
+
             Material blue = new Material(Color.BLUE);
             t.applyMaterial(blue);
 
 
             scene.add(t);
+            PointLight l = new PointLight(new Vector3(0, 2, 0), 1, Color.WHITE);
+            scene.add(l);
             scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
             new Renderer().renderScene(scene, canvas);
         });

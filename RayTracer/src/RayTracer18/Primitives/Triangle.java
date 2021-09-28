@@ -12,7 +12,7 @@ public class Triangle extends Object3D{
 
     public Triangle(Vector3 p1, Vector3 p2, Vector3 p3){
 
-        super(new Vector3(0,0,0));
+        super(new Vector3(0,0,5));
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
@@ -66,5 +66,14 @@ public class Triangle extends Object3D{
         Vector3 b = Vector3.sub(p3, p1);
         Vector3 res = a.cross(b).normalize();
         return res;
+    }
+
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "p1=" + p1 +
+                ", p2=" + p2 +
+                ", p3=" + p3 +
+                '}';
     }
 }

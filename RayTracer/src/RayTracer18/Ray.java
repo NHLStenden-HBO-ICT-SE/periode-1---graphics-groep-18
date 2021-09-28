@@ -3,6 +3,7 @@ package RayTracer18;
 
 import RayTracer18.Light.Light;
 import RayTracer18.Primitives.Object3D;
+import RayTracer18.Primitives.Sphere;
 import RayTracer18.Primitives.Triangle;
 import javafx.scene.paint.Color;
 
@@ -43,54 +44,55 @@ public class Ray {
 
 
 
+    public boolean hasBlockade(){
+        for (Object3D ob: this.scene.getObjects()) {
+            Vector3 hitPoint = ob.calculateIntersection(this);
+            if(hitPoint != null){
+                if(ob.position.z == 2){
+                    System.out.println(hitPoint);
+                }
+                return true;
+            }
+
+        }
+        return true;
+
+    }
+
 
 
 
 
     public Color shoot(){
         //Loop through all objects in the scene to see if it intersects with the current ray
+        Object3D hitObject = null;
+        Vector3 hitPoint = new Vector3();
+        double smallestDistance = Double.POSITIVE_INFINITY;
 
 
-
-
-        for(Object3D ob : this.scene.getObjects()){
-                Vector3 hit = ob.calculateIntersection(this);
-                if(hit != null){
-                    //Add it to a list of hitted objects
-                    hits.add(hit);
-                    lastobject = ob;
-                    if(this.type == RayType.NORMAL){
-                        for (Light light: this.scene.getLights()) {
-                            Vector3 dir = Vector3.sub(light.position, hit).normalize();
-                            Ray shadowRay = new Ray(hit, dir, this.scene);
-                            shadowRay.setType(RayType.SHADOW);
-                            Color res = shadowRay.shoot();
-                            if(res == null){
-                                //If you haven't implemented the normal function, set the "prod" to 1
-                                Vector3 normal = ob.getNormalAt(hit);
-
-                                System.out.println(hit);
-                                Vector3 lightDir = Vector3.sub(hit, this.origin).normalize();
-                                System.out.println("Dir  " + lightDir);
-                                double prod = normal.dot( lightDir);
-                                prod = Math.abs(prod);
-                                System.out.println(prod);
-                                return ob.getMaterial().getColor().interpolate(Color.BLACK, (1-prod)* 1/light.intensity);
-
-                            }
-                            return res;
-                        }
-                    }
-                    if(this.type == RayType.SHADOW){
-
-                        return Color.GREY.darker();
-                    }
-
-
-                    return ob.getMaterial().getColor();
+        for (Object3D ob: this.scene.getObjects()) {
+            Vector3 crossPoint = ob.calculateIntersection(this);
+            if(crossPoint == null){
+                continue;
+            }
+            double distance = Vector3.sub(new Vector3(),crossPoint).getLength();
+            if(distance < smallestDistance){
+                hitObject = ob;
+                smallestDistance = distance;
+                hitPoint = crossPoint;
             }
         }
-        return null;
+        if(hitObject == null){
+            return scene.voidColor;
+        }
+        Vector3 normal = hitObject.getNormalAt(hitPoint);
+
+        Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
+        double prod = normal.dot( lightDir);
+        prod = Math.abs(prod);
+        Color c = hitObject.getMaterial().getColor().interpolate(Color.BLACK, (1-prod));
+        return c;
+
     }
 
 

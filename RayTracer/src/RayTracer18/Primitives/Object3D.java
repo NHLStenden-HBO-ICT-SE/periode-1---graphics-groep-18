@@ -36,6 +36,7 @@ public abstract class Object3D {
     };
 
     public Vector3 calculateIntersection(Ray ray) {
+        System.out.println("Using default intersection function. remove this");
         return null;
     }
 

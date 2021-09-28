@@ -4,6 +4,8 @@ import RayTracer18.Ray;
 import RayTracer18.Vector2;
 import RayTracer18.Vector3;
 
+import java.util.Random;
+
 public class Sphere extends Object3D{
     double radius;
 
@@ -16,20 +18,25 @@ public class Sphere extends Object3D{
 
     @Override
     public Vector3 calculateIntersection(Ray ray) {
-        Vector3 oc = Vector3.sub(ray.origin , this.position);
-        double b = Vector3.dot( oc, ray.direction );
-        double c = Vector3.dot( oc, oc ) - this.radius*this.radius;
-        double h = b*b - c;
-        if( h<0.0 ) {
-
-            return null; // no intersection
+        Vector3 oc = Vector3.sub(ray.getOrigin() , this.position);
+        double a = Vector3.dot(ray.getDirection(), ray.getDirection());
+        double b = 2.0 * Vector3.dot(oc, ray.getDirection());
+        double c = Vector3.dot(oc,oc) - radius*radius;
+        double discriminant = b*b - 4*a*c;
+        if(discriminant < 0){
+            return null;
         }
-        System.out.println("inter");
-        h = Math.sqrt( h );
-        System.out.println("VALUES: " + (-b-h));
-        System.out.println("NR 2 " + (-b+h));
-        return new Vector3( -b-h, -b+h ,0);
+        else{
+            return ray.getDirection().multiplyScalar((-b - Math.sqrt(discriminant)) / (2.0*a));
+        }
+
+
+
+
+
+
     }
+
 
     @Override
     public Vector3 getNormalAt(Vector3 point) {

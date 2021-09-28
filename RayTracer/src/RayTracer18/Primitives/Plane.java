@@ -6,6 +6,8 @@ import RayTracer18.Vector3;
 public class Plane extends Object3D {
     public Vector3 normal;
 
+
+
     public Plane(Vector3 normal) {
 
         super(new Vector3(0, 0, 5));

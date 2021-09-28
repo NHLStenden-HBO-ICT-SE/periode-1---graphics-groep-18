@@ -16,7 +16,11 @@ public class Renderer {
 
                 //Canvas y = 0 is the top, in 3d its the bottom.
                 int useY = (int)(canvas.getHeight() - y);
-                pxw.setColor(x, useY, scene.camera.getColor(x, y));
+                Color c = scene.camera.getColor(x, y);
+                if(c == null){
+                    c = scene.voidColor;
+                }
+                pxw.setColor(x, useY,c );
             }
     }
 

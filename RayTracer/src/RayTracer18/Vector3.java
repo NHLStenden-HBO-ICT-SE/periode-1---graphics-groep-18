@@ -49,11 +49,12 @@ public class Vector3 {
 
     public static Vector3 cross(Vector3 v0, Vector3 v1){
         return new Vector3(
-
-
                 v1.y * v0.z - v0.z * v1.y,
                 v1.z * v0.x - v0.x * v1.z,
                 v1.x * v0.y - v0.y * v1.x );
+    }
+    public static Vector3 add(Vector3 v1, Vector3 v2){
+        return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
     }
     public static Vector3 sub(Vector3 v1, Vector3 v2){
         return new Vector3(v1.x - v2.x,

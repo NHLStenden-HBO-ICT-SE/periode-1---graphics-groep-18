@@ -24,7 +24,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Canvas canvas = new Canvas(600,200);
+        Canvas canvas = new Canvas(800,800);
 
         primaryStage.setTitle("Ray tracer");
         button = new Button();
@@ -36,7 +36,7 @@ public class Main extends Application {
             Material blue = new Material(Color.BLUE);
             t.applyMaterial(blue);
             scene.add(t);
-            PointLight l = new PointLight(new Vector3(0, 2, 0), 1, Color.WHITE);
+            PointLight l = new PointLight(new Vector3(0, 2, 0), 0.4f, Color.WHITE);
             scene.add(l);
             scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
             new Renderer().renderScene(scene, canvas);

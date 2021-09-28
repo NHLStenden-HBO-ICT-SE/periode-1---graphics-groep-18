@@ -16,6 +16,11 @@ public abstract class Object3D {
 
     }
 
+
+    public Vector3 getNormalAt(){
+        return null;
+    }
+
     public Material getMaterial(){
         return this.material;
     }

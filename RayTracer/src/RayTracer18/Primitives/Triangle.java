@@ -2,7 +2,6 @@ package RayTracer18.Primitives;
 
 import RayTracer18.Ray;
 import RayTracer18.Vector3;
-import jdk.incubator.vector.VectorOperators;
 
 import static RayTracer18.Vector3.*;
 
@@ -58,5 +57,14 @@ public class Triangle extends Object3D{
         Vector3 towards = r.direction.multiplyScalar(distance);
         endpoint.add(towards);
         return endpoint;
+    }
+
+    @Override
+    public Vector3 getNormalAt(Vector3 point) {
+
+        Vector3 a = Vector3.sub(p2, p1);
+        Vector3 b = Vector3.sub(p3, p1);
+        Vector3 res = a.cross(b).normalize();
+        return res;
     }
 }

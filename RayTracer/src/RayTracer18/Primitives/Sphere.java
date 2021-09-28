@@ -23,12 +23,19 @@ public class Sphere extends Object3D{
         double b = 2.0 * Vector3.dot(oc, ray.getDirection());
         double c = Vector3.dot(oc,oc) - radius*radius;
         double discriminant = b*b - 4*a*c;
+
+        double t1 = -b - Math.sqrt(discriminant) / (2.0*a);
+        double t2 = -b + Math.sqrt(discriminant) / (2.0*a);
+
+
         if(discriminant < 0){
             return null;
         }
-        else{
-            return ray.getDirection().multiplyScalar((-b - Math.sqrt(discriminant)) / (2.0*a));
+        if(Math.min(t1,t2) < 0){
+            return null;
         }
+
+        return ray.getDirection().multiplyScalar((-b - Math.sqrt(discriminant)) / (2.0*a));
     }
 
 

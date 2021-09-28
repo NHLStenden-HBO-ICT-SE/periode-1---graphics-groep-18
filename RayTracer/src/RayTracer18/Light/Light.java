@@ -15,4 +15,12 @@ public abstract class Light {
         this.position = position;
     }
 
+    @Override
+    public String toString() {
+        return "Light{" +
+                "intensity=" + intensity +
+                ", color=" + color +
+                ", position=" + position +
+                '}';
+    }
 }

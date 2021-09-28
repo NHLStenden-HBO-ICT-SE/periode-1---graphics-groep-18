@@ -4,6 +4,7 @@ package RayTracer18;
 import RayTracer18.Light.PointLight;
 import RayTracer18.Primitives.Material;
 import RayTracer18.Primitives.Plane;
+import RayTracer18.Primitives.Sphere;
 import RayTracer18.Primitives.Triangle;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -30,7 +31,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Canvas canvas = new Canvas(600,200);
+        Canvas canvas = new Canvas(600,300);
 
         primaryStage.setTitle("Ray tracer");
 
@@ -63,8 +64,9 @@ public class Main extends Application {
             );
             scene.add(blocker);
 
-            Plane p = new Plane(1);
-            scene.add(p);
+            //TODO: make this working
+//            Plane p = new Plane(1);
+//            scene.add(p);
 
             scene.add(t);
             Material blue = new Material(Color.BLUE);
@@ -84,14 +86,7 @@ public class Main extends Application {
 
         BorderPane borderPane = new BorderPane();
         GridPane gridPane = new GridPane();
-        Button b1 = new Button();
 
-        b1.setText("Yeet");
-
-        Button b2 = new Button();
-        b2.setText("hi2");
-        gridPane.addRow(1, b1);
-        gridPane.addRow(1, b2);
         gridPane.addRow(1, button);
         gridPane.addRow(2, label);
         gridPane.addRow(3, slider);

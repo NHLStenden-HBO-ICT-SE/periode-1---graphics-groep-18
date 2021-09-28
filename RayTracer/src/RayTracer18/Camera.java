@@ -6,7 +6,7 @@ public class Camera {
     private Vector3 position;
     private Vector3 direction;
     private double fov;
-    private float rotation;
+    private double rotation;
     private Vector3 center;
 
     private Vector3 topRight;

@@ -4,36 +4,23 @@ import RayTracer18.Ray;
 import RayTracer18.Vector3;
 
 public class Plane extends Object3D {
-    public Vector3 normal;
 
+    public Plane(double height) {
 
-
-    public Plane(Vector3 normal) {
-
-        super(new Vector3(0, 0, 5));
-        this.normal = normal;
+        super(new Vector3(0, height, 0));
     }
 
-    private Vector3 calculateIntersection(Ray r, Vector3 planeNormal, Vector3 planePoint) {
-        Vector3 diff = Vector3.sub(r.origin, planePoint);
-        double prod1 = Vector3.dot(diff, planeNormal);
-        double prod2 = Vector3.dot(r.direction, planeNormal);
-        double prod3 = prod1 / prod2;
-        return r.origin.subtract(r.direction.multiplyScalar(prod3));
-    }
+    public Vector3 calculateIntersection(Ray r) {
+        double t = (-(r.getOrigin().getLength()-position.getLength()) / r.getDirection().getLength());
+        if (t > 0 && Double.isFinite(t))
+        {
+            return r.getOrigin().add(r.getDirection().multiplyScalar(t));
+        }
 
-//    public Vector3 normalize(Vector3 a, Vector3 b, Vector3 c){
-//        double ax = a.x - c.x;
-//        double ay = a.y - c.y;
-//        double az = a.z - c.z;
-//        double bx = b.x - c.x;
-//        double by = b.y - c.y;
-//        double bz = b.z - c.z;
-//        return new Vector3(ay * bz - az * by, az * bx - ax * bz, ax * by
-//                - ay * bx);
-//    }
+        return null;
+    }
 
     public Vector3 getNormalAt(Vector3 point) {
-        return normal;
+        return new Vector3(0, 1, 0);
     }
 }

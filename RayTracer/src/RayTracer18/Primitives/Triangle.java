@@ -39,7 +39,7 @@ public class Triangle extends Object3D{
         if (det < 0.000001)
             return null;
 
-        float invDet = (float) (1.0 / det);
+        double invDet = (1.0 / det);
         Vector3 tvec = sub(r.origin,v0);
         double u = tvec.dot(pvec) * invDet;
 
@@ -52,7 +52,7 @@ public class Triangle extends Object3D{
         if (v < 0 || u + v > 1)
             return null;
 
-        float distance = (float) (v0v2.dot(qvec) * invDet);
+        double distance =  (v0v2.dot(qvec) * invDet);
         Vector3 endpoint = new Vector3(r.origin);
         Vector3 towards = r.direction.multiplyScalar(distance);
         endpoint.add(towards);

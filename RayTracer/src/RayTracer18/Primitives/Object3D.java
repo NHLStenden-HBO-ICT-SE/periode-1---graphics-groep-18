@@ -24,9 +24,7 @@ public abstract class Object3D {
         this.material = m;
     }
 
-    public void intersectsRay(Ray ray) {
 
-    }
     public Vector3 getNormalAt(Vector3 pos){
         //TODO:implement function ;)
         return null;

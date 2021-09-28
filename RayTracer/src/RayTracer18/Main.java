@@ -35,8 +35,6 @@ public class Main extends Application {
 
             Material blue = new Material(Color.BLUE);
             t.applyMaterial(blue);
-
-
             scene.add(t);
             PointLight l = new PointLight(new Vector3(0, 2, 0), 1, Color.WHITE);
             scene.add(l);

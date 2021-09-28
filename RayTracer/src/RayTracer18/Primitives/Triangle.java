@@ -2,10 +2,11 @@ package RayTracer18.Primitives;
 
 import RayTracer18.Ray;
 import RayTracer18.Vector3;
+import jdk.incubator.vector.VectorOperators;
 
 import static RayTracer18.Vector3.*;
 
-public class Triangle extends Object3D {
+public class Triangle extends Object3D{
 
 
     public Vector3 p1, p2, p3;
@@ -18,13 +19,9 @@ public class Triangle extends Object3D {
         this.p3 = p3;
     }
 
-
-
-
     //Möller–Trumbore intersection algorithm.
 
     /**
-     *
      * @param r Where to check intersections with
      * @return Point where it hit.
      */

@@ -9,7 +9,7 @@ public abstract class Object3D {
     private Material material;
 
     public Object3D(Vector3 pos){
-
+        this.position = pos;
     }
 
     public void rotate() {

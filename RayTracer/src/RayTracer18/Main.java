@@ -29,8 +29,8 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Canvas canvas = new Canvas(600, 200);
+    public void start(Stage primaryStage) throws Exception{
+        Canvas canvas = new Canvas(600,200);
 
         primaryStage.setTitle("Ray tracer");
 
@@ -57,20 +57,25 @@ public class Main extends Application {
         button.setOnAction(e -> {
             Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0, 6, 4), new Vector3(3, 0, 4));
             Triangle blocker = new Triangle(
-                    new Vector3(-0.3, 1.5, 1),
-                    new Vector3(0.3, 1.5, 1),
-                    new Vector3(0, 2, 1)
+                    new Vector3(-0.6,1.5,5),
+                    new Vector3(0.6, 1.5, 5),
+                    new Vector3(0,5,5)
             );
             scene.add(blocker);
 
             Plane p = new Plane(1);
             scene.add(p);
+
+            scene.add(t);
             Material blue = new Material(Color.BLUE);
+            Material green = new Material(Color.GREEN);
             t.applyMaterial(blue);
+            Sphere s = new Sphere(new Vector3(0,0,3), 1);
+            s.applyMaterial(green);
+            scene.add(s);
 
             blocker.applyMaterial(blue);
-            scene.add(t);
-            PointLight l = new PointLight(new Vector3(0, 2, 0), 1f, Color.WHITE);
+            PointLight l = new PointLight(new Vector3(0, 2, 0), 0.5f, Color.WHITE);
             scene.add(l);
             scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
             new Renderer().renderScene(scene, canvas);

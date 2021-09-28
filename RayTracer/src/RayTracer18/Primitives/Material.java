@@ -14,4 +14,10 @@ public class Material {
         return color;
     }
 
+    @Override
+    public String toString() {
+        return "Material{" +
+                "color=" + color +
+                '}';
+    }
 }

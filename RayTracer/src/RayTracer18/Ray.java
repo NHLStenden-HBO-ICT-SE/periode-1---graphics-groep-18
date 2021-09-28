@@ -44,8 +44,15 @@ public class Ray {
 
 
 
+
+
+
     public Color shoot(){
         //Loop through all objects in the scene to see if it intersects with the current ray
+
+
+
+
         for(Object3D ob : this.scene.getObjects()){
                 Vector3 hit = ob.calculateIntersection(this);
                 if(hit != null){
@@ -68,7 +75,7 @@ public class Ray {
                                 double prod = normal.dot( lightDir);
                                 prod = Math.abs(prod);
                                 System.out.println(prod);
-                                return ob.getMaterial().getColor().interpolate(Color.BLACK, 1-prod);
+                                return ob.getMaterial().getColor().interpolate(Color.BLACK, (1-prod)* 1/light.intensity);
 
                             }
                             return res;

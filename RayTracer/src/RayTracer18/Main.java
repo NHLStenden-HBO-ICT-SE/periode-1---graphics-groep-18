@@ -24,19 +24,26 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Canvas canvas = new Canvas(800,800);
+        Canvas canvas = new Canvas(600,200);
 
         primaryStage.setTitle("Ray tracer");
         button = new Button();
         button.setText("Trace da rays");
         button.setOnAction(e->{
             Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0,6,4), new Vector3(3, 0,4));
-
+            Triangle blocker = new Triangle(
+                    new Vector3(-0.3,1.5,1),
+                    new Vector3(0.3, 1.5, 1),
+                    new Vector3(0,2,1)
+            );
+            scene.add(blocker);
 
             Material blue = new Material(Color.BLUE);
             t.applyMaterial(blue);
+
+            blocker.applyMaterial(blue);
             scene.add(t);
-            PointLight l = new PointLight(new Vector3(0, 2, 0), 0.4f, Color.WHITE);
+            PointLight l = new PointLight(new Vector3(0, 2, 0), 1f, Color.WHITE);
             scene.add(l);
             scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
             new Renderer().renderScene(scene, canvas);

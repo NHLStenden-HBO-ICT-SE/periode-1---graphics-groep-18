@@ -33,28 +33,28 @@ public class Triangle extends Object3D{
 
         Vector3 v0v1 = sub(v1, v0);
         Vector3 v0v2 = sub(v2,v0);
-        Vector3 pvec = r.direction.cross(v0v2);
+        Vector3 pvec = r.getDirection().cross(v0v2);
         double det = v0v1.dot(pvec);
 
         if (det < 0.000001)
             return null;
 
         double invDet = (1.0 / det);
-        Vector3 tvec = sub(r.origin,v0);
+        Vector3 tvec = sub(r.getOrigin(),v0);
         double u = tvec.dot(pvec) * invDet;
 
         if (u < 0 || u > 1)
             return null;
 
         Vector3 qvec = tvec.cross(v0v1);
-        double v = r.direction.dot(qvec) * invDet;
+        double v = r.getDirection().dot(qvec) * invDet;
 
         if (v < 0 || u + v > 1)
             return null;
 
         double distance =  (v0v2.dot(qvec) * invDet);
-        Vector3 endpoint = new Vector3(r.origin);
-        Vector3 towards = r.direction.multiplyScalar(distance);
+        Vector3 endpoint = new Vector3(r.getOrigin());
+        Vector3 towards = r.getDirection().multiplyScalar(distance);
         endpoint.add(towards);
         return endpoint;
     }

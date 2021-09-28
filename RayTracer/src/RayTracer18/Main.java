@@ -58,30 +58,34 @@ public class Main extends Application {
         button.setOnAction(e -> {
             Material blue = new Material(Color.BLUE);
             Material green = new Material(Color.GREEN);
+            Material floorm = new Material(Color.ORANGE);
+
+            Triangle floor = new Triangle(
+                    new Vector3(0,-0.5,-10),
+                    new Vector3(-10,-0.5,0),
+                    new Vector3(12,-0.5,12)
+            );
+            floor.applyMaterial(floorm);
+            scene.add(floor);
 
             Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0, 6, 4), new Vector3(3, 0, 4));
             scene.add(t);
             t.applyMaterial(blue);
 
 
-            Triangle blocker = new Triangle(
-                    new Vector3(-0.6, 1.5, 5),
-                    new Vector3(0.6, 1.5, 5),
-                    new Vector3(0, 5, 5)
-            );
-            scene.add(blocker);
-            blocker.applyMaterial(blue);
+
+
 
             //TODO: make this working correclty
-            Plane p = new Plane(.2);
+            /*Plane p = new Plane(.2);
             scene.add(p);
-            p.applyMaterial(green);
+            p.applyMaterial(green);*/
 
-            Sphere s = new Sphere(new Vector3(0, 0, 3), 1);
+            Sphere s = new Sphere(new Vector3(0, -.5,1.2), 1);
             s.applyMaterial(green);
             scene.add(s);
 
-            PointLight l = new PointLight(new Vector3(0, 2, 0), 0.5f, Color.WHITE);
+            PointLight l = new PointLight(new Vector3(-2, 1, 0), 1f, Color.WHITE);
             scene.add(l);
             scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
             new Renderer().renderScene(scene, canvas);

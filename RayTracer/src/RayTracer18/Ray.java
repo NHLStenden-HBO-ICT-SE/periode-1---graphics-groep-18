@@ -46,16 +46,12 @@ public class Ray {
 
     public boolean hasBlockade(){
         for (Object3D ob: this.scene.getObjects()) {
-            Vector3 hitPoint = ob.calculateIntersection(this);
-            if(hitPoint != null){
-                if(ob.position.z == 2){
-                    System.out.println(hitPoint);
-                }
+            Vector3 crossPoint = ob.calculateIntersection(this);
+            if(crossPoint != null){
                 return true;
             }
-
         }
-        return true;
+        return false;
 
     }
 
@@ -85,6 +81,18 @@ public class Ray {
         if(hitObject == null){
             return scene.voidColor;
         }
+
+        for (Light light:scene.getLights()) {
+
+            Ray shadowRay = new Ray(hitPoint, Vector3.sub(light.position, hitPoint).normalize(), scene);
+            boolean hasBlockade = shadowRay.hasBlockade();
+            if(hasBlockade){
+                return hitObject.getMaterial().getColor().interpolate(Color.BLACK, 0.8);
+            }
+
+        }
+
+
         Vector3 normal = hitObject.getNormalAt(hitPoint);
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();

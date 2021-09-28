@@ -29,12 +29,6 @@ public class Sphere extends Object3D{
         else{
             return ray.getDirection().multiplyScalar((-b - Math.sqrt(discriminant)) / (2.0*a));
         }
-
-
-
-
-
-
     }
 
 

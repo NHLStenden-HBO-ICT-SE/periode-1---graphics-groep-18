@@ -83,6 +83,8 @@ public class Vector3 {
 
 
 
+
+
     public Vector3 multiply( Vector3 v2){
 
         this.x *=  v2.x;

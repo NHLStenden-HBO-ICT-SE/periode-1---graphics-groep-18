@@ -61,6 +61,10 @@ public class Main extends Application {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 scene.camera.setFov(newValue.doubleValue());
                 label.setText(String.format("Field of View (FoV): %.1f ", Math.abs((double) newValue * 100 - 100)));
+
+
+                Renderer.renderScene(scene, canvas);
+
             }
         });
 
@@ -106,7 +110,10 @@ public class Main extends Application {
         floor.applyMaterial(floorm);
         scene.add(floor);
 
-        Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0, 6, 4), new Vector3(3, 0, 4));
+        Triangle t = new Triangle(
+                new Vector3(-3, 0, 2),
+                new Vector3(0, 6, 2),
+                new Vector3(3, 0, 2));
         scene.add(t);
         t.applyMaterial(blue);
 
@@ -116,12 +123,12 @@ public class Main extends Application {
             scene.add(p);
             p.applyMaterial(green);*/
 
-        Sphere s = new Sphere(new Vector3(0, -.5, 1.2), 1);
+        Sphere s = new Sphere(new Vector3(2, 0.5, 2), 1);
         s.applyMaterial(green);
         scene.add(s);
 
 
-        PointLight l = new PointLight(new Vector3(-2, 1, 0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(3,0.6,0), 1f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
         new Renderer().renderScene(scene, canvas);

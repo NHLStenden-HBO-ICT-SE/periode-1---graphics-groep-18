@@ -19,14 +19,12 @@ public class Ray {
     public RayType type;
 
 
-    public Object3D lastobject;
 
     public Ray(Vector3 origin, Vector3 direction, Scene3D scene){
         this.t = 1;
         this.direction = direction.normalize();
         this.scene = scene;
         this.origin = origin;
-        this.hits = new ArrayList<Vector3>();
         this.type = RayType.NORMAL;
 
     }
@@ -44,11 +42,13 @@ public class Ray {
 
 
 
-    public boolean hasBlockade(){
+    public boolean hasBlockade(Light l){
         for (Object3D ob: this.scene.getObjects()) {
+            this.origin.add(this.getDirection().multiplyScalar(0.001));
             Vector3 crossPoint = ob.calculateIntersection(this);
             if(crossPoint != null){
                 return true;
+
             }
         }
         return false;
@@ -85,9 +85,9 @@ public class Ray {
         for (Light light:scene.getLights()) {
 
             Ray shadowRay = new Ray(hitPoint, Vector3.sub(light.position, hitPoint).normalize(), scene);
-            boolean hasBlockade = shadowRay.hasBlockade();
+            boolean hasBlockade = shadowRay.hasBlockade(light);
             if(hasBlockade){
-                return hitObject.getMaterial().getColor().interpolate(Color.BLACK, 0.8);
+                return hitObject.getMaterial().getColor().interpolate(Color.BLACK, 0.99);
             }
 
         }

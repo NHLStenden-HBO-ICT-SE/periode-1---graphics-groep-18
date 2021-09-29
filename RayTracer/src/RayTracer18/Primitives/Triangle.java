@@ -10,9 +10,9 @@ public class Triangle extends Object3D{
 
     public Vector3 p1, p2, p3;
 
-    public Triangle(Vector3 p1, Vector3 p2, Vector3 p3){
+    public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3){
 
-        super(new Vector3(0,0,5));
+        super(pos);
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;

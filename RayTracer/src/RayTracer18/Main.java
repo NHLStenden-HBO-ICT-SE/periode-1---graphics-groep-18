@@ -3,6 +3,7 @@ package RayTracer18;
 
 import RayTracer18.Light.PointLight;
 import RayTracer18.Primitives.Material;
+import RayTracer18.Primitives.Plane;
 import RayTracer18.Primitives.Sphere;
 import RayTracer18.Primitives.Triangle;
 import javafx.application.Application;
@@ -102,15 +103,10 @@ public class Main extends Application {
         Material green = new Material(Color.GREEN);
         Material floorm = new Material(Color.ORANGE);
 
-        Triangle floor = new Triangle(
-                new Vector3(0, -0.5, -10),
-                new Vector3(-10, -0.5, 0),
-                new Vector3(12, -0.5, 12)
-        );
-        floor.applyMaterial(floorm);
-        scene.add(floor);
+
 
         Triangle t = new Triangle(
+                new Vector3(0,0,2),
                 new Vector3(-3, 0, 2),
                 new Vector3(0, 6, 2),
                 new Vector3(3, 0, 2));
@@ -128,7 +124,7 @@ public class Main extends Application {
         scene.add(s);
 
 
-        PointLight l = new PointLight(new Vector3(3,0.6,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(0,0,0), 1f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
         new Renderer().renderScene(scene, canvas);

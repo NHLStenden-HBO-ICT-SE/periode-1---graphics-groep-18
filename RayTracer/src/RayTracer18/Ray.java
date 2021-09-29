@@ -47,7 +47,11 @@ public class Ray {
             this.origin.add(this.getDirection().multiplyScalar(0.001));
             Vector3 crossPoint = ob.calculateIntersection(this);
             if(crossPoint != null){
-                return true;
+                if(this.getOrigin().distanceTo(crossPoint) > this.getOrigin().distanceTo(l.position)){
+                    continue;
+                }
+
+                    return true;
 
             }
         }

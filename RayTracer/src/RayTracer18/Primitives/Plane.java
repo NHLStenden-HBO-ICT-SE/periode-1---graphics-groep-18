@@ -3,24 +3,36 @@ package RayTracer18.Primitives;
 import RayTracer18.Ray;
 import RayTracer18.Vector3;
 
-public class Plane extends Object3D {
+public class Plane extends Object3D{
 
-    public Plane(double height) {
+    private Triangle t1;
+    private Triangle t2;
 
-        super(new Vector3(0, height, 0));
+
+    public Plane(Vector3 pos, Vector3 corner1, Vector3 corner2, Vector3 corner3, Vector3 corner4) {
+        super(pos);
+        this.t1 = new Triangle(
+                pos,
+                corner1, corner3, corner4
+        );
+        this.t2 = new Triangle(
+                pos,
+                corner3, corner2, corner4
+        );
     }
 
-    public Vector3 calculateIntersection(Ray r) {
-        double t = (-(r.getOrigin().getLength()-position.getLength()) / r.getDirection().getLength());
-        if (t > 0 && Double.isFinite(t))
-        {
-            return r.getOrigin().add(r.getDirection().multiplyScalar(t));
+    @Override
+    public Vector3 calculateIntersection(Ray ray) {
+        Vector3 intersection = t1.calculateIntersection(ray);
+        if(intersection == null){
+            return t2.calculateIntersection(ray);
         }
+        return intersection;
 
-        return null;
     }
 
-    public Vector3 getNormalAt(Vector3 point) {
-        return new Vector3(0, 1, 0);
+    @Override
+    public Vector3 getNormalAt(Vector3 pos) {
+        return t1.getNormalAt(pos);
     }
 }

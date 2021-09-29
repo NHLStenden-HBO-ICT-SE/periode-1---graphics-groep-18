@@ -1,6 +1,8 @@
 package RayTracer18;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
+
 
 public class Camera {
     private Vector3 position;
@@ -20,10 +22,21 @@ public class Camera {
 
     }
 
+    public void zoomCamera(Canvas canvas, Scene3D scene, double deltaY) {
+        if (deltaY < 0)
+            position.z += 0.1;
+        else
+            position.z -= 0.1;
+        System.out.println(position);
+        Renderer.renderScene(scene, canvas);
+    }
+
+    public void resetCamera() {
+
+    }
 
 
-
-    public Camera(double fov, Scene3D scene){
+    public Camera(double fov, Scene3D scene) {
         this.fov = fov;
         this.position = new Vector3();
         this.scene = scene;
@@ -33,20 +46,20 @@ public class Camera {
         this.bottomRight = new Vector3(1, -0.5, fov);
 
     }
-    public void setProjectorSize(Vector2 size){
+
+    public void setProjectorSize(Vector2 size) {
         this.projectorSize = size;
     }
 
-    public void setFov(double fov){
+    public void setFov(double fov) {
         this.fov = fov;
     }
 
 
-
-    public Color getColor(double x, double y){
+    public Color getColor(double x, double y) {
 
         //Calculate the worldposition of the pixel on the projection plane
-        Vector3 worldPos = new Vector3( topLeft.x + (x/projectorSize.x * Vector3.sub(topRight, topLeft).getLength()), bottomRight.y + (y/projectorSize.y * Vector3.sub(topRight, bottomRight).getLength()), fov);
+        Vector3 worldPos = new Vector3(topLeft.x + (x / projectorSize.x * Vector3.sub(topRight, topLeft).getLength()), bottomRight.y + (y / projectorSize.y * Vector3.sub(topRight, bottomRight).getLength()), fov);
 
         //Create the ray with the direction from eye(this.position) to the worldPos
         Ray r = new Ray(this.position, Vector3.sub(worldPos, this.position.clone()).normalize(), this.scene);
@@ -55,16 +68,7 @@ public class Camera {
         return res;
 
 
-
     }
-
-
-
-
-
-
-
-
 
 
 }

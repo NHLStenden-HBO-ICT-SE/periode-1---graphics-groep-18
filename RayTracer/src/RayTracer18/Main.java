@@ -3,17 +3,18 @@ package RayTracer18;
 
 import RayTracer18.Light.PointLight;
 import RayTracer18.Primitives.Material;
-import RayTracer18.Primitives.Plane;
 import RayTracer18.Primitives.Sphere;
 import RayTracer18.Primitives.Triangle;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -27,11 +28,21 @@ public class Main extends Application {
     Label label;
 
     Scene3D scene = new Scene3D();
+    Canvas canvas = new Canvas(600, 300);
 
+    public void addMouseScrolling(Node node) {
+        node.setOnScroll((ScrollEvent event) -> {
+            // Adjust the zoom factor as per your requirement
+            double zoomFactor = 1.05;
+            double deltaY = event.getDeltaY();
+            scene.camera.zoomCamera(canvas, scene, deltaY);
+        });
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Canvas canvas = new Canvas(600, 300);
+
+        addMouseScrolling(canvas);
 
         primaryStage.setTitle("Ray tracer");
 
@@ -56,39 +67,7 @@ public class Main extends Application {
         button = new Button();
         button.setText("Trace da rays");
         button.setOnAction(e -> {
-            Material blue = new Material(Color.BLUE);
-            Material green = new Material(Color.GREEN);
-            Material floorm = new Material(Color.ORANGE);
-
-            Triangle floor = new Triangle(
-                    new Vector3(0,-0.5,-10),
-                    new Vector3(-10,-0.5,0),
-                    new Vector3(12,-0.5,12)
-            );
-            floor.applyMaterial(floorm);
-            scene.add(floor);
-
-            Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0, 6, 4), new Vector3(3, 0, 4));
-            scene.add(t);
-            t.applyMaterial(blue);
-
-
-
-
-
-            //TODO: make this working correclty
-            /*Plane p = new Plane(.2);
-            scene.add(p);
-            p.applyMaterial(green);*/
-
-            Sphere s = new Sphere(new Vector3(0, -.5,1.2), 1);
-            s.applyMaterial(green);
-            scene.add(s);
-
-            PointLight l = new PointLight(new Vector3(-2, 1, 0), 1f, Color.WHITE);
-            scene.add(l);
-            scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
-            new Renderer().renderScene(scene, canvas);
+            initRender(scene, canvas);
         });
 
 
@@ -111,6 +90,41 @@ public class Main extends Application {
 
         primaryStage.setScene(new Scene(borderPane, 600, 600));
         primaryStage.show();
+    }
+
+
+    public static void initRender(Scene3D scene, Canvas canvas){
+        Material blue = new Material(Color.BLUE);
+        Material green = new Material(Color.GREEN);
+        Material floorm = new Material(Color.ORANGE);
+
+        Triangle floor = new Triangle(
+                new Vector3(0, -0.5, -10),
+                new Vector3(-10, -0.5, 0),
+                new Vector3(12, -0.5, 12)
+        );
+        floor.applyMaterial(floorm);
+        scene.add(floor);
+
+        Triangle t = new Triangle(new Vector3(-3, 0, 4), new Vector3(0, 6, 4), new Vector3(3, 0, 4));
+        scene.add(t);
+        t.applyMaterial(blue);
+
+
+        //TODO: make this working correclty
+            /*Plane p = new Plane(.2);
+            scene.add(p);
+            p.applyMaterial(green);*/
+
+        Sphere s = new Sphere(new Vector3(0, -.5, 1.2), 1);
+        s.applyMaterial(green);
+        scene.add(s);
+
+
+        PointLight l = new PointLight(new Vector3(-2, 1, 0), 1f, Color.WHITE);
+        scene.add(l);
+        scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
+        new Renderer().renderScene(scene, canvas);
     }
 
 

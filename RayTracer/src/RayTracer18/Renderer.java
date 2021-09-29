@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class Renderer {
 
-    public void renderScene(Scene3D scene, Canvas canvas) {
+    public static void renderScene(Scene3D scene, Canvas canvas) {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         PixelWriter pxw = gc.getPixelWriter();

@@ -2,10 +2,7 @@ package RayTracer18;
 
 
 import RayTracer18.Light.PointLight;
-import RayTracer18.Primitives.Material;
-import RayTracer18.Primitives.Plane;
-import RayTracer18.Primitives.Sphere;
-import RayTracer18.Primitives.Triangle;
+import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -105,7 +102,7 @@ public class Main extends Application {
 
 
 
-        Triangle t = new Triangle(
+        /*Triangle t = new Triangle(
                 new Vector3(0,0,2),
                 new Vector3(-3, 0, 2),
                 new Vector3(0, 6, 2),
@@ -119,9 +116,15 @@ public class Main extends Application {
             scene.add(p);
             p.applyMaterial(green);*/
 
-        Sphere s = new Sphere(new Vector3(2, 0.5, 2), 1);
+        Sphere s = new Sphere(new Vector3(2, 0.5, 3), 1);
+        Box b = new Box(new Vector3(-4, -0.5, 3), new Vector3(2,2,2));
+
         s.applyMaterial(green);
+        b.applyMaterial(blue);
+
+
         scene.add(s);
+        scene.add(b);
 
 
         PointLight l = new PointLight(new Vector3(0,0,0), 1f, Color.WHITE);

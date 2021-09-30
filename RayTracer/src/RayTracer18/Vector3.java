@@ -85,7 +85,7 @@ public class Vector3 {
 
 
 
-    public Vector3 multiply( Vector3 v2){
+    public Vector3 multiply(Vector3 v2){
 
         this.x *=  v2.x;
         this.y *=  v2.y;
@@ -110,8 +110,6 @@ public class Vector3 {
     public double[] toArray(){
         return new double[]{x, y, z};
     }
-
-
 
     /**
      *
@@ -211,6 +209,11 @@ public class Vector3 {
     public String toString() {
         return String.format("Vector3{x=(%f, y=%f, z=%f)}", x, y, z);
     }
+
+    public Vector3 add1(Vector3 vec) {
+        return new Vector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
+    }
+
 
     //TODO: All matrix functions
 

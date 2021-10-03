@@ -3,6 +3,7 @@ package RayTracer18;
 
 import RayTracer18.Light.PointLight;
 import RayTracer18.Primitives.*;
+import com.sun.source.tree.Tree;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,18 +13,23 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
     Button button;
-    Slider slider;
     Label label;
+    Slider slider;
 
     Scene3D scene = new Scene3D();
     Canvas canvas = new Canvas(600, 300);
@@ -35,6 +41,27 @@ public class Main extends Application {
             double deltaY = event.getDeltaY();
             scene.camera.zoomCamera(canvas, scene, deltaY);
         });
+    }
+
+    TreeItem<String> rootHierarchy = new TreeItem<String>("Entities");
+    TreeItem<String> rootObjects = new TreeItem<String>("Objects");
+    TreeItem<String> rootLights = new TreeItem<String>("Lights");
+
+    public void createHierarchy(){
+        ArrayList<String> objectList = new ArrayList<>();
+        ArrayList<String> lightList = new ArrayList<>();
+        objectList.add(scene.getObjects().toString());
+        lightList.add(scene.getLights().toString());
+        rootObjects.setExpanded(true);
+        rootLights.setExpanded(true);
+        for (int i = 0; i < objectList.size(); i++){
+            TreeItem<String> item = new TreeItem<String>(objectList.get(i));
+            rootObjects.getChildren().add(item);
+        }
+        for (int i = 0; i < lightList.size(); i++) {
+            TreeItem<String> item = new TreeItem<String>(lightList.get(i));
+            rootLights.getChildren().add(item);
+        }
     }
 
     @Override
@@ -70,15 +97,24 @@ public class Main extends Application {
         button.setText("Trace da rays");
         button.setOnAction(e -> {
             initRender(scene, canvas);
+
+            createHierarchy();
         });
 
 
         BorderPane borderPane = new BorderPane();
         GridPane gridPane = new GridPane();
 
+        TreeView<String> tree = new TreeView<>(rootHierarchy);
+        rootHierarchy.getChildren().add(rootObjects);
+        rootHierarchy.getChildren().add(rootLights);
+        tree.setShowRoot(false);
+        tree.setMaxHeight(150);
+
         gridPane.addRow(1, button);
         gridPane.addRow(2, label);
         gridPane.addRow(3, slider);
+        gridPane.addRow(4, tree);
 
         GridPane mainc = new GridPane();
         mainc.getChildren().add(canvas);
@@ -92,6 +128,7 @@ public class Main extends Application {
 
         primaryStage.setScene(new Scene(borderPane, 600, 600));
         primaryStage.show();
+
     }
 
 

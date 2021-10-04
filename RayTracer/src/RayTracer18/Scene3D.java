@@ -15,7 +15,6 @@ public class Scene3D {
 
 
 
-
     public Scene3D(){
         this.objects = new ArrayList<Object3D>();
         this.camera = new Camera(0.3, this);

@@ -35,6 +35,9 @@ public class Camera {
 
     }
 
+    public Vector3 getPosition(){
+        return position.clone();
+    }
 
     public Camera(double fov, Scene3D scene) {
         this.fov = fov;

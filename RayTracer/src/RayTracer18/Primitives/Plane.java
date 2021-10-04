@@ -12,6 +12,7 @@ public class Plane extends Object3D{
         super(pos);
         this.normal = normal;
 
+
     }
 
     @Override

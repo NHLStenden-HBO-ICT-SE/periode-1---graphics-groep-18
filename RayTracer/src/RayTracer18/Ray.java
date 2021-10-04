@@ -3,6 +3,7 @@ package RayTracer18;
 
 import RayTracer18.Light.Light;
 import RayTracer18.Primitives.Object3D;
+import RayTracer18.Primitives.Plane;
 import RayTracer18.Primitives.Sphere;
 import RayTracer18.Primitives.Triangle;
 import javafx.scene.paint.Color;
@@ -44,14 +45,17 @@ public class Ray {
 
     public boolean hasBlockade(Light l){
         for (Object3D ob: this.scene.getObjects()) {
-            this.origin.add(this.getDirection().multiplyScalar(0.001));
             Vector3 crossPoint = ob.calculateIntersection(this);
             if(crossPoint != null){
-                if(this.getOrigin().distanceTo(crossPoint) > this.getOrigin().distanceTo(l.position)){
-                    continue;
-                }
 
+                double distanceToPoint = this.getOrigin().distanceTo(crossPoint);
+                double distanceToLight = this.getOrigin().distanceTo(l.position);
+                if( distanceToPoint < distanceToLight ){
+                    if(ob instanceof Plane){
+                        return true;
+                    }
                     return true;
+                }
 
             }
         }
@@ -75,7 +79,7 @@ public class Ray {
             if(crossPoint == null){
                 continue;
             }
-            double distance = Vector3.sub(new Vector3(),crossPoint).getLength();
+            double distance = Vector3.sub(scene.camera.getPosition(),crossPoint).getLength();
             if(distance < smallestDistance){
                 hitObject = ob;
                 smallestDistance = distance;
@@ -86,24 +90,38 @@ public class Ray {
             return scene.voidColor;
         }
 
+        Vector3 normal = hitObject.getNormalAt(hitPoint);
+
+        ArrayList<Light> reachAbleLights = new ArrayList<Light>();
         for (Light light:scene.getLights()) {
 
-            Ray shadowRay = new Ray(hitPoint, Vector3.sub(light.position, hitPoint).normalize(), scene);
+            Vector3 startingPoint = hitPoint.clone().add(normal.clone().multiplyScalar(0.01));
+            Vector3 rayDir = Vector3.sub(light.position, startingPoint).normalize();
+            Ray shadowRay = new Ray(startingPoint,rayDir , scene);
+
             boolean hasBlockade = shadowRay.hasBlockade(light);
-            if(hasBlockade){
-                return hitObject.getMaterial().getColor().interpolate(Color.BLACK, 0.99);
+            if(!hasBlockade){
+                reachAbleLights.add(light);
             }
 
         }
+        if(reachAbleLights.size() == 0){
+            //No lights absolute shadow
+            return hitObject.getMaterial().getColor().interpolate(Color.BLACK, 1);
+        }
 
+        Color c = hitObject.getMaterial().getColor();
+        for (Light l : reachAbleLights){
+            c = c.interpolate(l.color,  Math.min((1/Math.pow(hitPoint.distanceTo(l.position) , 2))* l.intensity, 1 ));
 
-        Vector3 normal = hitObject.getNormalAt(hitPoint);
+        }
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
-        double prod = normal.dot( lightDir);
-        prod = Math.abs(prod);
-        Color c = hitObject.getMaterial().getColor().interpolate(Color.BLACK, (1.3-prod));
-        return c;
+        double prod = Math.abs(Vector3.dot(lightDir, normal));
+
+
+
+        return c.interpolate(Color.BLACK, 1-prod);
 
     }
 

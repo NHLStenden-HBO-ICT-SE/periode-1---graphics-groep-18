@@ -1,6 +1,7 @@
 package RayTracer18;
 
 
+import RayTracer18.Light.Light;
 import RayTracer18.Light.PointLight;
 import RayTracer18.Material.Material;
 import RayTracer18.Primitives.*;
@@ -47,18 +48,15 @@ public class Main extends Application {
     TreeItem<String> rootLights = new TreeItem<String>("Lights");
 
     public void createHierarchy(){
-        ArrayList<String> objectList = new ArrayList<>();
-        ArrayList<String> lightList = new ArrayList<>();
-        objectList.add(scene.getObjects().toString());
-        lightList.add(scene.getLights().toString());
-        rootObjects.setExpanded(true);
-        rootLights.setExpanded(true);
+        ArrayList<Object3D> objectList = new ArrayList<>(scene.getObjects());
+        ArrayList<Light> lightList = new ArrayList<>(scene.getLights());
+
         for (int i = 0; i < objectList.size(); i++){
-            TreeItem<String> item = new TreeItem<String>(objectList.get(i));
+            TreeItem<String> item = new TreeItem<>(objectList.get(i).getName());
             rootObjects.getChildren().add(item);
         }
         for (int i = 0; i < lightList.size(); i++) {
-            TreeItem<String> item = new TreeItem<String>(lightList.get(i));
+            TreeItem<String> item = new TreeItem<>(lightList.get(i).getName());
             rootLights.getChildren().add(item);
         }
     }
@@ -96,7 +94,6 @@ public class Main extends Application {
         button.setText("Trace da rays");
         button.setOnAction(e -> {
             initRender(scene, canvas);
-
             createHierarchy();
         });
 
@@ -107,13 +104,14 @@ public class Main extends Application {
         TreeView<String> tree = new TreeView<>(rootHierarchy);
         rootHierarchy.getChildren().add(rootObjects);
         rootHierarchy.getChildren().add(rootLights);
+
         tree.setShowRoot(false);
         tree.setMaxHeight(150);
 
-        gridPane.addRow(1, button);
-        gridPane.addRow(2, label);
-        gridPane.addRow(3, slider);
-        gridPane.addRow(4, tree);
+        gridPane.add(button, 1, 1);
+        gridPane.add(label, 2, 1);
+        gridPane.add(slider, 3, 1);
+        gridPane.add(tree, 1, 2);
 
         GridPane mainc = new GridPane();
         mainc.getChildren().add(canvas);

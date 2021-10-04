@@ -7,12 +7,18 @@ public abstract class Light {
     public double intensity;
     public Color color;
     public Vector3 position;
+    public String name;
 
 
     public Light(Vector3 position, double intensity, Color color){
         this.intensity = intensity;
         this.color = color;
         this.position = position;
+
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Sphere extends Object3D{
     public Sphere(Vector3 pos, double radius) {
         super(pos);
         this.radius = radius;
-
+        this.name = "Sphere";
     }
 
 

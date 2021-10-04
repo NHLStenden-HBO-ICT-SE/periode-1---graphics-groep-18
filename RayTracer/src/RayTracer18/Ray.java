@@ -105,30 +105,23 @@ public class Ray {
             }
 
         }
-
         if(reachAbleLights.size() == 0){
             //No lights absolute shadow
-            return Color.BLACK;
+            return hitObject.getMaterial().getColor().interpolate(Color.BLACK, 1);
         }
 
-        Color cur = hitObject.getMaterial().getColor();
-
+        Color c = hitObject.getMaterial().getColor();
         for (Light l : reachAbleLights){
-            double strength = l.intensity / l.position.distanceTo(hitPoint);
-            System.out.println(strength);
-            
-            cur = cur.interpolate(l.color,  1/Math.pow(hitPoint.distanceTo(l.position)* l.intensity, 2 ));
+            c = c.interpolate(l.color,  Math.min((1/Math.pow(hitPoint.distanceTo(l.position) , 2))* l.intensity, 1 ));
+
         }
-
-
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
-        double prod = Vector3.dot(lightDir, normal);
+        double prod = Math.abs(Vector3.dot(lightDir, normal));
 
 
-        prod += 1;
-        prod *=0.5;
-        return cur.interpolate(Color.BLACK, prod*0.7);
+
+        return c.interpolate(Color.BLACK, 1-prod);
 
     }
 

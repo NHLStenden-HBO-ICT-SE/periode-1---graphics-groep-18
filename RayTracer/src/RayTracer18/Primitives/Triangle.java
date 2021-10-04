@@ -7,22 +7,16 @@ import static RayTracer18.Vector3.*;
 
 public class Triangle extends Object3D{
 
-    private Vector3 normal;
+
     public Vector3 p1, p2, p3;
 
     public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3){
 
         super(pos);
-
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
-<<<<<<< Updated upstream
-
-=======
         this.name = "Triangle";
-        calculateNormal();
->>>>>>> Stashed changes
     }
 
     //Möller–Trumbore intersection algorithm.
@@ -78,13 +72,11 @@ public class Triangle extends Object3D{
 
     @Override
     public Vector3 getNormalAt(Vector3 point) {
-        return this.normal.clone();
-    }
-    private void calculateNormal(){
+
         Vector3 a = Vector3.sub(p2, p1);
         Vector3 b = Vector3.sub(p3, p1);
         Vector3 res = a.cross(b).normalize();
-        this.normal = res;
+        return res;
     }
 
     @Override

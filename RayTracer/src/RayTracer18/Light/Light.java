@@ -23,4 +23,16 @@ public abstract class Light {
                 ", position=" + position +
                 '}';
     }
+
+    public void setPosition(Vector3 position) {
+        this.position = position;
+    }
+
+    public void setIntensity(double intensity) {
+        this.intensity = intensity;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

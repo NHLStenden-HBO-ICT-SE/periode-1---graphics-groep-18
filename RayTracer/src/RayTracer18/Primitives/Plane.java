@@ -13,6 +13,7 @@ public class Plane extends Object3D{
         this.normal = normal;
         this.name = "Plane";
 
+
     }
 
     @Override

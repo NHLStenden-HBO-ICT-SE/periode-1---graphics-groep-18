@@ -24,15 +24,13 @@ public class Main extends Application {
 
     BorderPane borderPane;
     GridPane gridPane;
-    ColorPicker colorPicker;
 
     Scene3D scene = new Scene3D();
     Canvas canvas = new Canvas(600, 300);
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
-            // Adjust the zoom factor as per your requirement
-            double zoomFactor = 1.05;
+
             double deltaY = event.getDeltaY();
             scene.camera.zoomCamera(canvas, scene, deltaY);
         });
@@ -154,8 +152,8 @@ public class Main extends Application {
         tree.setMaxHeight(150);
 
         gridPane.add(button, 1, 1);
-        gridPane.add(label, 2, 1);
-        gridPane.add(slider, 3, 1);
+        gridPane.add(label, 1, 0);
+        gridPane.add(slider, 2, 0);
         gridPane.add(tree, 1, 2);
 
         GridPane mainc = new GridPane();

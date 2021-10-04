@@ -10,6 +10,7 @@ public abstract class Object3D {
     public Vector3 position;
     private double rotation;
     private Material material;
+    public String name;
 
     public Object3D(Vector3 pos){
         this.position = pos;
@@ -18,7 +19,6 @@ public abstract class Object3D {
     public void rotate() {
 
     }
-
 
     public Vector3 getNormalAt(){
         return null;
@@ -32,6 +32,9 @@ public abstract class Object3D {
         this.material = m;
     }
 
+    public String getName(){
+        return this.name;
+    }
 
     public Vector3 getNormalAt(Vector3 pos){
         //TODO:implement function ;)

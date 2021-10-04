@@ -7,7 +7,6 @@ import static RayTracer18.Vector3.*;
 
 public class Triangle extends Object3D{
 
-
     public Vector3 p1, p2, p3;
 
     public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3){
@@ -16,6 +15,7 @@ public class Triangle extends Object3D{
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
+        this.name = "Triangle";
     }
 
     //Möller–Trumbore intersection algorithm.

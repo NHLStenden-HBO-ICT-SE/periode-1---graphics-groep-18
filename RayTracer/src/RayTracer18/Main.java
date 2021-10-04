@@ -2,8 +2,8 @@ package RayTracer18;
 
 
 import RayTracer18.Light.PointLight;
+import RayTracer18.Material.Material;
 import RayTracer18.Primitives.*;
-import com.sun.source.tree.Tree;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,7 +13,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -139,32 +138,35 @@ public class Main extends Application {
 
 
 
-        /*Triangle t = new Triangle(
-                new Vector3(0,0,2),
-                new Vector3(-3, 0, 2),
-                new Vector3(0, 6, 2),
-                new Vector3(3, 0, 2));
+        Triangle t = new Triangle(
+                new Vector3(0,0,5),
+                new Vector3(-3, 0, 5),
+                new Vector3(0, 6, 5),
+                new Vector3(3, 0, 5));
+
         scene.add(t);
         t.applyMaterial(blue);
 
 
         //TODO: make this working correclty
-            /*Plane p = new Plane(.2);
+            Plane p = new Plane(new Vector3(0,-0.5,0), new Vector3(0,1,0));
             scene.add(p);
-            p.applyMaterial(green);*/
+            p.applyMaterial(green);
+        Plane p2 = new Plane(new Vector3(0,10,0), new Vector3(0,1,0));
+        scene.add(p2);
+        p2.applyMaterial(green);
+        Plane p3 = new Plane(new Vector3(0,0,10), new Vector3(0,0,-1));
+        scene.add(p3);
+        p3.applyMaterial(green);
 
-        Sphere s = new Sphere(new Vector3(2, 0.5, 3), 1);
-        Box b = new Box(new Vector3(-4, -0.5, 3), new Vector3(2,2,2));
-
+        Sphere s = new Sphere(new Vector3(2, 0.5, 2), 1);
         s.applyMaterial(green);
-        b.applyMaterial(blue);
 
 
         scene.add(s);
-        scene.add(b);
 
 
-        PointLight l = new PointLight(new Vector3(0,0,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(-9,4,2), 2f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
         new Renderer().renderScene(scene, canvas);

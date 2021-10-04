@@ -102,7 +102,7 @@ public class Ray {
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
         double prod = normal.dot( lightDir);
         prod = Math.abs(prod);
-        Color c = hitObject.getMaterial().getColor().interpolate(Color.BLACK, (1-prod));
+        Color c = hitObject.getMaterial().getColor().interpolate(Color.BLACK, (1.3-prod));
         return c;
 
     }

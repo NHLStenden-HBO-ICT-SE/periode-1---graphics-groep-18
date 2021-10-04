@@ -5,34 +5,33 @@ import RayTracer18.Vector3;
 
 public class Plane extends Object3D{
 
-    private Triangle t1;
-    private Triangle t2;
 
+    private Vector3 normal;
 
-    public Plane(Vector3 pos, Vector3 corner1, Vector3 corner2, Vector3 corner3, Vector3 corner4) {
+    public Plane(Vector3 pos, Vector3 normal) {
         super(pos);
-        this.t1 = new Triangle(
-                pos,
-                corner1, corner3, corner4
-        );
-        this.t2 = new Triangle(
-                pos,
-                corner3, corner2, corner4
-        );
+        this.normal = normal;
+
     }
 
     @Override
     public Vector3 calculateIntersection(Ray ray) {
-        Vector3 intersection = t1.calculateIntersection(ray);
-        if(intersection == null){
-            return t2.calculateIntersection(ray);
+        double dem = Vector3.dot(this.normal, ray.getDirection());
+
+        if(Math.abs(dem) > 0.0001){
+            Vector3 dif = Vector3.sub(this.position, ray.getOrigin());
+            double t = Vector3.dot(dif, this.normal) / dem;
+            if(t > 0.0001){
+                return ray.getDirection().multiplyScalar(t);
+            }
         }
-        return intersection;
+        return null;
 
     }
 
     @Override
     public Vector3 getNormalAt(Vector3 pos) {
-        return t1.getNormalAt(pos);
+
+        return this.normal;
     }
 }

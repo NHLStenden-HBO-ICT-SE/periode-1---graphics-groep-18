@@ -1,5 +1,6 @@
 package RayTracer18.Primitives;
 
+import RayTracer18.Material.Material;
 import RayTracer18.Ray;
 import RayTracer18.Vector3;
 

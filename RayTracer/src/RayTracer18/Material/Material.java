@@ -1,4 +1,4 @@
-package RayTracer18.Primitives;
+package RayTracer18.Material;
 
 import RayTracer18.Vector3;
 import javafx.scene.paint.Color;
@@ -14,6 +14,7 @@ public class Material {
     public Color getColor(){
         return color;
     }
+
 
     @Override
     public String toString() {

@@ -11,7 +11,8 @@ public class Plane extends Object3D{
     public Plane(Vector3 pos, Vector3 normal) {
         super(pos);
         this.normal = normal;
-        this.name = "Plane";
+
+
     }
 
     @Override

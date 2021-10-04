@@ -7,6 +7,5 @@ public class PointLight extends Light{
 
     public PointLight(Vector3 position, double intensity, Color color) {
         super(position, intensity, color);
-        this.name = "Pointlight";
     }
 }

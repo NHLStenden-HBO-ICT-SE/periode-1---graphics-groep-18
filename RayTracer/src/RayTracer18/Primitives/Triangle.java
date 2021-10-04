@@ -16,7 +16,6 @@ public class Triangle extends Object3D{
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
-        this.name = "Triangle";
     }
 
     //Möller–Trumbore intersection algorithm.

@@ -11,6 +11,7 @@ public class Box extends Object3D {
         super(position);
         this.min = position;
         this.max = position.add1(max);
+        this.name = "Box";
 
     }
 

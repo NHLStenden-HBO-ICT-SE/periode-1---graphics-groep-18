@@ -18,7 +18,10 @@ public class Triangle extends Object3D{
         this.p2 = p2;
         this.p3 = p3;
 <<<<<<< HEAD
+<<<<<<< HEAD
         calculateNormal();
+=======
+>>>>>>> parent of fb08be8 (Merge branch 'main' of https://github.com/NHLStenden-HBO-ICT-SE/periode-1---graphics-groep-18 into main)
 =======
 >>>>>>> parent of fb08be8 (Merge branch 'main' of https://github.com/NHLStenden-HBO-ICT-SE/periode-1---graphics-groep-18 into main)
     }

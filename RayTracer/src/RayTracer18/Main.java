@@ -193,7 +193,7 @@ public class Main extends Application {
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
         p.applyMaterial(green);
-        Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, 1, 0));
+        Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);
         Plane p3 = new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1));

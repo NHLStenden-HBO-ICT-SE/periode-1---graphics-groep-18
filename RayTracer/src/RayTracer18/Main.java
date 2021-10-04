@@ -166,7 +166,7 @@ public class Main extends Application {
         scene.add(s);
 
 
-        PointLight l = new PointLight(new Vector3(-9,4,2), 2f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(2,3,0), 1f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
         new Renderer().renderScene(scene, canvas);

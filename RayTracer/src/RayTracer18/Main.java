@@ -149,10 +149,18 @@ public class Main extends Application {
 
 
         //TODO: make this working correclty
+<<<<<<< Updated upstream
             Plane p = new Plane(new Vector3(0,-0.5,0), new Vector3(0,1,0));
             scene.add(p);
             p.applyMaterial(green);
         Plane p2 = new Plane(new Vector3(0,10,0), new Vector3(0,-1,0));
+=======
+
+        Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
+        scene.add(p);
+        p.applyMaterial(green);
+        Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
+>>>>>>> Stashed changes
         scene.add(p2);
         p2.applyMaterial(green);
         Plane p3 = new Plane(new Vector3(0,0,10), new Vector3(0,0,-1));
@@ -166,7 +174,11 @@ public class Main extends Application {
         scene.add(s);
 
 
+<<<<<<< Updated upstream
         PointLight l = new PointLight(new Vector3(-4,4,1), 1f, Color.WHITE);
+=======
+        PointLight l = new PointLight(new Vector3(-2,0.5,2), 0.6f, Color.WHITE);
+>>>>>>> Stashed changes
         scene.add(l);
 
 

@@ -117,7 +117,7 @@ public class Ray {
             double strength = l.intensity / l.position.distanceTo(hitPoint);
             System.out.println(strength);
             
-            cur = cur.interpolate(l.color,  Math.min((1/Math.pow(hitPoint.distanceTo(l.position) , 2))* l.intensity, 1 ));
+            cur = cur.interpolate(l.color,  1/Math.pow(hitPoint.distanceTo(l.position)* l.intensity, 2 ));
         }
 
 
@@ -128,7 +128,7 @@ public class Ray {
 
         prod += 1;
         prod *=0.5;
-        return cur.interpolate(Color.BLACK, prod);
+        return cur.interpolate(Color.BLACK, prod*0.7);
 
     }
 

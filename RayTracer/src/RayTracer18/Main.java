@@ -148,7 +148,7 @@ public class Main extends Application {
         t.applyMaterial(blue);
 
 
-        //TODO: make this working correclty
+        //TODO: make this working correclty :)
             Plane p = new Plane(new Vector3(0,-0.5,0), new Vector3(0,1,0));
             scene.add(p);
             p.applyMaterial(green);

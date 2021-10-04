@@ -7,7 +7,7 @@ import static RayTracer18.Vector3.*;
 
 public class Triangle extends Object3D{
 
-
+    private Vector3 normal;
     public Vector3 p1, p2, p3;
 
     public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3){
@@ -71,11 +71,13 @@ public class Triangle extends Object3D{
 
     @Override
     public Vector3 getNormalAt(Vector3 point) {
-
+        return this.normal.clone();
+    }
+    private void calculateNormal(){
         Vector3 a = Vector3.sub(p2, p1);
         Vector3 b = Vector3.sub(p3, p1);
         Vector3 res = a.cross(b).normalize();
-        return res;
+        this.normal = res;
     }
 
     @Override

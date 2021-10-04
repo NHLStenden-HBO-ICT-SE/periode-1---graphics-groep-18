@@ -139,10 +139,10 @@ public class Main extends Application {
 
 
         Triangle t = new Triangle(
-                new Vector3(0,0,5),
-                new Vector3(-3, 0, 5),
-                new Vector3(0, 6, 5),
-                new Vector3(3, 0, 5));
+                new Vector3(0,-0.5,5),
+                new Vector3(-3, -.5, 1),
+                new Vector3(0, 4, 5),
+                new Vector3(3, -0.5, 5));
 
         scene.add(t);
         t.applyMaterial(blue);
@@ -152,7 +152,7 @@ public class Main extends Application {
             Plane p = new Plane(new Vector3(0,-0.5,0), new Vector3(0,1,0));
             scene.add(p);
             p.applyMaterial(green);
-        Plane p2 = new Plane(new Vector3(0,10,0), new Vector3(0,1,0));
+        Plane p2 = new Plane(new Vector3(0,10,0), new Vector3(0,-1,0));
         scene.add(p2);
         p2.applyMaterial(green);
         Plane p3 = new Plane(new Vector3(0,0,10), new Vector3(0,0,-1));
@@ -166,8 +166,11 @@ public class Main extends Application {
         scene.add(s);
 
 
-        PointLight l = new PointLight(new Vector3(2,3,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(-4,4,1), 1f, Color.WHITE);
         scene.add(l);
+
+
+
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
         new Renderer().renderScene(scene, canvas);
     }

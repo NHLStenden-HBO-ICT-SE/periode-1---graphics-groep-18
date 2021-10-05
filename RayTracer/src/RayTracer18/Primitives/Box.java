@@ -9,8 +9,8 @@ public class Box extends Object3D {
 
     public Box(Vector3 position, Vector3 max) {
         super(position);
-        this.min = position;
-        this.max = position.add1(max);
+        this.max = position.add1(max.multiply(0.5F));
+        this.min = position.subtract2(max.multiply(0.5F));
         this.name = "Box";
 
     }
@@ -19,8 +19,8 @@ public class Box extends Object3D {
     public Vector3 calculateIntersection(Ray ray) {
         double t1;
         double t2;
-        float tnear = Float.NEGATIVE_INFINITY;
-        float tfar = Float.POSITIVE_INFINITY;
+        double tnear = Double.NEGATIVE_INFINITY;
+        double tfar = Double.POSITIVE_INFINITY;
         double temp;
         boolean intersectFlag = true;
         double[] rayDirection = ray.getDirection().toArray();
@@ -59,7 +59,7 @@ public class Box extends Object3D {
     @Override
     public Vector3 getNormalAt(Vector3 point) {
 
-        double[] direction = point.subtract(position).toArray();
+        double[] direction = point.subtract2(position).toArray();
         double biggestValue = Float.NaN;
 
         for (int i = 0; i<3; i++) {

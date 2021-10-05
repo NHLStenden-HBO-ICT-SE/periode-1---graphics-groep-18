@@ -51,9 +51,6 @@ public class Ray {
                 double distanceToPoint = this.getOrigin().distanceTo(crossPoint);
                 double distanceToLight = this.getOrigin().distanceTo(l.position);
                 if( distanceToPoint < distanceToLight ){
-                    if(ob instanceof Plane){
-                        return true;
-                    }
                     return true;
                 }
 
@@ -107,21 +104,25 @@ public class Ray {
         }
         if(reachAbleLights.size() == 0){
             //No lights absolute shadow
-            return hitObject.getMaterial().getColor().interpolate(Color.BLACK, 1);
+            return Color.BLACK;
         }
 
-        Color c = hitObject.getMaterial().getColor();
+        Color cur = hitObject.getMaterial().getColor();
         for (Light l : reachAbleLights){
-            c = c.interpolate(l.color,  Math.min((1/Math.pow(hitPoint.distanceTo(l.position) , 2))* l.intensity, 1 ));
+            double strength = l.intensity / l.position.distanceTo(hitPoint);
+            System.out.println(strength);
+
+            cur = cur.interpolate(l.color,  Math.min((1/Math.pow(hitPoint.distanceTo(l.position) , 2))* l.intensity, 1 ));
 
         }
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
-        double prod = Math.abs(Vector3.dot(lightDir, normal));
+        double prod = Vector3.dot(lightDir, normal);
 
 
-
-        return c.interpolate(Color.BLACK, 1-prod);
+        prod += 1;
+        prod *=0.5;
+        return cur.interpolate(Color.BLACK, prod);
 
     }
 

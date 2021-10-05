@@ -214,7 +214,13 @@ public class Vector3 {
         return new Vector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
     }
 
+    public Vector3 subtract2(Vector3 vec) {
+        return new Vector3(this.x - vec.x, this.y - vec.y, this.z - vec.z);
+    }
 
+    public Vector3 multiply(float scalar) {
+        return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
+    }
     //TODO: All matrix functions
 
 

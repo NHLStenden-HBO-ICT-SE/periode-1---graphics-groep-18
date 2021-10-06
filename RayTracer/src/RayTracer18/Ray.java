@@ -117,8 +117,6 @@ public class Ray {
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
         double prod = Vector3.dot(lightDir, normal);
-
-
         prod += 1;
         prod *=0.5;
         return cur.interpolate(Color.BLACK, prod);

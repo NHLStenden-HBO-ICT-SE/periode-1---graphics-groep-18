@@ -33,7 +33,9 @@ public class Camera {
     public void resetCamera() {
 
     }
-
+    public double getFov(){
+        return this.fov;
+    }
     public Vector3 getPosition(){
         return position.clone();
     }

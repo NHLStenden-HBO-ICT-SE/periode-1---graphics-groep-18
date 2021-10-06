@@ -26,13 +26,21 @@ public class Main extends Application {
     GridPane gridPane;
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(600, 300);
+    Canvas canvas = new Canvas(700, 350);
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
 
             double deltaY = event.getDeltaY();
-            scene.camera.zoomCamera(canvas, scene, deltaY);
+            System.out.println(deltaY);
+            if(deltaY > 0){
+                scene.camera.setFov(scene.camera.getFov() + 0.05);
+            }
+            else{
+                scene.camera.setFov(scene.camera.getFov() - 0.05);
+
+            }
+            Renderer.renderScene(scene, canvas);
         });
     }
 
@@ -41,9 +49,11 @@ public class Main extends Application {
     TreeItem<String> rootLights = new TreeItem<String>("Lights");
 
     public void createHierarchy(){
-        ArrayList<Object3D> objectList = new ArrayList<>(scene.getObjects());
+        ArrayList<Object3D> objectList =new ArrayList<>(scene.getObjects());
         ArrayList<Light> lightList = new ArrayList<>(scene.getLights());
 
+        rootObjects.getChildren().clear();
+        rootLights.getChildren().clear();
         for (int i = 0; i < objectList.size(); i++){
             TreeItem<String> item = new TreeItem<>(objectList.get(i).getName());
             rootObjects.getChildren().add(item);
@@ -133,15 +143,16 @@ public class Main extends Application {
             Renderer.renderScene(scene, canvas);
 
         });
+        initRender(scene, canvas);
+        createHierarchy();
+        customizeLights();
 
         Button button = new Button();
-        button.setText("Trace da rays");
+        button.setText("Render");
         button.setOnAction(e -> {
-            initRender(scene, canvas);
+            Renderer.renderScene(scene, canvas);
 
-            createHierarchy();
 
-            customizeLights();
         });
 
         TreeView<String> tree = new TreeView<>(rootHierarchy);
@@ -209,10 +220,9 @@ public class Main extends Application {
         scene.add(s);
         scene.add(b);
 
-        PointLight l = new PointLight(new Vector3(3,2,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(1,2,0), 1f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
-        new Renderer().renderScene(scene, canvas);
     }
 
 

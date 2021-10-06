@@ -207,6 +207,8 @@ public class Vector3 {
         return String.format("Vector3{x=(%f, y=%f, z=%f)}", x, y, z);
     }
 
+
+    //de functie add1 en subtract2 niet aanpassen anders hele programma kaduk
     public Vector3 add1(Vector3 vec) {
         return new Vector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
     }

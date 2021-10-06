@@ -32,7 +32,6 @@ public class Main extends Application {
         node.setOnScroll((ScrollEvent event) -> {
 
             double deltaY = event.getDeltaY();
-            System.out.println(deltaY);
             if(deltaY > 0){
                 scene.camera.setFov(scene.camera.getFov() + 0.05);
             }
@@ -151,6 +150,12 @@ public class Main extends Application {
         Button button = new Button();
         button.setText("Render");
         button.setOnAction(e -> {
+
+            Vector3 d = new Vector3(1,-1,0);
+            Vector3 n = new Vector3(0,1,0);
+            Vector3 reflectionEquation = Vector3.multiply(d, n).multiply(2).multiply(n);
+            Vector3 direction = Vector3.sub(d, reflectionEquation);
+            System.out.println(direction);
             Renderer.renderScene(scene, canvas);
 
 
@@ -200,13 +205,15 @@ public class Main extends Application {
         Material green = new Material(Color.GREEN);
         Material floorm = new Material(Color.ORANGE);
         Material red = new Material(Color.RED);
-
+        Material mirror = new Material(Color.WHITE);
+        Material orange = new Material(Color.ORANGE);
+        mirror.setReflection(1);
 
         Triangle t = new Triangle(
-                new Vector3(0, 0, 5),
-                new Vector3(-3, 0, 5),
-                new Vector3(0, 6, 5),
-                new Vector3(3, 0, 5));
+                new Vector3(1, 0, 5),
+                new Vector3(-2, 0, 5),
+                new Vector3(1, 6, 5),
+                new Vector3(4, 0, 5));
 
         scene.add(t);
         t.applyMaterial(blue);
@@ -216,7 +223,7 @@ public class Main extends Application {
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
-        p.applyMaterial(green);
+        p.applyMaterial(mirror);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);
@@ -225,15 +232,15 @@ public class Main extends Application {
         p3.applyMaterial(green);
 
         Sphere s = new Sphere(new Vector3(2, 0.5, 2), 1);
-        s.applyMaterial(green);
+        s.applyMaterial(blue);
 
-        Box b = new Box(new Vector3(-4,1,3), new Vector3(2,2,2));
+        Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         b.applyMaterial(red);
 
         scene.add(s);
         scene.add(b);
 
-        PointLight l = new PointLight(new Vector3(1,2,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }

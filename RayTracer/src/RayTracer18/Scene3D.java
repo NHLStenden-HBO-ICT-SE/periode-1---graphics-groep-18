@@ -20,7 +20,7 @@ public class Scene3D {
         this.camera = new Camera(0.3, this);
         this.lights = new ArrayList<Light>();
         //Color if a pixel hits nothing
-        this.voidColor = Color.WHITE;
+        this.voidColor = Color.PURPLE;
 
     }
 

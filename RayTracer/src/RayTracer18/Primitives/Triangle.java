@@ -39,9 +39,6 @@ public class Triangle extends Object3D{
 
         Vector3 normal = Vector3.cross(v0v2, v0v1).normalize();
 
-
-
-        Vector3 oc = Vector3.sub(r.getOrigin() , this.position);
         Vector3 pvec = r.getDirection().cross(v0v2);
         double det = v0v1.dot(pvec);
         if (det < 0.000001)

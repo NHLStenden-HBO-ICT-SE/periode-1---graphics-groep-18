@@ -15,9 +15,8 @@ public class Ray {
     public Vector3 direction;
     public Scene3D scene;
     public double t;
-    public ArrayList<Vector3> hits;
-    public Color color;
-    public RayType type;
+    public int bounces;
+
 
 
 
@@ -26,11 +25,12 @@ public class Ray {
         this.direction = direction.normalize();
         this.scene = scene;
         this.origin = origin;
-        this.type = RayType.NORMAL;
+        this.bounces = 0;
 
     }
-    public void setType(RayType r){
-        this.type = r;
+
+    public void setBounces(int b){
+        this.bounces = b;
     }
 
 
@@ -83,11 +83,24 @@ public class Ray {
                 hitPoint = crossPoint;
             }
         }
+
+
+
         if(hitObject == null){
             return scene.voidColor;
         }
 
         Vector3 normal = hitObject.getNormalAt(hitPoint);
+
+
+//        if(hitObject.getMaterial().reflection == 1 && this.bounces < 10){
+//            Vector3 startingPoint = hitPoint.clone().add(normal.clone().multiplyScalar(0.01));
+//            Vector3 reflectionEquation = Vector3.multiply(this.getDirection(), normal).multiply(2).multiply(normal);
+//            Vector3 direction = Vector3.sub(this.getDirection(), reflectionEquation);
+//            Ray reflectionRay = new Ray(startingPoint, direction, scene);
+//            reflectionRay.setBounces(this.bounces + 1);
+//            return reflectionRay.shoot();
+//        }
 
         ArrayList<Light> reachAbleLights = new ArrayList<Light>();
         for (Light light:scene.getLights()) {
@@ -102,6 +115,10 @@ public class Ray {
             }
 
         }
+
+
+
+
         if(reachAbleLights.size() == 0){
             //No lights absolute shadow
             return Color.BLACK;

@@ -110,7 +110,6 @@ public class Ray {
         Color cur = hitObject.getMaterial().getColor();
         for (Light l : reachAbleLights){
             double strength = l.intensity / l.position.distanceTo(hitPoint);
-            System.out.println(strength);
 
             cur = cur.interpolate(l.color,  Math.min((1/Math.pow(hitPoint.distanceTo(l.position) , 2))* l.intensity, 1 ));
 

@@ -99,7 +99,6 @@ public class Main extends Application {
         var button = new Button();
         button.setText("Apply");
         button.setOnAction(e -> {
-            System.out.println(lights);
             Renderer.renderScene(scene, canvas);
             createHierarchy();
         });

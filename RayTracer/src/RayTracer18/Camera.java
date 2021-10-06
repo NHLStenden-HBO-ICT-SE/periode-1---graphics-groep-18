@@ -27,7 +27,6 @@ public class Camera {
             position.z += 0.1;
         else
             position.z -= 0.1;
-        System.out.println(position);
         Renderer.renderScene(scene, canvas);
     }
 

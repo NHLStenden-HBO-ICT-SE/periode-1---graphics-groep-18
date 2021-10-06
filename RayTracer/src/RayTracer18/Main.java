@@ -62,6 +62,7 @@ public class Main extends Application {
             TreeItem<String> item = new TreeItem<>(lightList.get(i).getName());
             rootLights.getChildren().add(item);
         }
+
     }
 
     private void customizeLights() {
@@ -161,6 +162,19 @@ public class Main extends Application {
         tree.setShowRoot(false);
         tree.setMaxHeight(150);
 
+        tree.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue,
+                                Object newValue) {
+
+                TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+                System.out.println("Selected Text : " + selectedItem.getValue());
+                System.out.println(selectedItem.valueProperty());
+                // do what ever you want
+            }
+        });
+
         gridPane.add(button, 1, 1);
         gridPane.add(label, 1, 0);
         gridPane.add(slider, 2, 0);
@@ -171,7 +185,6 @@ public class Main extends Application {
 
 
         HBox statusbar = new HBox();
-        Label l = new Label("Text");
         borderPane.setTop(gridPane);
         borderPane.setCenter(mainc);
         borderPane.setBottom(statusbar);

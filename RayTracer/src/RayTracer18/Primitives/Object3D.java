@@ -15,6 +15,8 @@ public abstract class Object3D {
     public String name;
     public String id;
 
+    public Material oldMaterial;
+
 
     public Object3D(Vector3 pos){
         this.position = pos;
@@ -25,6 +27,9 @@ public abstract class Object3D {
 
     }
 
+    public void restoreMaterial(){
+        this.material = this.oldMaterial;
+    }
 
     public Vector3 getNormalAt(){
         return null;
@@ -35,6 +40,7 @@ public abstract class Object3D {
     }
 
     public void applyMaterial(Material m){
+        this.oldMaterial = this.material;
         this.material = m;
     }
 

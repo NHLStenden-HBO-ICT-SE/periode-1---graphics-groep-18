@@ -33,6 +33,7 @@ public class Main extends Application {
 
     Scene3D scene = new Scene3D();
     Canvas canvas = new Canvas(700, 350);
+    Object3D lastSelected = null;
 
 
 
@@ -233,6 +234,8 @@ public class Main extends Application {
         tree.setShowRoot(false);
         tree.setMaxHeight(150);
 
+
+
         tree.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
 
             @Override
@@ -256,6 +259,13 @@ public class Main extends Application {
                 }
                 if(selectedObject != null){
                     //Do stuff with object
+                    if(lastSelected != null){
+                        lastSelected.restoreMaterial();
+                    }
+                    lastSelected = selectedObject;
+                    Material pink = new Material(Color.PINK);
+                    selectedObject.applyMaterial(pink);
+                    Renderer.renderScene(scene, canvas);
                 }
 
 

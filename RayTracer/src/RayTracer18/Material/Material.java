@@ -5,9 +5,14 @@ import javafx.scene.paint.Color;
 
 public class Material {
     public Color color;
+    public double reflection;
 
     public Material(Color c){
         this.color = c;
+    }
+
+    public void setReflection(double v){
+        this.reflection = v;
     }
 
     //Use this later with parameters hitPoint to look up the pixel in the maps if needed

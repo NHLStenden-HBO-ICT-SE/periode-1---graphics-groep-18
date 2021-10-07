@@ -28,10 +28,10 @@ public class Vector3 {
         this.z = target.z;
         return this;
     }
-    public Vector3(Vector3 copiable){
-        this.x = copiable.x;
-        this.y = copiable.y;
-        this.z = copiable.z;
+    public Vector3(Vector3 toCopy){
+        this.x = toCopy.x;
+        this.y = toCopy.y;
+        this.z = toCopy.z;
     }
 
 
@@ -80,9 +80,6 @@ public class Vector3 {
                 v.z * m
         );
     }
-
-
-
 
 
     public Vector3 multiply(Vector3 v2){
@@ -210,6 +207,8 @@ public class Vector3 {
         return String.format("Vector3{x=(%f, y=%f, z=%f)}", x, y, z);
     }
 
+
+    //de functie add1 en subtract2 niet aanpassen anders hele programma kaduk
     public Vector3 add1(Vector3 vec) {
         return new Vector3(this.x + vec.x, this.y + vec.y, this.z + vec.z);
     }
@@ -221,7 +220,6 @@ public class Vector3 {
     public Vector3 multiply(float scalar) {
         return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
     }
-    //TODO: All matrix functions
 
 
 

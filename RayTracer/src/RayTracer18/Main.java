@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -26,13 +27,20 @@ public class Main extends Application {
     GridPane gridPane;
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(600, 300);
+    Canvas canvas = new Canvas(700, 350);
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
 
             double deltaY = event.getDeltaY();
-            scene.camera.zoomCamera(canvas, scene, deltaY);
+            if(deltaY > 0){
+                scene.camera.setFov(scene.camera.getFov() + 0.05);
+            }
+            else{
+                scene.camera.setFov(scene.camera.getFov() - 0.05);
+
+            }
+            Renderer.renderScene(scene, canvas);
         });
     }
 
@@ -41,9 +49,11 @@ public class Main extends Application {
     TreeItem<String> rootLights = new TreeItem<String>("Lights");
 
     public void createHierarchy(){
-        ArrayList<Object3D> objectList = new ArrayList<>(scene.getObjects());
+        ArrayList<Object3D> objectList =new ArrayList<>(scene.getObjects());
         ArrayList<Light> lightList = new ArrayList<>(scene.getLights());
 
+        rootObjects.getChildren().clear();
+        rootLights.getChildren().clear();
         for (int i = 0; i < objectList.size(); i++){
             TreeItem<String> item = new TreeItem<>(objectList.get(i).getName());
             rootObjects.getChildren().add(item);
@@ -52,6 +62,7 @@ public class Main extends Application {
             TreeItem<String> item = new TreeItem<>(lightList.get(i).getName());
             rootLights.getChildren().add(item);
         }
+
     }
 
     private void customizeLights() {
@@ -99,7 +110,6 @@ public class Main extends Application {
         var button = new Button();
         button.setText("Apply");
         button.setOnAction(e -> {
-            System.out.println(lights);
             Renderer.renderScene(scene, canvas);
             createHierarchy();
         });
@@ -108,6 +118,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
         borderPane = new BorderPane();
         gridPane = new GridPane();
 
@@ -134,15 +145,22 @@ public class Main extends Application {
             Renderer.renderScene(scene, canvas);
 
         });
+        initRender(scene, canvas);
+        createHierarchy();
+        customizeLights();
 
         Button button = new Button();
-        button.setText("Trace da rays");
+        button.setText("Render");
         button.setOnAction(e -> {
-            initRender(scene, canvas);
 
-            createHierarchy();
+            Vector3 d = new Vector3(1,-1,0);
+            Vector3 n = new Vector3(0,1,0);
+            Vector3 reflectionEquation = Vector3.multiply(d, n).multiply(2).multiply(n);
+            Vector3 direction = Vector3.sub(d, reflectionEquation);
+            System.out.println(direction);
+            Renderer.renderScene(scene, canvas);
 
-            customizeLights();
+
         });
 
         TreeView<String> tree = new TreeView<>(rootHierarchy);
@@ -150,6 +168,19 @@ public class Main extends Application {
         rootHierarchy.getChildren().add(rootLights);
         tree.setShowRoot(false);
         tree.setMaxHeight(150);
+
+        tree.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue,
+                                Object newValue) {
+
+                TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+                System.out.println("Selected Text : " + selectedItem.getValue());
+                System.out.println(selectedItem.valueProperty());
+                // do what ever you want
+            }
+        });
 
         gridPane.add(button, 1, 1);
         gridPane.add(label, 1, 0);
@@ -161,7 +192,6 @@ public class Main extends Application {
 
 
         HBox statusbar = new HBox();
-        Label l = new Label("Text");
         borderPane.setTop(gridPane);
         borderPane.setCenter(mainc);
         borderPane.setBottom(statusbar);
@@ -177,13 +207,15 @@ public class Main extends Application {
         Material green = new Material(Color.GREEN);
         Material floorm = new Material(Color.ORANGE);
         Material red = new Material(Color.RED);
-
+        Material mirror = new Material(Color.WHITE);
+        Material orange = new Material(Color.ORANGE);
+        mirror.setReflection(1);
 
         Triangle t = new Triangle(
-                new Vector3(0, 0, 5),
-                new Vector3(-3, 0, 5),
-                new Vector3(0, 6, 5),
-                new Vector3(3, 0, 5));
+                new Vector3(1, 0, 5),
+                new Vector3(-2, 0, 5),
+                new Vector3(1, 6, 5),
+                new Vector3(4, 0, 5));
 
         scene.add(t);
         t.applyMaterial(blue);
@@ -193,7 +225,7 @@ public class Main extends Application {
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
-        p.applyMaterial(green);
+        p.applyMaterial(mirror);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);
@@ -202,18 +234,17 @@ public class Main extends Application {
         p3.applyMaterial(green);
 
         Sphere s = new Sphere(new Vector3(2, 0.5, 2), 1);
-        s.applyMaterial(green);
+        s.applyMaterial(blue);
 
-        Box b = new Box(new Vector3(-4,1,3), new Vector3(2,2,2));
+        Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         b.applyMaterial(red);
 
         scene.add(s);
         scene.add(b);
 
-        PointLight l = new PointLight(new Vector3(3,2,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
-        new Renderer().renderScene(scene, canvas);
     }
 
 

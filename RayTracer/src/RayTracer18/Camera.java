@@ -27,14 +27,15 @@ public class Camera {
             position.z += 0.1;
         else
             position.z -= 0.1;
-        System.out.println(position);
         Renderer.renderScene(scene, canvas);
     }
 
     public void resetCamera() {
 
     }
-
+    public double getFov(){
+        return this.fov;
+    }
     public Vector3 getPosition(){
         return position.clone();
     }

@@ -93,20 +93,24 @@ public class Ray {
         Vector3 normal = hitObject.getNormalAt(hitPoint);
 
 
-//        if(hitObject.getMaterial().reflection == 1 && this.bounces < 10){
-//            Vector3 startingPoint = hitPoint.clone().add(normal.clone().multiplyScalar(0.01));
-//            Vector3 reflectionEquation = Vector3.multiply(this.getDirection(), normal).multiply(2).multiply(normal);
-//            Vector3 direction = Vector3.sub(this.getDirection(), reflectionEquation);
-//            Ray reflectionRay = new Ray(startingPoint, direction, scene);
-//            reflectionRay.setBounces(this.bounces + 1);
-//            return reflectionRay.shoot();
-//        }
+        if(hitObject.getMaterial().reflection == 1 && this.bounces < 10){
+
+
+            Vector3 reflectionEquation = Vector3.multiply(this.getDirection(), normal).multiply(2).multiply(normal);
+            Vector3 direction = Vector3.sub(this.getDirection(), reflectionEquation);
+            Vector3 startingPoint = hitPoint.add(direction.clone().multiplyScalar(0.0001));
+
+            Ray reflectionRay = new Ray(startingPoint, direction, scene);
+            reflectionRay.setBounces(this.bounces + 1);
+            return reflectionRay.shoot();
+        }
 
         ArrayList<Light> reachAbleLights = new ArrayList<Light>();
         for (Light light:scene.getLights()) {
 
-            Vector3 startingPoint = hitPoint.clone().add(normal.clone().multiplyScalar(0.01));
-            Vector3 rayDir = Vector3.sub(light.position, startingPoint).normalize();
+            Vector3 rayDir = Vector3.sub(light.position, hitPoint).normalize();
+            Vector3 startingPoint = hitPoint.add(rayDir.clone().multiplyScalar(0.001));
+
             Ray shadowRay = new Ray(startingPoint,rayDir , scene);
 
             boolean hasBlockade = shadowRay.hasBlockade(light);

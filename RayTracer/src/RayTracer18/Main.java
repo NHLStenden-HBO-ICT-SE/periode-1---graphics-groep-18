@@ -7,12 +7,14 @@ import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -31,6 +33,8 @@ public class Main extends Application {
 
     Scene3D scene = new Scene3D();
     Canvas canvas = new Canvas(700, 350);
+
+
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
@@ -58,11 +62,17 @@ public class Main extends Application {
         rootObjects.getChildren().clear();
         rootLights.getChildren().clear();
         for (int i = 0; i < objectList.size(); i++){
-            TreeItem<String> item = new TreeItem<>(objectList.get(i).getName());
+            Object3D ob = objectList.get(i);
+            String name = ob.getName() + " id:" + ob.id;
+            TreeItem<String> item = new TreeItem<>(name);
+
             rootObjects.getChildren().add(item);
         }
         for (int i = 0; i < lightList.size(); i++) {
-            TreeItem<String> item = new TreeItem<>(lightList.get(i).getName());
+            Light l = lightList.get(i);
+            String name = l.getName() + "id:" + l.id;
+            TreeItem<String> item = new TreeItem<>(name);
+
             rootLights.getChildren().add(item);
         }
 
@@ -230,9 +240,25 @@ public class Main extends Application {
                                 Object newValue) {
 
                 TreeItem<String> selectedItem = (TreeItem<String>) newValue;
-                System.out.println("Selected Text : " + selectedItem.getValue());
-                System.out.println(selectedItem.valueProperty());
-                // do what ever you want
+                String name = selectedItem.getValue();
+                String id = name.substring(name.indexOf("id:")).substring(3).trim();
+                Light selectedLight = scene.getLightById(id);
+                Object3D selectedObject = scene.getObjectById(id);
+                if(selectedLight != null){
+                    //Do stuff with selected light
+                    Label pos = new Label();
+                    pos.setText(selectedLight.position.toString());
+                    gridPane.add(pos, 3, 2);
+
+                    Label namelabel = new Label();
+                    namelabel.setText(selectedLight.name);
+
+                }
+                if(selectedObject != null){
+                    //Do stuff with object
+                }
+
+
             }
         });
 
@@ -279,16 +305,16 @@ public class Main extends Application {
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
-        p.applyMaterial(mirror);
+        p.applyMaterial(blue);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);
         Plane p3 = new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1));
         scene.add(p3);
-        p3.applyMaterial(green);
+        p3.applyMaterial(orange);
 
-        Sphere s = new Sphere(new Vector3(2, 0.5, 2), 1);
-        s.applyMaterial(blue);
+        Sphere s = new Sphere(new Vector3(2,0.2,2), 1);
+        s.applyMaterial(mirror);
 
         Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         b.applyMaterial(red);

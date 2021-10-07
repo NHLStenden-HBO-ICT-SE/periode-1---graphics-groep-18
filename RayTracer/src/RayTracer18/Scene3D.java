@@ -41,5 +41,22 @@ public class Scene3D {
         return objects;
     }
 
+    public Object3D getObjectById(String id){
+        for(Object3D ob: this.objects){
+            if (ob.id.equalsIgnoreCase(id)){
+                return ob;
+            }
+        }
+        return null;
+    }
+    public Light getLightById(String id){
+        for(Light l: this.lights){
+            if (l.id.equalsIgnoreCase(id)){
+                return l;
+            }
+        }
+        return null;
+    }
+
 
 }

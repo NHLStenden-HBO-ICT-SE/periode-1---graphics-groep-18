@@ -3,17 +3,20 @@ package RayTracer18.Light;
 import RayTracer18.Vector3;
 import javafx.scene.paint.Color;
 
+import java.util.UUID;
+
 public abstract class Light {
     public double intensity;
     public Color color;
     public Vector3 position;
     public String name;
-
+    public String id;
 
     public Light(Vector3 position, double intensity, Color color){
         this.intensity = intensity;
         this.color = color;
         this.position = position;
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getName(){

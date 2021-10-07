@@ -7,11 +7,13 @@ import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -19,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -55,11 +58,14 @@ public class Main extends Application {
         rootObjects.getChildren().clear();
         rootLights.getChildren().clear();
         for (int i = 0; i < objectList.size(); i++){
-            TreeItem<String> item = new TreeItem<>(objectList.get(i).getName());
+            Object3D ob = objectList.get(i);
+            TreeItem<String> item = new TreeItem<>(ob.getName());
+
             rootObjects.getChildren().add(item);
         }
         for (int i = 0; i < lightList.size(); i++) {
-            TreeItem<String> item = new TreeItem<>(lightList.get(i).getName());
+            Light l = lightList.get(i);
+            TreeItem<String> item = new TreeItem<>(l.getName());
             rootLights.getChildren().add(item);
         }
 
@@ -177,7 +183,8 @@ public class Main extends Application {
 
                 TreeItem<String> selectedItem = (TreeItem<String>) newValue;
                 System.out.println("Selected Text : " + selectedItem.getValue());
-                System.out.println(selectedItem.valueProperty());
+                System.out.println(newValue);
+                System.out.println();
                 // do what ever you want
             }
         });

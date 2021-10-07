@@ -36,10 +36,9 @@ public class Main extends Application {
         node.setOnScroll((ScrollEvent event) -> {
 
             double deltaY = event.getDeltaY();
-            if(deltaY > 0){
+            if (deltaY > 0) {
                 scene.camera.setFov(scene.camera.getFov() + 0.05);
-            }
-            else{
+            } else {
                 scene.camera.setFov(scene.camera.getFov() - 0.05);
 
             }
@@ -51,13 +50,13 @@ public class Main extends Application {
     TreeItem<String> rootObjects = new TreeItem<String>("Objects");
     TreeItem<String> rootLights = new TreeItem<String>("Lights");
 
-    public void createHierarchy(){
-        ArrayList<Object3D> objectList =new ArrayList<>(scene.getObjects());
+    public void createHierarchy() {
+        ArrayList<Object3D> objectList = new ArrayList<>(scene.getObjects());
         ArrayList<Light> lightList = new ArrayList<>(scene.getLights());
 
         rootObjects.getChildren().clear();
         rootLights.getChildren().clear();
-        for (int i = 0; i < objectList.size(); i++){
+        for (int i = 0; i < objectList.size(); i++) {
             TreeItem<String> item = new TreeItem<>(objectList.get(i).getName());
             rootObjects.getChildren().add(item);
         }
@@ -66,108 +65,6 @@ public class Main extends Application {
             rootLights.getChildren().add(item);
         }
 
-    }
-
-    private void customizeLights() {
-        var lights = scene.getLights();
-        var label = new Label();
-        label.setText("Lights");
-        gridPane.add(label, 4, 0);
-
-        for (int i = 0; i < lights.size(); i++) {
-            int currentLight = i;
-
-            //Intensity slider
-            var slider = new Slider();
-            slider.setValue(lights.get(0).intensity);
-            slider.setMin(0f);
-            slider.setMax(10f);
-            slider.setValue(2f);
-            slider.setBlockIncrement(1);
-            slider.setMajorTickUnit(2);
-            slider.setMinorTickCount(1);
-            slider.setShowTickLabels(true);
-            slider.setSnapToTicks(true);
-            gridPane.add(slider, 5, i + 1);
-
-            //Colorpicker
-            var colorPicker = new ColorPicker();
-            colorPicker.setValue(lights.get(i).color);
-            gridPane.add(colorPicker, 3, i + 1);
-
-            //Text field for changing x
-            TextField numberFieldX = new TextField();
-            numberFieldX.setText(String.valueOf(lights.get(i).position.getX()));
-
-            numberFieldX.textProperty().addListener((obs,oldValue,newValue) -> {
-                numberFieldX.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-                try {
-                    numberFieldX.getTextFormatter().getValueConverter().fromString(newValue);
-                    // no exception above means valid
-                    numberFieldX.setBorder(null);
-                    lights.get(currentLight).setPosition(new Vector3(Double.parseDouble(newValue),0,0));
-                } catch (NumberFormatException e) {
-                    numberFieldX.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-                }
-            });
-            gridPane.add(numberFieldX, 6, i + 1);
-
-            //Text field for changing y
-            TextField numberFieldY = new TextField();
-            numberFieldY.setText(String.valueOf(lights.get(i).position.getY()));
-
-            numberFieldY.textProperty().addListener((obs,oldValue,newValue) -> {
-                numberFieldY.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-                try {
-                    numberFieldY.getTextFormatter().getValueConverter().fromString(newValue);
-                    // no exception above means valid
-                    numberFieldY.setBorder(null);
-                    lights.get(currentLight).setPosition(new Vector3(0,Double.parseDouble(newValue),0));
-                } catch (NumberFormatException e) {
-                    numberFieldY.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-                }
-            });
-            gridPane.add(numberFieldY, 7, i + 1);
-
-            //Text field for changing z
-            TextField numberFieldZ = new TextField();
-            numberFieldZ.setText(String.valueOf(lights.get(i).position.getZ()));
-
-            numberFieldZ.textProperty().addListener((obs,oldValue,newValue) -> {
-                numberFieldZ.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-                try {
-                    numberFieldZ.getTextFormatter().getValueConverter().fromString(newValue);
-                    // no exception above means valid
-                    numberFieldZ.setBorder(null);
-                    lights.get(currentLight).setPosition(new Vector3(0,0,Double.parseDouble(newValue)));
-                } catch (NumberFormatException e) {
-                    numberFieldZ.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-                }
-            });
-            gridPane.add(numberFieldZ, 8, i + 1);
-
-            //Sets intensity of current light
-            slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                lights.get(currentLight).setIntensity((Double) newValue);
-            });
-            //Sets color of current light
-            colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-                lights.get(currentLight).setColor(newValue);
-            });
-
-        }
-
-        //Creates button and applies light changes
-        var button = new Button();
-        button.setText("Apply");
-        button.setOnAction(e -> {
-            Renderer.renderScene(scene, canvas);
-            createHierarchy();
-        });
-        gridPane.add(button, 4, 5);
     }
 
     @Override
@@ -201,14 +98,38 @@ public class Main extends Application {
         });
         initRender(scene, canvas);
         createHierarchy();
-        customizeLights();
 
-        Button button = new Button();
-        button.setText("Render");
-        button.setOnAction(e -> {
+        //region Customizer
 
-            Vector3 d = new Vector3(1,-1,0);
-            Vector3 n = new Vector3(0,1,0);
+        //Calls customize lights
+        var lightLabel = new Label();
+        lightLabel.setText("Lights");
+        gridPane.add(lightLabel, 4, 0);
+        Customizer customizer = new Customizer();
+        for (int i = 0; i < scene.getLights().size(); i++) {
+            customizer.changeIntensity(scene.getLights(), gridPane, i);
+            customizer.changeColor(scene.getLights(), gridPane, i);
+            customizer.changePosition(scene.getLights(), gridPane, i);
+        }
+
+        //Creates button and applies light changes
+        var applyButton = new Button();
+        applyButton.setText("Apply");
+        applyButton.setOnAction(e -> {
+            Renderer.renderScene(scene, canvas);
+            createHierarchy();
+        });
+        gridPane.add(applyButton, 4, 5);
+
+        //endregion
+
+        //Render button
+        Button renderButton = new Button();
+        renderButton.setText("Render");
+        renderButton.setOnAction(e -> {
+
+            Vector3 d = new Vector3(1, -1, 0);
+            Vector3 n = new Vector3(0, 1, 0);
             Vector3 reflectionEquation = Vector3.multiply(d, n).multiply(2).multiply(n);
             Vector3 direction = Vector3.sub(d, reflectionEquation);
             System.out.println(direction);
@@ -217,13 +138,14 @@ public class Main extends Application {
 
         });
 
+
         TreeView<String> tree = new TreeView<>(rootHierarchy);
         rootHierarchy.getChildren().add(rootObjects);
         rootHierarchy.getChildren().add(rootLights);
         tree.setShowRoot(false);
         tree.setMaxHeight(150);
 
-        tree.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
+        tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 
             @Override
             public void changed(ObservableValue observable, Object oldValue,
@@ -236,7 +158,7 @@ public class Main extends Application {
             }
         });
 
-        gridPane.add(button, 1, 1);
+        gridPane.add(renderButton, 1, 1);
         gridPane.add(label, 1, 0);
         gridPane.add(slider, 2, 0);
         gridPane.add(tree, 1, 2);
@@ -290,13 +212,13 @@ public class Main extends Application {
         Sphere s = new Sphere(new Vector3(2, 0.5, 2), 1);
         s.applyMaterial(blue);
 
-        Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
+        Box b = new Box(new Vector3(-2, 0, 1.3), new Vector3(1, 1, 1));
         b.applyMaterial(red);
 
         scene.add(s);
         scene.add(b);
 
-        PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(2, 0, 0), 1f, Color.WHITE);
         scene.add(l);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }

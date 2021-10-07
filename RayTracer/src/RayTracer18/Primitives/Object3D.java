@@ -4,6 +4,8 @@ import RayTracer18.Material.Material;
 import RayTracer18.Ray;
 import RayTracer18.Vector3;
 
+import java.util.UUID;
+
 public abstract class Object3D {
 
 
@@ -11,9 +13,12 @@ public abstract class Object3D {
     private double rotation;
     private Material material;
     public String name;
+    public String id;
+
 
     public Object3D(Vector3 pos){
         this.position = pos;
+        this.id = UUID.randomUUID().toString();
     }
 
     public void rotate() {

@@ -7,21 +7,21 @@ import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 
-import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -58,14 +58,11 @@ public class Main extends Application {
         rootObjects.getChildren().clear();
         rootLights.getChildren().clear();
         for (int i = 0; i < objectList.size(); i++){
-            Object3D ob = objectList.get(i);
-            TreeItem<String> item = new TreeItem<>(ob.getName());
-
+            TreeItem<String> item = new TreeItem<>(objectList.get(i).getName());
             rootObjects.getChildren().add(item);
         }
         for (int i = 0; i < lightList.size(); i++) {
-            Light l = lightList.get(i);
-            TreeItem<String> item = new TreeItem<>(l.getName());
+            TreeItem<String> item = new TreeItem<>(lightList.get(i).getName());
             rootLights.getChildren().add(item);
         }
 
@@ -78,6 +75,8 @@ public class Main extends Application {
         gridPane.add(label, 4, 0);
 
         for (int i = 0; i < lights.size(); i++) {
+            int currentLight = i;
+
             //Intensity slider
             var slider = new Slider();
             slider.setValue(lights.get(0).intensity);
@@ -96,11 +95,60 @@ public class Main extends Application {
             colorPicker.setValue(lights.get(i).color);
             gridPane.add(colorPicker, 3, i + 1);
 
+            //Text field for changing x
+            TextField numberFieldX = new TextField();
+            numberFieldX.setText(String.valueOf(lights.get(i).position.getX()));
 
-            //TODO: do something with position
-//            lights.get(i).setPosition(new Vector3(0,0,0));
+            numberFieldX.textProperty().addListener((obs,oldValue,newValue) -> {
+                numberFieldX.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
 
-            int currentLight = i;
+                try {
+                    numberFieldX.getTextFormatter().getValueConverter().fromString(newValue);
+                    // no exception above means valid
+                    numberFieldX.setBorder(null);
+                    lights.get(currentLight).setPosition(new Vector3(Double.parseDouble(newValue),0,0));
+                } catch (NumberFormatException e) {
+                    numberFieldX.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
+                }
+            });
+            gridPane.add(numberFieldX, 6, i + 1);
+
+            //Text field for changing y
+            TextField numberFieldY = new TextField();
+            numberFieldY.setText(String.valueOf(lights.get(i).position.getY()));
+
+            numberFieldY.textProperty().addListener((obs,oldValue,newValue) -> {
+                numberFieldY.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+
+                try {
+                    numberFieldY.getTextFormatter().getValueConverter().fromString(newValue);
+                    // no exception above means valid
+                    numberFieldY.setBorder(null);
+                    lights.get(currentLight).setPosition(new Vector3(0,Double.parseDouble(newValue),0));
+                } catch (NumberFormatException e) {
+                    numberFieldY.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
+                }
+            });
+            gridPane.add(numberFieldY, 7, i + 1);
+
+            //Text field for changing z
+            TextField numberFieldZ = new TextField();
+            numberFieldZ.setText(String.valueOf(lights.get(i).position.getZ()));
+
+            numberFieldZ.textProperty().addListener((obs,oldValue,newValue) -> {
+                numberFieldZ.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+
+                try {
+                    numberFieldZ.getTextFormatter().getValueConverter().fromString(newValue);
+                    // no exception above means valid
+                    numberFieldZ.setBorder(null);
+                    lights.get(currentLight).setPosition(new Vector3(0,0,Double.parseDouble(newValue)));
+                } catch (NumberFormatException e) {
+                    numberFieldZ.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
+                }
+            });
+            gridPane.add(numberFieldZ, 8, i + 1);
+
             //Sets intensity of current light
             slider.valueProperty().addListener((observable, oldValue, newValue) -> {
                 lights.get(currentLight).setIntensity((Double) newValue);
@@ -183,8 +231,7 @@ public class Main extends Application {
 
                 TreeItem<String> selectedItem = (TreeItem<String>) newValue;
                 System.out.println("Selected Text : " + selectedItem.getValue());
-                System.out.println(newValue);
-                System.out.println();
+                System.out.println(selectedItem.valueProperty());
                 // do what ever you want
             }
         });

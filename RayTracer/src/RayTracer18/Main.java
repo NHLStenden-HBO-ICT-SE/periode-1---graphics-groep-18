@@ -37,6 +37,7 @@ public class Main extends Application {
 
 
 
+
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
 
@@ -315,7 +316,7 @@ public class Main extends Application {
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
-        p.applyMaterial(blue);
+        p.applyMaterial(green);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);
@@ -323,7 +324,7 @@ public class Main extends Application {
         scene.add(p3);
         p3.applyMaterial(orange);
 
-        Sphere s = new Sphere(new Vector3(2,0.2,2), 1);
+        Sphere s = new Sphere(new Vector3(2,1,2), 1);
         s.applyMaterial(mirror);
 
         Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));

@@ -11,11 +11,16 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class Ray {
+
+
+
+
     public Vector3 origin;
     public Vector3 direction;
     public Scene3D scene;
     public double t;
     public int bounces;
+    public static int MAX_BOUNCES = 10;
 
 
 
@@ -29,8 +34,10 @@ public class Ray {
 
     }
 
-    public void setBounces(int b){
-        this.bounces = b;
+
+    public void incrementBounces(int b){
+        this.bounces +=1;
+
     }
 
 
@@ -93,23 +100,24 @@ public class Ray {
         Vector3 normal = hitObject.getNormalAt(hitPoint);
 
 
-        if(hitObject.getMaterial().reflection == 1 && this.bounces < 10){
+        if(hitObject.getMaterial().reflection == 1 && this.bounces < this.MAX_BOUNCES){
 
-
-            Vector3 reflectionEquation = Vector3.multiply(this.getDirection(), normal).multiply(2).multiply(normal);
+            Vector3 reflectionEquation = normal.clone().multiplyScalar(Vector3.dot(this.getDirection(), normal.clone())*2);
             Vector3 direction = Vector3.sub(this.getDirection(), reflectionEquation);
-            Vector3 startingPoint = hitPoint.add(direction.clone().multiplyScalar(0.0001));
+            Vector3 startingPoint = hitPoint.add(direction.clone().multiplyScalar(Renderer.EPSILON));
 
             Ray reflectionRay = new Ray(startingPoint, direction, scene);
-            reflectionRay.setBounces(this.bounces + 1);
+
+            reflectionRay.incrementBounces(this.bounces + 1);
             return reflectionRay.shoot();
         }
+
 
         ArrayList<Light> reachAbleLights = new ArrayList<Light>();
         for (Light light:scene.getLights()) {
 
             Vector3 rayDir = Vector3.sub(light.position, hitPoint).normalize();
-            Vector3 startingPoint = hitPoint.add(rayDir.clone().multiplyScalar(0.001));
+            Vector3 startingPoint = hitPoint.add(rayDir.clone().multiplyScalar(Renderer.EPSILON));
 
             Ray shadowRay = new Ray(startingPoint,rayDir , scene);
 

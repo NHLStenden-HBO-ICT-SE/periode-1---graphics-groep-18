@@ -1,6 +1,7 @@
 package RayTracer18.Primitives;
 
 import RayTracer18.Ray;
+import RayTracer18.Renderer;
 import RayTracer18.Vector3;
 
 import static RayTracer18.Vector3.*;
@@ -41,7 +42,7 @@ public class Triangle extends Object3D{
 
         Vector3 pvec = r.getDirection().cross(v0v2);
         double det = v0v1.dot(pvec);
-        if (det < 0.000001)
+        if (det < Renderer.EPSILON)
             return null;
 
         double invDet = (1.0 / det);

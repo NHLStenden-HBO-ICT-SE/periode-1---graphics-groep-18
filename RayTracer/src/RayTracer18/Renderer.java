@@ -7,6 +7,10 @@ import javafx.scene.paint.Color;
 
 public class Renderer {
 
+
+    public static double EPSILON = 0.001;
+
+
     public static void renderScene(Scene3D scene, Canvas canvas) {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();

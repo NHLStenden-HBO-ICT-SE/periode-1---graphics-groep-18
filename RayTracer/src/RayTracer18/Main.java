@@ -7,22 +7,19 @@ import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
+
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.FloatStringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.NumberStringConverter;
+
 
 import java.util.ArrayList;
 
@@ -53,9 +50,9 @@ public class Main extends Application {
         });
     }
 
-    TreeItem<String> rootHierarchy = new TreeItem<String>("Entities");
-    TreeItem<String> rootObjects = new TreeItem<String>("Objects");
-    TreeItem<String> rootLights = new TreeItem<String>("Lights");
+    TreeItem<String> rootHierarchy = new TreeItem<>("Entities");
+    TreeItem<String> rootObjects = new TreeItem<>("Objects");
+    TreeItem<String> rootLights = new TreeItem<>("Lights");
 
     public void createHierarchy(){
         ArrayList<Object3D> objectList =new ArrayList<>(scene.getObjects());
@@ -63,15 +60,13 @@ public class Main extends Application {
 
         rootObjects.getChildren().clear();
         rootLights.getChildren().clear();
-        for (int i = 0; i < objectList.size(); i++){
-            Object3D ob = objectList.get(i);
+        for (Object3D ob : objectList) {
             String name = ob.getName() + " id:" + ob.id;
             TreeItem<String> item = new TreeItem<>(name);
 
             rootObjects.getChildren().add(item);
         }
-        for (int i = 0; i < lightList.size(); i++) {
-            Light l = lightList.get(i);
+        for (Light l : lightList) {
             String name = l.getName() + "id:" + l.id;
             TreeItem<String> item = new TreeItem<>(name);
 
@@ -162,13 +157,9 @@ public class Main extends Application {
             gridPane.add(numberFieldZ, 8, i + 1);
 
             //Sets intensity of current light
-            slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                lights.get(currentLight).setIntensity((Double) newValue);
-            });
+            slider.valueProperty().addListener((observable, oldValue, newValue) -> lights.get(currentLight).setIntensity((Double) newValue));
             //Sets color of current light
-            colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-                lights.get(currentLight).setColor(newValue);
-            });
+            colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> lights.get(currentLight).setColor(newValue));
 
         }
 
@@ -296,7 +287,6 @@ public class Main extends Application {
     public static void initRender(Scene3D scene, Canvas canvas) {
         Material blue = new Material(Color.BLUE);
         Material green = new Material(Color.GREEN);
-        Material floorm = new Material(Color.ORANGE);
         Material red = new Material(Color.RED);
         Material mirror = new Material(Color.WHITE);
         Material orange = new Material(Color.ORANGE);

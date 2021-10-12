@@ -154,15 +154,16 @@ public class Main extends Application {
 
 
                 if (selectedLight != null) {
+                    customizer.sliderScale.setVisible(false);
+                    customizer.labelScale.setVisible(false);
                     //Do stuff with selected light
                     customizer.lightCustomizer(selectedLight);
-                    Label pos = new Label();
-                    pos.setText(selectedLight.position.toString());
-                    gridPane.add(pos, 3, 2);
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
                     sliderLabel.setText("Light intensity");
                 }
                 if (selectedObject != null) {
+                    customizer.sliderScale.setVisible(true);
+                    customizer.labelScale.setVisible(true);
                     //Do stuff with object
                     customizer.objectCustomizer(selectedObject);
                     if (lastSelected != null) {

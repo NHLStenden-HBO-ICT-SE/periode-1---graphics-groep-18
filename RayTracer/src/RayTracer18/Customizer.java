@@ -14,6 +14,7 @@ import javafx.util.converter.DoubleStringConverter;
 import java.util.ArrayList;
 
 public class Customizer {
+    Label labelScale = new Label();
 
     Slider slider = new Slider();
     Slider sliderScale = new Slider();
@@ -29,7 +30,6 @@ public class Customizer {
         gridPane.add(labelColorPicker, 0, 5);
         gridPane.add(colorPicker, 0, 6);
 
-        Label labelScale = new Label();
         labelScale.setText("Scale: ");
         gridPane.add(labelScale, 0, 7);
         gridPane.add(sliderScale, 0, 8);

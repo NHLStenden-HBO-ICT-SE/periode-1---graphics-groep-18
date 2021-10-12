@@ -53,6 +53,11 @@ public abstract class Object3D {
         return null;
     };
 
+    public void setPosition(Vector3 position) {
+        this.position = position;
+    }
+
+
     public Vector3 calculateIntersection(Ray ray) {
         System.out.println("Using default intersection function. remove this");
         return null;

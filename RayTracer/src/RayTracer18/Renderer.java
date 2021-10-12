@@ -1,9 +1,12 @@
 package RayTracer18;
 
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
+
 
 public class Renderer {
 
@@ -13,6 +16,8 @@ public class Renderer {
 
     public static void renderScene(Scene3D scene, Canvas canvas) {
 
+        //BufferedImage im = new BufferedImage(700, 350, BufferedImage.TYPE);
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
         PixelWriter pxw = gc.getPixelWriter();
         for (int x =0 ; x < canvas.getWidth(); x++){
@@ -20,13 +25,22 @@ public class Renderer {
 
                 //Canvas y = 0 is the top, in 3d its the bottom.
                 int useY = (int)(canvas.getHeight() - y);
-                Color c = scene.camera.getColor(x, y);
+                RayHit rayHit = scene.camera.getRayHit(x, y);
+                Color c = rayHit.getColor();
                 if(c == null){
                     c = scene.voidColor;
-                }
-                pxw.setColor(x, useY,c);
-            }
-    }
 
-}
+                }
+                pxw.setColor(x, useY, c);
+
+
+
+
+            }
+
+        }
+
+
+
+    }
 }

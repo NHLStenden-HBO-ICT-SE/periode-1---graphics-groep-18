@@ -22,6 +22,8 @@ public class Ray {
     public int bounces;
     public static int MAX_BOUNCES = 10;
 
+    public double distance = 0;
+
 
 
 
@@ -71,7 +73,7 @@ public class Ray {
 
 
 
-    public Color shoot(){
+    public RayHit shoot(){
         //Loop through all objects in the scene to see if it intersects with the current ray
         Object3D hitObject = null;
         Vector3 hitPoint = new Vector3();
@@ -94,9 +96,11 @@ public class Ray {
 
 
         if(hitObject == null){
-            return scene.voidColor;
+            return new RayHit(scene.voidColor, 1000);
+
         }
 
+        this.distance = hitPoint.distanceTo(this.getOrigin());
         Vector3 normal = hitObject.getNormalAt(hitPoint);
 
 
@@ -133,7 +137,7 @@ public class Ray {
 
         if(reachAbleLights.size() == 0){
             //No lights absolute shadow
-            return Color.BLACK;
+            new RayHit(Color.BLACK, this.distance);
         }
 
         Color cur = hitObject.getMaterial().getColor();
@@ -148,7 +152,8 @@ public class Ray {
         double prod = Vector3.dot(lightDir, normal);
         prod += 1;
         prod *=0.5;
-        return cur.interpolate(Color.BLACK, prod);
+        Color returnColor = cur.interpolate(Color.BLACK, prod);
+        return new RayHit(returnColor, this.distance);
 
     }
 

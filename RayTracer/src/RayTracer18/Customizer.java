@@ -117,7 +117,7 @@ public class Customizer {
         colorPicker.setValue(object.getMaterial().getColor());
 
         //Reflectivity slider
-        slider.setValue(object.getMaterial().reflection);
+        slider.setValue(object.getMaterial().getReflection());
         slider.setMin(0f);
         slider.setMax(1f);
         slider.setBlockIncrement(.1);

@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 public class RayHit {
 
     private double distance;
-    private Color color;
+    public Color color;
     public RayHit(Color c, double distance){
             this.distance = distance;
             this.color = c;

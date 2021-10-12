@@ -288,9 +288,10 @@ public class Main extends Application {
         Material blue = new Material(Color.BLUE);
         Material green = new Material(Color.GREEN);
         Material red = new Material(Color.RED);
-        Material mirror = new Material(Color.WHITE);
         Material orange = new Material(Color.ORANGE);
-        mirror.setReflection(1);
+        Material mirror = new Material(Color.GRAY);
+
+        mirror.setReflection(0.4);
 
         Triangle t = new Triangle(
                 new Vector3(1, 0, 5),

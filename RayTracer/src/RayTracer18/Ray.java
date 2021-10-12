@@ -25,6 +25,8 @@ public class Ray {
     public double distance = 0;
 
 
+    public Color currentColor;
+
 
 
     public Ray(Vector3 origin, Vector3 direction, Scene3D scene){
@@ -74,6 +76,10 @@ public class Ray {
 
 
     public RayHit shoot(){
+
+
+
+
         //Loop through all objects in the scene to see if it intersects with the current ray
         Object3D hitObject = null;
         Vector3 hitPoint = new Vector3();
@@ -103,8 +109,8 @@ public class Ray {
         this.distance = hitPoint.distanceTo(this.getOrigin());
         Vector3 normal = hitObject.getNormalAt(hitPoint);
 
-
-        if(hitObject.getMaterial().reflection == 1 && this.bounces < this.MAX_BOUNCES){
+        double reflectionAmount = hitObject.getMaterial().getReflection();
+        if(reflectionAmount > 0 && this.bounces < this.MAX_BOUNCES){
 
             Vector3 reflectionEquation = normal.clone().multiplyScalar(Vector3.dot(this.getDirection(), normal.clone())*2);
             Vector3 direction = Vector3.sub(this.getDirection(), reflectionEquation);
@@ -113,7 +119,11 @@ public class Ray {
             Ray reflectionRay = new Ray(startingPoint, direction, scene);
 
             reflectionRay.incrementBounces(this.bounces + 1);
-            return reflectionRay.shoot();
+            RayHit refHit = reflectionRay.shoot();
+            currentColor = hitObject.getMaterial().getColor().interpolate(refHit.color, reflectionAmount);
+            refHit.color = currentColor;
+            return refHit;
+
         }
 
 

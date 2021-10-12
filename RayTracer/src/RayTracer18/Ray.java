@@ -151,12 +151,16 @@ public class Ray {
         }
 
         Color cur = hitObject.getMaterial().getColor();
-        for (Light l : reachAbleLights){
-            double strength = l.intensity / l.position.distanceTo(hitPoint);
 
-            cur = cur.interpolate(l.color,  Math.min((1/Math.pow(hitPoint.distanceTo(l.position) , 2))* l.intensity, 1 ));
 
+        int totalWeight = 0;
+        for(Light l: reachAbleLights){
+            totalWeight += l.intensity;
         }
+        for (Light l : reachAbleLights){
+           cur = cur.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
+        }
+
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
         double prod = Vector3.dot(lightDir, normal);

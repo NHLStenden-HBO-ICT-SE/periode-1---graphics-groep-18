@@ -291,7 +291,7 @@ public class Main extends Application {
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
 
-        mirror.setReflection(0.4);
+        mirror.setReflection(1);
 
         Triangle t = new Triangle(
                 new Vector3(1, 0, 5),
@@ -315,17 +315,21 @@ public class Main extends Application {
         scene.add(p3);
         p3.applyMaterial(orange);
 
-        Sphere s = new Sphere(new Vector3(2,1,2), 1);
+        Sphere s = new Sphere(new Vector3(2,0.5,2), 1);
         s.applyMaterial(mirror);
+        Sphere ss = new Sphere(new Vector3(-2,0.5,2), 1);
+        ss.applyMaterial(blue);
 
-        Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
-        b.applyMaterial(red);
-
+//        Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
+//        b.applyMaterial(red);
+//        scene.add(b);
         scene.add(s);
-        scene.add(b);
+        scene.add(ss);
 
-        PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.YELLOW);
         scene.add(l);
+        PointLight l2 = new PointLight(new Vector3(-1.5,1,0), 2f, Color.BLUE);
+        scene.add(l2);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }
 

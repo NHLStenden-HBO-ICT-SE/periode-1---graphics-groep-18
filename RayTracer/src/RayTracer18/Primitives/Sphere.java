@@ -7,7 +7,7 @@ import RayTracer18.Vector3;
 import java.util.Random;
 
 public class Sphere extends Object3D{
-    double radius;
+    private double radius;
 
     public Sphere(Vector3 pos, double radius) {
         super(pos);
@@ -15,6 +15,9 @@ public class Sphere extends Object3D{
         this.name = "Sphere";
     }
 
+    public void setScale(double scale){
+        this.radius = this.radius * scale;
+    }
 
     @Override
     public Vector3 calculateIntersection(Ray ray) {

@@ -14,6 +14,10 @@ public class Box extends Object3D {
         this.name = "Box";
 
     }
+    public void setScale(double scale){
+//        this.position = new Vector3(this.position.x * scale, this.position.y * scale, this.position.z * scale);
+        this.max = new Vector3(this.max.x * scale, this.max.y * scale, this.max.z * scale);
+    }
 
     @Override
     public Vector3 calculateIntersection(Ray ray) {

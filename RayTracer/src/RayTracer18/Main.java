@@ -136,7 +136,7 @@ public class Main extends Application {
         rightPane.add(coordsLabel, 0, 2);
         rightPane.add(sliderLabel, 0, 3);
         applyButton.setText("Apply");
-        rightPane.add(applyButton, 0, 13);
+        rightPane.add(applyButton, 0, 15);
 
 
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -185,6 +185,7 @@ public class Main extends Application {
                     else if (selectedLight != null)
                         coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
 
+                    customizer.sliderScale.setValue(1f);
                     Renderer.renderScene(scene, canvas);
                     createHierarchy();
                 });
@@ -253,11 +254,11 @@ public class Main extends Application {
         Sphere ss = new Sphere(new Vector3(-2,0.5,2), 1);
         ss.applyMaterial(blue);
 
-//        Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
-//        b.applyMaterial(red);
-//        scene.add(b);
+        Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
+        b.applyMaterial(red);
+        scene.add(b);
         scene.add(s);
-        scene.add(ss);
+//        scene.add(ss);
 
         PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.YELLOW);
         scene.add(l);

@@ -1,7 +1,9 @@
 package RayTracer18;
 
 import RayTracer18.Light.Light;
+import RayTracer18.Primitives.Box;
 import RayTracer18.Primitives.Object3D;
+import RayTracer18.Primitives.Sphere;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 public class Customizer {
 
     Slider slider = new Slider();
+    Slider sliderScale = new Slider();
     ColorPicker colorPicker = new ColorPicker();
     TextField numberFieldX = new TextField();
     TextField numberFieldY = new TextField();
@@ -26,18 +29,23 @@ public class Customizer {
         gridPane.add(labelColorPicker, 0, 5);
         gridPane.add(colorPicker, 0, 6);
 
+        Label labelScale = new Label();
+        labelScale.setText("Scale: ");
+        gridPane.add(labelScale, 0, 7);
+        gridPane.add(sliderScale, 0, 8);
+
         Label labelX = new Label();
         labelX.setText("X: ");
-        gridPane.add(labelX, 0, 7);
-        gridPane.add(numberFieldX, 0, 8);
+        gridPane.add(labelX, 0, 9);
+        gridPane.add(numberFieldX, 0, 10);
         Label labelY = new Label();
         labelY.setText("Y: ");
-        gridPane.add(labelY, 0, 9);
-        gridPane.add(numberFieldY, 0, 10);
+        gridPane.add(labelY, 0, 11);
+        gridPane.add(numberFieldY, 0, 12);
         Label labelZ = new Label();
         labelZ.setText("Z: ");
-        gridPane.add(labelZ, 0, 11);
-        gridPane.add(numberFieldZ, 0, 12);
+        gridPane.add(labelZ, 0, 13);
+        gridPane.add(numberFieldZ, 0, 14);
 
 
     }
@@ -125,6 +133,15 @@ public class Customizer {
         slider.setShowTickLabels(true);
         slider.setSnapToTicks(true);
 
+        //Scale
+        sliderScale.setValue(1f);
+        sliderScale.setMin(0f);
+        sliderScale.setMax(10f);
+        sliderScale.setBlockIncrement(.5);
+        sliderScale.setMajorTickUnit(1);
+        sliderScale.setShowTickLabels(true);
+        sliderScale.setSnapToTicks(true);
+
         //Text field for changing x
         numberFieldX.setText(String.valueOf(object.position.getX()));
 
@@ -177,6 +194,17 @@ public class Customizer {
         //Sets reflectivity of current object
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             reflectivity[0] = (double) newValue;
+        });
+
+        sliderScale.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(object.name.contains("Sphere")) {
+                Sphere sphere = (Sphere) object;
+                sphere.setScale((Double) newValue);
+            }
+            if(object.name.contains("Box")) {
+                Box box = (Box) object;
+                box.setScale((Double) newValue);
+            }
         });
 
         //Sets color of current object

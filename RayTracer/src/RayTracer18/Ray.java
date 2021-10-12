@@ -2,13 +2,12 @@ package RayTracer18;
 
 
 import RayTracer18.Light.Light;
+import RayTracer18.ObjLoader.*;
 import RayTracer18.Primitives.Object3D;
-import RayTracer18.Primitives.Plane;
-import RayTracer18.Primitives.Sphere;
-import RayTracer18.Primitives.Triangle;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Ray {
 
@@ -44,6 +43,9 @@ public class Ray {
 
     }
 
+    public Vector3 pointAt(double t) {
+        return this.origin.add(this.direction.multiply((float) t));
+    }
 
     public Vector3 getOrigin(){
         return this.origin.clone();
@@ -87,15 +89,38 @@ public class Ray {
 
 
         for (Object3D ob: this.scene.getObjects()) {
-            Vector3 crossPoint = ob.calculateIntersection(this);
-            if(crossPoint == null){
-                continue;
+            if (ob instanceof ObjLoader){
+                try {
+                    ArrayList<Triangle> triangles = new ArrayList<Triangle>(Arrays.asList(ObjLoader.parseFile(((ObjLoader) ob).file)));
+                    for (Triangle triangle : triangles){
+                        triangle.applyMaterial(ob.getMaterial());
+                        Vector3 crossPoint = triangle.calculateIntersection(this);
+                        if(crossPoint == null){
+                            continue;
+                        }
+                        double distance = Vector3.sub(scene.camera.getPosition(),crossPoint).getLength();
+                        if(distance < smallestDistance){
+                            hitObject = triangle;
+                            smallestDistance = distance;
+                            hitPoint = crossPoint;
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            double distance = Vector3.sub(scene.camera.getPosition(),crossPoint).getLength();
-            if(distance < smallestDistance){
-                hitObject = ob;
-                smallestDistance = distance;
-                hitPoint = crossPoint;
+            else {
+                Vector3 crossPoint = ob.calculateIntersection(this);
+                if(crossPoint == null){
+                    continue;
+                }
+                double distance = Vector3.sub(scene.camera.getPosition(),crossPoint).getLength();
+                if(distance < smallestDistance){
+                    hitObject = ob;
+                    smallestDistance = distance;
+                    hitPoint = crossPoint;
+                }
             }
         }
 
@@ -107,6 +132,7 @@ public class Ray {
         }
 
         this.distance = hitPoint.distanceTo(this.getOrigin());
+
         Vector3 normal = hitObject.getNormalAt(hitPoint);
 
         double reflectionAmount = hitObject.getMaterial().getReflection();

@@ -24,9 +24,6 @@ public abstract class Object3D {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Object3D(RayTracer18.ObjLoader.Material material) {
-    }
-
     public void rotate() {
 
     }

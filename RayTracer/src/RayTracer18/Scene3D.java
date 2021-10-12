@@ -1,10 +1,13 @@
 package RayTracer18;
 
 import RayTracer18.Light.Light;
+import RayTracer18.ObjLoader.ObjLoader;
 import RayTracer18.Primitives.Object3D;
+import RayTracer18.Primitives.Triangle;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Scene3D {
 
@@ -21,8 +24,24 @@ public class Scene3D {
         this.voidColor = Color.PURPLE;
 
     }
+    public void add(ArrayList<Triangle> triangles){
+        this.objects.addAll(triangles);
+    }
+
 
     public void add(Object3D ob){
+        if (ob instanceof ObjLoader){
+            try {
+                Triangle[] triangles = ObjLoader.parseFile(((ObjLoader) ob).file);
+                for (Triangle triangle : triangles){
+                    triangle.applyMaterial(ob.getMaterial());
+                }
+                objects.addAll(List.of(triangles));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
         this.objects.add(ob);
     }
 

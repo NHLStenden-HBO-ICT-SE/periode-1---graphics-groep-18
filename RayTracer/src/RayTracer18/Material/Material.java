@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 
 public class Material {
     public Color color;
-    public double reflection;
+    private double reflection;
 
     public Material(Color c){
         this.color = c;
@@ -20,6 +20,9 @@ public class Material {
         return color;
     }
 
+    public double getReflection(){
+        return reflection;
+    }
 
     @Override
     public String toString() {

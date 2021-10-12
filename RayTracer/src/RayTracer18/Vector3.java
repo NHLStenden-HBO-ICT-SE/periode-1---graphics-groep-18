@@ -221,10 +221,24 @@ public class Vector3 {
         return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
     }
 
+    public Vector3 transformVector(Matrix matrix) {
+        if(this.getLength() != matrix.getColumns())
+            throw new RuntimeException("Invalid input");
+        int rows = 3;
+        int columns = 3;
+        double[] listVector = new double[rows];
 
-
-
-
-
+        for (int i = 0; i < rows; i++){
+            double value = 0;
+            for (int j = 0; j < columns; j++){
+                value += matrix.matrix[i][j] * this.toArray()[j];
+            }
+            listVector[i] = value;
+        }
+        this.x = listVector[0];
+        this.y = listVector[1];
+        this.z = listVector[2];
+        return this;
+    }
 }
 

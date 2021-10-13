@@ -27,15 +27,26 @@ public class ObjLoader extends Object3D {
         return new Vector3(Double.parseDouble(data[1]), Double.parseDouble(data[2]), Double.parseDouble(data[3]));
     }
 
-    public static Triangle parseFace(String[] data, ArrayList<Vector3> vertices) {
-        return new Triangle(
+    public static ArrayList<Triangle> parseFace(String[] data, ArrayList<Vector3> vertices) {
+        ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+        triangles.add(new Triangle(
                 null,
-                parseTriangleVertex(data[1].split("/"), vertices),
-                parseTriangleVertex(data[2].split("/"), vertices),
-                parseTriangleVertex(data[3].split("/"), vertices)
+                parseTriangleVertex(data[1].split("/"), vertices).add(new Vector3(0,-1,6)),
+                parseTriangleVertex(data[2].split("/"), vertices).add(new Vector3(0,-1,6)),
+                parseTriangleVertex(data[3].split("/"), vertices).add(new Vector3(0,-1,6))
+        ));
 
+        if (data.length == 5){
+            triangles.add(new Triangle(
+                    null,
+                    parseTriangleVertex(data[1].split("/"), vertices).add(new Vector3(0,-1,6)),
+                    parseTriangleVertex(data[3].split("/"), vertices).add(new Vector3(0,-1,6)),
+                    parseTriangleVertex(data[4].split("/"), vertices).add(new Vector3(0,-1,6))
 
-        );
+            ));
+        }
+
+        return triangles;
     }
     public static Vector3 parseTriangleVertex(String[] data, ArrayList<Vector3> vertices) {
         Vector3 vertex = null;
@@ -63,7 +74,7 @@ public class ObjLoader extends Object3D {
                     break;
 
                 case "f":
-                    faces.add(parseFace(data, vertices));
+                    faces.addAll(parseFace(data, vertices));
                     break;
             }
         }

@@ -3,6 +3,7 @@ package RayTracer18;
 import RayTracer18.Light.Light;
 import RayTracer18.Light.PointLight;
 import RayTracer18.Material.Material;
+import RayTracer18.ObjLoader.ObjLoader;
 import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -19,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -213,7 +215,7 @@ public class Main extends Application {
         borderPane.setRight(rightPane);
         borderPane.setBottom(statusbar);
 
-        primaryStage.setScene(new Scene(borderPane, 1800, 820));
+        primaryStage.setScene(new Scene(borderPane, 1200, 800));
         primaryStage.show();
 
     }
@@ -240,9 +242,9 @@ public class Main extends Application {
 
         //TODO: make this working correclty
 
-        //ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File("C:\\Users\\Tjerk Venema\\Documents\\periode-1---graphics-groep-18\\periode-1---graphics-groep-18\\RayTracer\\src\\Models\\kleinebox.obj"), 1.0);
-        //objLoader.applyMaterial(red);
-        //scene.add(objLoader);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File("C:\\Users\\tjerk\\Documents\\GitHub\\periode-1---graphics-groep-18\\RayTracer\\src\\Models\\busobj.obj"), 1.0);
+        objLoader.applyMaterial(red);
+        scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         //scene.add(p);
@@ -266,8 +268,8 @@ public class Main extends Application {
 
         PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.YELLOW);
         scene.add(l);
-        PointLight l2 = new PointLight(new Vector3(-1.5,1,0), 2f, Color.BLUE);
-        scene.add(l2);
+//        PointLight l2 = new PointLight(new Vector3(-1.5,1,0), 2f, Color.BLUE);
+//        scene.add(l2);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }
 

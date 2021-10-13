@@ -34,6 +34,7 @@ public class Scene3D {
             try {
                 Triangle[] triangles = ObjLoader.parseFile(((ObjLoader) ob).file);
                 for (Triangle triangle : triangles){
+                    triangle.position = ob.position;
                     triangle.applyMaterial(ob.getMaterial());
                 }
                 objects.addAll(List.of(triangles));

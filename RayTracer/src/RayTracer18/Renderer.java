@@ -21,6 +21,8 @@ public class Renderer {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         PixelWriter pxw = gc.getPixelWriter();
         for (int x =0 ; x < canvas.getWidth(); x++){
+            System.out.println("Progress: " + x/ canvas.getWidth()*100);
+
             for(int y=0; y < canvas.getHeight(); y++){
                 //Canvas y = 0 is the top, in 3d its the bottom.
                 int useY = (int)(canvas.getHeight() - y);

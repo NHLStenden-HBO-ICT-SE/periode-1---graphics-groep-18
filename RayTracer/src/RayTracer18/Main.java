@@ -37,6 +37,7 @@ public class Main extends Application {
     Label idLabel = new Label();
     Label coordsLabel = new Label();
     Button applyButton = new Button();
+    public static ProgressBar progressBar = new ProgressBar(0);
 
 
     public void addMouseScrolling(Node node) {
@@ -111,9 +112,9 @@ public class Main extends Application {
         createHierarchy();
 //        customizeLights();
 
-        Button button = new Button();
-        button.setText("Render");
-        button.setOnAction(e -> {
+        Button renderButton = new Button();
+        renderButton.setText("Render");
+        renderButton.setOnAction(e -> {
 
             Vector3 d = new Vector3(1, -1, 0);
             Vector3 n = new Vector3(0, 1, 0);
@@ -197,9 +198,10 @@ public class Main extends Application {
             }
         });
 
-        gridPane.add(button, 0, 0);
-        gridPane.add(label, 1, 0);
-        gridPane.add(slider, 2, 0);
+        gridPane.add(progressBar, 0, 0);
+        gridPane.add(renderButton, 0, 1);
+        gridPane.add(label, 1, 1);
+        gridPane.add(slider, 2, 1);
         tree.setMinWidth(600);
         rightPane.add(tree, 0, 0);
 

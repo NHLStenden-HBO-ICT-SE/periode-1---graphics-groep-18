@@ -22,6 +22,7 @@ public class Renderer {
         PixelWriter pxw = gc.getPixelWriter();
         for (int x =0 ; x < canvas.getWidth(); x++){
             System.out.println("Progress: " + x/ canvas.getWidth()*100);
+            Main.progressBar.setProgress(x/ canvas.getWidth()*100);
 
             for(int y=0; y < canvas.getHeight(); y++){
                 //Canvas y = 0 is the top, in 3d its the bottom.

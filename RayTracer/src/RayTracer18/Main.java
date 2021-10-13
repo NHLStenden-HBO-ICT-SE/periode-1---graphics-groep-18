@@ -28,7 +28,7 @@ public class Main extends Application {
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(1200, 600);
+    Canvas canvas = new Canvas(1000, 400);
     Object3D lastSelected = null;
     Customizer customizer = new Customizer();
 
@@ -213,7 +213,7 @@ public class Main extends Application {
         borderPane.setRight(rightPane);
         borderPane.setBottom(statusbar);
 
-        primaryStage.setScene(new Scene(borderPane, 1800, 820));
+        primaryStage.setScene(new Scene(borderPane, 1500, 750));
         primaryStage.show();
 
     }
@@ -245,13 +245,13 @@ public class Main extends Application {
         //scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
-        //scene.add(p);
+        scene.add(p);
         p.applyMaterial(green);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
-        //scene.add(p2);
+        scene.add(p2);
         p2.applyMaterial(green);
         Plane p3 = new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1));
-        //scene.add(p3);
+        scene.add(p3);
         p3.applyMaterial(orange);
 
         Sphere s = new Sphere(new Vector3(2,0.5,2), 1);
@@ -260,8 +260,8 @@ public class Main extends Application {
         ss.applyMaterial(blue);
         Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         b.applyMaterial(red);
-        //scene.add(b);
-        //scene.add(s);
+        scene.add(b);
+        scene.add(s);
 //        scene.add(ss);
 
         PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.YELLOW);

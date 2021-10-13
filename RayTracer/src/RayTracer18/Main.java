@@ -243,17 +243,17 @@ public class Main extends Application {
         //TODO: make this working correclty
 
         ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
-        objLoader.applyMaterial(red);
+        objLoader.applyMaterial(green);
         scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
-        //scene.add(p);
+        scene.add(p);
         p.applyMaterial(green);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
-        //scene.add(p2);
+        scene.add(p2);
         p2.applyMaterial(green);
         Plane p3 = new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1));
-        //scene.add(p3);
+        scene.add(p3);
         p3.applyMaterial(orange);
 
         Sphere s = new Sphere(new Vector3(2,0.5,2), 1);

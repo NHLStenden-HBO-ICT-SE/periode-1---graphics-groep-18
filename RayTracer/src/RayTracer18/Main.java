@@ -242,7 +242,7 @@ public class Main extends Application {
 
         //TODO: make this working correclty
 
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File("C:\\Users\\tjerk\\Documents\\GitHub\\periode-1---graphics-groep-18\\RayTracer\\src\\Models\\busobj.obj"), 1.0);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
         objLoader.applyMaterial(red);
         scene.add(objLoader);
 

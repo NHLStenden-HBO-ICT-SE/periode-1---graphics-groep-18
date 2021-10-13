@@ -24,10 +24,12 @@ public class ObjLoader extends Object3D {
     }
 
     public static Vector3 parseVertex(String[] data) {
+        //returns the vertex of a given triangle by the data in the string
         return new Vector3(Double.parseDouble(data[1]), Double.parseDouble(data[2]), Double.parseDouble(data[3]));
     }
 
     public static ArrayList<Triangle> parseFace(String[] data, ArrayList<Vector3> vertices) {
+        //returns the triangle out of the given vertices
         ArrayList<Triangle> triangles = new ArrayList<Triangle>();
         triangles.add(new Triangle(
                 null,
@@ -36,6 +38,7 @@ public class ObjLoader extends Object3D {
                 parseTriangleVertex(data[3].split("/"), vertices).add(new Vector3(0,-1,6))
         ));
 
+        //checks if the data is a quad instead of a triangle, if so it will split the quad and add two triangles
         if (data.length == 5){
             triangles.add(new Triangle(
                     null,
@@ -49,6 +52,7 @@ public class ObjLoader extends Object3D {
         return triangles;
     }
     public static Vector3 parseTriangleVertex(String[] data, ArrayList<Vector3> vertices) {
+        //returns the one of the vertices of the triangle
         Vector3 vertex = null;
         if (!data[0].isEmpty()) {
             int vertexIndex = Integer.parseInt(data[0]) - 1;
@@ -58,6 +62,9 @@ public class ObjLoader extends Object3D {
     }
 
     public static Triangle[] parseFile(File file) throws Exception {
+
+        //reads the provided obj file and parses the file into triangles
+
         BufferedReader input = new BufferedReader(new FileReader(file));
 
         ArrayList<Vector3> vertices = new ArrayList<>();

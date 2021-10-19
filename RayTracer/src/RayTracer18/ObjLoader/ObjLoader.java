@@ -4,6 +4,7 @@ package RayTracer18.ObjLoader;
 import RayTracer18.Primitives.Object3D;
 import RayTracer18.Primitives.Triangle;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -90,5 +91,10 @@ public class ObjLoader extends Object3D {
         Triangle[] facesArray = new Triangle[faces.size()];
         facesArray = faces.toArray(facesArray);
         return facesArray;
+    }
+
+    @Override
+    public Color getColorAt(Vector3 cords) {
+        return getMaterial().color;
     }
 }

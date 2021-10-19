@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main extends Application {
 
@@ -221,6 +222,9 @@ public class Main extends Application {
     }
 
 
+
+
+
     public static void initRender(Scene3D scene, Canvas canvas) {
         Material blue = new Material(Color.BLUE);
         Material green = new Material(Color.GREEN);
@@ -228,7 +232,7 @@ public class Main extends Application {
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
 
-        mirror.setReflection(0.5);
+        mirror.setReflection(1);
 
         Triangle t = new Triangle(
                 new Vector3(1, 0, 5),
@@ -242,9 +246,9 @@ public class Main extends Application {
 
         //TODO: make this working correclty
 
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
-        objLoader.applyMaterial(green);
-        scene.add(objLoader);
+//        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
+//        objLoader.applyMaterial(green);
+//        scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
@@ -256,20 +260,25 @@ public class Main extends Application {
         scene.add(p3);
         p3.applyMaterial(orange);
 
-        Sphere mirrorSphere = new Sphere(new Vector3(2,0.5,2), 1);
+        Sphere mirrorSphere = new Sphere(new Vector3(-2,0.5,2), 1);
         mirrorSphere.applyMaterial(mirror);
-        Sphere normalSphere = new Sphere(new Vector3(-2,0.5,2), 1);
-        normalSphere.applyMaterial(blue);
+
+
+
+
+
+
+
+
         Box box = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         box.applyMaterial(red);
         scene.add(box);
-        scene.add(normalSphere);
         scene.add(mirrorSphere);
 
-        PointLight l = new PointLight(new Vector3(2,2,0), 1f, Color.YELLOW);
+        PointLight l = new PointLight(new Vector3(2,2,0), 4f, Color.ORANGE);
         scene.add(l);
-//        PointLight l2 = new PointLight(new Vector3(-1.5,1,0), 2f, Color.BLUE);
-//        scene.add(l2);
+        PointLight l2 = new PointLight(new Vector3(-1.5,1,0), 2f, Color.BLUE);
+        scene.add(l2);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }
 

@@ -3,6 +3,7 @@ package RayTracer18.Primitives;
 import RayTracer18.Ray;
 import RayTracer18.Vector2;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 import java.util.Random;
 
@@ -41,6 +42,10 @@ public class Sphere extends Object3D{
         return ray.getDirection().multiplyScalar((-b - Math.sqrt(discriminant)) / (2.0*a));
     }
 
+    @Override
+    public Color getColorAt(Vector3 cords) {
+        return getMaterial().color;
+    }
 
     @Override
     public Vector3 getNormalAt(Vector3 point) {

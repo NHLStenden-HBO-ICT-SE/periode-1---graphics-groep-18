@@ -3,6 +3,7 @@ package RayTracer18.Primitives;
 import RayTracer18.Ray;
 import RayTracer18.Renderer;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 public class Plane extends Object3D{
 
@@ -32,6 +33,21 @@ public class Plane extends Object3D{
         }
         return null;
 
+    }
+
+
+    @Override
+    public Color getColorAt(Vector3 cords) {
+        if(Math.sin(cords.getX()*4) <0){
+            if(Math.cos(cords.getZ()*4) > 0){
+                return Color.WHITE;
+            }
+            return Color.GRAY;
+        }
+        if(Math.cos(cords.getZ()*4) > 0){
+            return Color.GRAY;
+        }
+        return Color.WHITE;
     }
 
     @Override

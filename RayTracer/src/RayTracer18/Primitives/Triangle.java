@@ -3,6 +3,7 @@ package RayTracer18.Primitives;
 import RayTracer18.Ray;
 import RayTracer18.Renderer;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 import static RayTracer18.Vector3.*;
 
@@ -67,6 +68,11 @@ public class Triangle extends Object3D{
         endpoint.add(towards);
 
         return endpoint;
+    }
+
+    @Override
+    public Color getColorAt(Vector3 cords) {
+        return getMaterial().color;
     }
 
     @Override

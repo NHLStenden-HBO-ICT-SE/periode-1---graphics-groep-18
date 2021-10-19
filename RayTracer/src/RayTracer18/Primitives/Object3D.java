@@ -4,6 +4,7 @@ package RayTracer18.Primitives;
 import RayTracer18.Material.Material;
 import RayTracer18.Ray;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 import java.util.UUID;
 
@@ -58,6 +59,11 @@ public abstract class Object3D {
         this.position = position;
     }
 
+
+    public Color getColorAt(Vector3 cords){
+        System.out.println("Not implented");
+        return null;
+    }
 
     public Vector3 calculateIntersection(Ray ray) {
         return null;

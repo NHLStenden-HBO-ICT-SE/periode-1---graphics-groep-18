@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -24,8 +25,15 @@ public class Renderer {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         PixelWriter pxw = gc.getPixelWriter();
+        Date start = new Date();
         for (int x =0 ; x < canvas.getWidth(); x++){
-            System.out.println("Progress: " + x/ canvas.getWidth()*100);
+            double progress = x/ canvas.getWidth()*100;
+
+            Date now = new Date();
+            double dif = (now.getTime()- start.getTime())/1000;
+
+            double toGo = (100 - progress) * (dif/progress);
+            System.out.println(Math.round(toGo) + " seconds left(" +Math.round(progress) + "%)");
             Main.progressBar.setProgress(x/ canvas.getWidth()*100);
 
             for(int y=0; y < canvas.getHeight(); y++){

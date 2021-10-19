@@ -123,6 +123,7 @@ public class Ray {
             reflectionRay.from = hitObject;
 
             RayHit refHit = reflectionRay.shoot();
+
             currentColor = hitObject.getMaterial().getColor().interpolate(refHit.color, reflectionAmount);
             refHit.color = currentColor;
             return refHit;
@@ -130,7 +131,7 @@ public class Ray {
         }
 
 
-        ArrayList<Light> reachAbleLights = new ArrayList<Light>();
+        ArrayList<Light> reachAbleLights = new ArrayList<>();
 
         for (Light light:scene.getLights()) {
 
@@ -158,22 +159,25 @@ public class Ray {
             return new RayHit(Color.BLACK, this.distance);
         }
 
-        Color cur = hitObject.getMaterial().getColor();
+        Color cur = hitObject.getColorAt(hitPoint);
 
 
-        int totalWeight = 0;
+
+        Color lightcolor = Color.BLACK;
         for(Light l: reachAbleLights){
-            totalWeight += l.intensity;
+            lightcolor = lightcolor.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
         }
-        for (Light l : reachAbleLights){
-           cur = cur.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
-        }
+
+        cur = Utils.mixColors(cur, lightcolor);
+
+
 
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
         double prod = Vector3.dot(lightDir, normal);
         prod += 1;
         prod *=0.5;
+
         Color returnColor = cur.interpolate(Color.BLACK, prod);
         return new RayHit(returnColor, this.distance);
 

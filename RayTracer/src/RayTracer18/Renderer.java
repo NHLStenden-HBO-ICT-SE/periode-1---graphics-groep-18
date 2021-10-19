@@ -7,16 +7,20 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 
 public class Renderer {
 
 
     public static double EPSILON = 0.001;
-
+    public static Dictionary<String, RayHit> storage = new Hashtable<>();
 
     public static void renderScene(Scene3D scene, Canvas canvas) {
 
-        //BufferedImage im = new BufferedImage(700, 350, BufferedImage.TYPE);
+        storage = new Hashtable<>();
+
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         PixelWriter pxw = gc.getPixelWriter();
@@ -29,10 +33,12 @@ public class Renderer {
                 int useY = (int)(canvas.getHeight() - y);
                 RayHit rayHit = scene.camera.getRayHit(x, y);
                 Color c = rayHit.getColor();
+                storage.put(x + "_" + y, rayHit);
                 if(c == null){
                     c = scene.voidColor;
 
                 }
+
                 pxw.setColor(x, useY, c);
 
 

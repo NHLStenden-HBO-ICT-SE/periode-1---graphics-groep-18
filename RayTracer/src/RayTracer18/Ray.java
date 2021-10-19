@@ -58,9 +58,9 @@ public class Ray {
         for (Object3D ob: this.scene.getObjects()) {
             Vector3 crossPoint = ob.calculateIntersection(this);
             if(crossPoint != null){
-
                 double distanceToPoint = this.getOrigin().distanceTo(crossPoint);
                 double distanceToLight = this.getOrigin().distanceTo(l.position);
+
                 if( distanceToPoint < distanceToLight ){
                     return true;
                 }
@@ -98,6 +98,7 @@ public class Ray {
 
 
         if(hitObject == null){
+
             return new RayHit(scene.voidColor, 1000);
 
         }
@@ -125,6 +126,7 @@ public class Ray {
 
 
         ArrayList<Light> reachAbleLights = new ArrayList<Light>();
+
         for (Light light:scene.getLights()) {
 
             Vector3 rayDir = Vector3.sub(light.position, hitPoint).normalize();
@@ -133,6 +135,7 @@ public class Ray {
             Ray shadowRay = new Ray(startingPoint,rayDir , scene);
 
             boolean hasBlockade = shadowRay.hasBlockade(light);
+            //If not blocked, add it to reachable
             if(!hasBlockade){
                 reachAbleLights.add(light);
             }
@@ -144,7 +147,7 @@ public class Ray {
 
         if(reachAbleLights.size() == 0){
             //No lights absolute shadow
-            new RayHit(Color.BLACK, this.distance);
+            return new RayHit(Color.BLACK, this.distance);
         }
 
         Color cur = hitObject.getMaterial().getColor();

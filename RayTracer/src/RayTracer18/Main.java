@@ -116,12 +116,10 @@ public class Main extends Application {
         renderButton.setText("Render");
         renderButton.setOnAction(e -> {
 
-            Vector3 d = new Vector3(1, -1, 0);
-            Vector3 n = new Vector3(0, 1, 0);
-            Vector3 reflectionEquation = Vector3.multiply(d, n).multiply(2).multiply(n);
-            Vector3 direction = Vector3.sub(d, reflectionEquation);
-            System.out.println(direction);
+
+
             Renderer.renderScene(scene, canvas);
+            System.out.println(Renderer.storage.get("950_220"));
 
 
         });
@@ -234,9 +232,9 @@ public class Main extends Application {
 
         Triangle t = new Triangle(
                 new Vector3(1, 0, 5),
-                new Vector3(-2, 0, 5),
+                new Vector3(-2, -0.5, 3),
                 new Vector3(1, 6, 5),
-                new Vector3(4, 0, 5));
+                new Vector3(4, -0.5, 5));
 
         //scene.add(t);
         t.applyMaterial(blue);
@@ -244,9 +242,9 @@ public class Main extends Application {
 
         //TODO: make this working correclty
 
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
-        objLoader.applyMaterial(green);
-        scene.add(objLoader);
+//        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
+//        objLoader.applyMaterial(green);
+//        scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
@@ -264,9 +262,9 @@ public class Main extends Application {
         ss.applyMaterial(blue);
         Box b = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         b.applyMaterial(red);
-        //scene.add(b);
-        //scene.add(s);
-//        scene.add(ss);
+        scene.add(b);
+        scene.add(s);
+        scene.add(ss);
 
         PointLight l = new PointLight(new Vector3(2,0,0), 1f, Color.YELLOW);
         scene.add(l);

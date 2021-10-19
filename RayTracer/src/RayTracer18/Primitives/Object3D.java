@@ -66,7 +66,8 @@ public abstract class Object3D {
     @Override
     public String toString() {
         return "Object3D{" +
-                "position=" + position +
+                "NAME: " + name +
+                " position=" + position +
                 ", rotation=" + rotation +
                 ", material=" + material +
                 '}';

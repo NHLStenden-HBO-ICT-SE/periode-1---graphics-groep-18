@@ -246,9 +246,9 @@ public class Main extends Application {
 
         //TODO: make this working correclty
 
-//        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
-//        objLoader.applyMaterial(green);
-//        scene.add(objLoader);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/draak.obj"), 1.0);
+        objLoader.applyMaterial(green);
+        scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
@@ -275,9 +275,9 @@ public class Main extends Application {
         scene.add(box);
         scene.add(mirrorSphere);
 
-        PointLight l = new PointLight(new Vector3(2,2,0), 4f, Color.ORANGE);
+        PointLight l = new PointLight(new Vector3(2,2,4), 6f, Color.ORANGE);
         scene.add(l);
-        PointLight l2 = new PointLight(new Vector3(-1.5,1,0), 2f, Color.BLUE);
+        PointLight l2 = new PointLight(new Vector3(0,1,1), 3f, Color.BLUE);
         scene.add(l2);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }

@@ -136,7 +136,7 @@ public class Ray {
         for (Light light:scene.getLights()) {
 
             Vector3 rayDir = Vector3.sub(light.position, hitPoint).normalize();
-            Vector3 startingPoint = hitPoint.clone().add(rayDir.clone().multiplyScalar(0.01));
+            Vector3 startingPoint = hitPoint.clone().add(rayDir.clone().multiplyScalar(Renderer.EPSILON));
 
             Ray shadowRay = new Ray(startingPoint,rayDir , scene);
             shadowRay.bounces = bounces;
@@ -163,12 +163,15 @@ public class Ray {
 
 
 
-        Color lightcolor = Color.BLACK;
+        Color totalLightColor = Color.BLACK;
+
         for(Light l: reachAbleLights){
-            lightcolor = lightcolor.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
+
+            totalLightColor = totalLightColor.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
+
         }
 
-        cur = Utils.mixColors(cur, lightcolor);
+        cur = Utils.mixColors(cur, totalLightColor);
 
 
 

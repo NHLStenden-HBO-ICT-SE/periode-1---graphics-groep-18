@@ -21,10 +21,12 @@ public class Ray {
 
     public double distance = 0;
 
+    public Vector2 targetPixels;
+
 
     public Color currentColor;
 
-
+    public Object3D from = null;
 
     public Ray(Vector3 origin, Vector3 direction, Scene3D scene){
         this.t = 1;
@@ -33,10 +35,11 @@ public class Ray {
         this.origin = origin;
         this.bounces = 0;
 
+
     }
 
 
-    public void incrementBounces(int b){
+    public void incrementBounces(){
         this.bounces +=1;
 
     }
@@ -54,7 +57,7 @@ public class Ray {
 
 
 
-    public boolean hasBlockade(Light l){
+    public Vector3 hasBlockade(Light l){
         for (Object3D ob: this.scene.getObjects()) {
             Vector3 crossPoint = ob.calculateIntersection(this);
             if(crossPoint != null){
@@ -62,12 +65,13 @@ public class Ray {
                 double distanceToLight = this.getOrigin().distanceTo(l.position);
 
                 if( distanceToPoint < distanceToLight ){
-                    return true;
+
+                    return crossPoint;
                 }
 
             }
         }
-        return false;
+        return null;
 
     }
 
@@ -115,8 +119,9 @@ public class Ray {
             Vector3 startingPoint = hitPoint.add(direction.clone().multiplyScalar(Renderer.EPSILON));
 
             Ray reflectionRay = new Ray(startingPoint, direction, scene);
+            reflectionRay.incrementBounces();
+            reflectionRay.from = hitObject;
 
-            reflectionRay.incrementBounces(this.bounces + 1);
             RayHit refHit = reflectionRay.shoot();
             currentColor = hitObject.getMaterial().getColor().interpolate(refHit.color, reflectionAmount);
             refHit.color = currentColor;
@@ -130,14 +135,17 @@ public class Ray {
         for (Light light:scene.getLights()) {
 
             Vector3 rayDir = Vector3.sub(light.position, hitPoint).normalize();
-            Vector3 startingPoint = hitPoint.add(rayDir.clone().multiplyScalar(Renderer.EPSILON));
+            Vector3 startingPoint = hitPoint.clone().add(rayDir.clone().multiplyScalar(0.01));
 
             Ray shadowRay = new Ray(startingPoint,rayDir , scene);
-
-            boolean hasBlockade = shadowRay.hasBlockade(light);
+            shadowRay.bounces = bounces;
+            Vector3 blockadePosition = shadowRay.hasBlockade(light);
             //If not blocked, add it to reachable
-            if(!hasBlockade){
+            if(blockadePosition == null){
                 reachAbleLights.add(light);
+            }
+            if(this.bounces > 0 && blockadePosition != null){
+                Object3D x = this.from;
             }
 
         }

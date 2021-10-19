@@ -14,7 +14,6 @@ public class Triangle extends Object3D{
     public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3){
 
         super(pos);
-        System.out.println("triangle created");
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
@@ -50,7 +49,7 @@ public class Triangle extends Object3D{
         if (u < 0 || u > 1)
             return null;
         //Uncomment for backface culling > Rays will pass trough the backside of triangles
-//        if (det < Renderer.EPSILON)
+//        if (det < Renderer.)
 //            return null;
         Vector3 qvec = tvec.cross(v0v1);
         double v = r.getDirection().dot(qvec) * invDet;

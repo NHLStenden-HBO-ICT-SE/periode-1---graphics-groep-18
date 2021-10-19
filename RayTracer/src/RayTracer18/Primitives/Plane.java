@@ -22,9 +22,13 @@ public class Plane extends Object3D{
         if(Math.abs(dem) > Renderer.EPSILON){
             Vector3 dif = Vector3.sub(this.position, ray.getOrigin());
             double t = Vector3.dot(dif, this.normal) / dem;
-            if(t > Renderer.EPSILON){
-                return ray.getDirection().multiplyScalar(t);
+            if(t < Renderer.EPSILON){
+                return null;
             }
+            Vector3 endpoint = ray.getOrigin().add(ray.getDirection().multiplyScalar(t));
+
+
+            return endpoint;
         }
         return null;
 

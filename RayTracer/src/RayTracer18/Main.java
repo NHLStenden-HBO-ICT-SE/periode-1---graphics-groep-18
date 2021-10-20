@@ -22,7 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Main extends Application {
 
@@ -225,6 +224,8 @@ public class Main extends Application {
 
 
 
+
+
     public static void initRender(Scene3D scene, Canvas canvas) {
         Material blue = new Material(Color.BLUE);
         Material green = new Material(Color.GREEN);
@@ -275,7 +276,7 @@ public class Main extends Application {
         scene.add(box);
         scene.add(mirrorSphere);
 
-        PointLight l = new PointLight(new Vector3(2,2,4), 6f, Color.ORANGE);
+        PointLight l = new PointLight(new Vector3(0,2,4), 8f, Color.ORANGE);
         scene.add(l);
         PointLight l2 = new PointLight(new Vector3(0,1,1), 3f, Color.BLUE);
         scene.add(l2);

@@ -7,54 +7,72 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
-import java.util.Date;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.*;
 
 
 public class Renderer {
 
-
+    public static Canvas canvas;
     public static double EPSILON = 0.001;
     public static Dictionary<String, RayHit> storage = new Hashtable<>();
 
+    public static ArrayList<Thread> threads = new ArrayList<>();
+    public static ArrayList<RenderWorker> workers = new ArrayList<>();
+
+    private static Timer timer;
+    public static void draw(int x, int y, Color c){
+        canvas.getGraphicsContext2D().getPixelWriter().setColor(x, y, c);
+    }
+
+
     public static void renderScene(Scene3D scene, Canvas canvas) {
+        if(timer != null){
+            //When a ren
+            timer.cancel();
 
-        storage = new Hashtable<>();
+        }
+        Renderer.canvas = canvas;
+        int numOfThreads = Runtime.getRuntime().availableProcessors();;
+        int threadStartIndex = 0;
+        int widthPerThread = (int)canvas.getWidth()/numOfThreads;
+        if(workers.size() == 0){
+            for (int i = 0; i < numOfThreads; i++) {
 
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        PixelWriter pxw = gc.getPixelWriter();
-        Date start = new Date();
-        for (int x =0 ; x < canvas.getWidth(); x++){
-            double progress = x/ canvas.getWidth()*100;
-
-            Date now = new Date();
-            double dif = (now.getTime()- start.getTime())/1000;
-
-            double toGo = (100 - progress) * (dif/progress);
-            System.out.println(Math.round(toGo) + " seconds left(" +Math.round(progress) + "%)");
-            Main.progressBar.setProgress(x/ canvas.getWidth()*100);
-
-            for(int y=0; y < canvas.getHeight(); y++){
-                //Canvas y = 0 is the top, in 3d its the bottom.
-                int useY = (int)(canvas.getHeight() - y);
-                RayHit rayHit = scene.camera.getRayHit(x, y);
-                Color c = rayHit.getColor();
-                storage.put(x + "_" + y, rayHit);
-                if(c == null){
-                    c = scene.voidColor;
-
-                }
-
-                pxw.setColor(x, useY, c);
-
-
+                RenderWorker w1 =  new RenderWorker(threadStartIndex,threadStartIndex + widthPerThread, (int)canvas.getHeight(), scene);
+                threadStartIndex += widthPerThread;
+                workers.add(w1);
+                Renderer.threads.add(new Thread(w1, "Worker_" + threadStartIndex));
 
 
             }
-
         }
+
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                GraphicsContext gc = canvas.getGraphicsContext2D();
+                PixelWriter pxw = gc.getPixelWriter();
+                for(RenderWorker worker: workers){
+                    Hashtable<Vector2, Color> data= worker.getData();
+                    Enumeration<Vector2> keys = data.keys();
+                    while(keys.hasMoreElements()){
+                        Vector2 key = keys.nextElement();
+                        pxw.setColor((int)key.x, (int)key.y, data.get(key));
+                    }
+                }
+
+
+            }
+        }, 0, 1000);
+        for (Thread t: Renderer.threads) {
+            t.start();
+        }
+
+
+
+
 
 
 

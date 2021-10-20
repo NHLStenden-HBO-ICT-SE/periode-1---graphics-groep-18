@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 
 public class RenderWorker implements Runnable
 {
@@ -17,7 +18,7 @@ public class RenderWorker implements Runnable
     int startX;
     Scene3D scene;
     boolean exit = false;
-    public Hashtable<Vector2, Color> data = new Hashtable<>();
+    public LinkedHashMap<Vector2, Color> data = new LinkedHashMap<>();
 
     public RenderWorker(int startX, int maxX, int maxY, Scene3D scene) {
         this.maxX = maxX;
@@ -27,9 +28,12 @@ public class RenderWorker implements Runnable
 
     }
 
-    public Hashtable<Vector2, Color> getData(){
-        Hashtable<Vector2, Color> sendBack = this.data;
-        this.data = new Hashtable<>();
+    public LinkedHashMap<Vector2, Color> getData(){
+        LinkedHashMap<Vector2, Color> sendBack = this.data;
+
+
+
+        this.data = new LinkedHashMap<>();
 
         return sendBack;
     }
@@ -53,6 +57,9 @@ public class RenderWorker implements Runnable
                     Color c = rayHit.getColor();
                     if(c == null){
                         c = scene.voidColor;
+                    }
+                    if(c == null){
+                        c = Color.BLACK;
                     }
                     data.put(new Vector2(x, useY), c);
                 }

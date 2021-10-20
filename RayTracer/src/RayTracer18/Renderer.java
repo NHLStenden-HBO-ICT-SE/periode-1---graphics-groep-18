@@ -32,7 +32,11 @@ public class Renderer {
 
         }
         Renderer.canvas = canvas;
-        int numOfThreads = Runtime.getRuntime().availableProcessors();;
+        int numKeepFreeThreads = 1;
+        int numOfThreads = Runtime.getRuntime().availableProcessors() - numKeepFreeThreads;
+        System.out.println("Working with " + numOfThreads + " threads 🔥");
+        System.out.println("Scene contains " + scene.getObjects().size() + " objects.");
+        System.out.println("Canvas size: width: " + Math.round(canvas.getWidth()) + "px  height:" + Math.round(canvas.getHeight())+"px");
         int threadStartIndex = 0;
         int widthPerThread = (int)canvas.getWidth()/numOfThreads;
         if(workers.size() == 0){
@@ -55,10 +59,11 @@ public class Renderer {
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 PixelWriter pxw = gc.getPixelWriter();
                 for(RenderWorker worker: workers){
-                    Hashtable<Vector2, Color> data= worker.getData();
-                    Enumeration<Vector2> keys = data.keys();
-                    while(keys.hasMoreElements()){
-                        Vector2 key = keys.nextElement();
+                    LinkedHashMap<Vector2, Color> data= worker.getData();
+                    if(data.keySet().size() == 0){
+                        continue;
+                    }
+                   for(Vector2 key: data.keySet()){
                         pxw.setColor((int)key.x, (int)key.y, data.get(key));
                     }
                 }

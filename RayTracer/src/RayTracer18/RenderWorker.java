@@ -18,7 +18,7 @@ public class RenderWorker implements Runnable
     int startX;
     Scene3D scene;
     boolean exit = false;
-    public LinkedHashMap<Vector2, Color> data = new LinkedHashMap<>();
+    public LinkedHashMap<Vector2, RayHit> data = new LinkedHashMap<>();
 
     public RenderWorker(int startX, int maxX, int maxY, Scene3D scene) {
         this.maxX = maxX;
@@ -28,14 +28,11 @@ public class RenderWorker implements Runnable
 
     }
 
-    public LinkedHashMap<Vector2, Color> getData(){
-        LinkedHashMap<Vector2, Color> sendBack = this.data;
-
-
-
+    public LinkedHashMap<Vector2, RayHit> getData(){
+        LinkedHashMap<Vector2, RayHit> sendBack = this.data;
         this.data = new LinkedHashMap<>();
 
-        return sendBack;
+        return (LinkedHashMap<Vector2, RayHit>) sendBack.clone();
     }
     public void shutDown(){
         exit = true;
@@ -44,6 +41,7 @@ public class RenderWorker implements Runnable
     {
         try
         {
+            System.out.println(startX + " to MAX " +maxX  + " and y: " + maxY);
 
             for (int x =startX ; x < maxX; x++){
 
@@ -52,16 +50,10 @@ public class RenderWorker implements Runnable
                         return;
                     }
                     //Canvas y = 0 is the top, in 3d its the bottom.
-                    int useY = (int)(maxY - y);
+                    int useY =(maxY - y);
                     RayHit rayHit = scene.camera.getRayHit(x, y);
-                    Color c = rayHit.getColor();
-                    if(c == null){
-                        c = scene.voidColor;
-                    }
-                    if(c == null){
-                        c = Color.BLACK;
-                    }
-                    data.put(new Vector2(x, useY), c);
+
+                    data.put(new Vector2(x, useY), rayHit);
                 }
 
             }

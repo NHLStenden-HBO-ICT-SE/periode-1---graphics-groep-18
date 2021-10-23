@@ -25,7 +25,7 @@ public class Renderer {
         canvas.getGraphicsContext2D().getPixelWriter().setColor(x, y, c);
     }
 
-    public static LinkedHashMap<Vector2, RayHit> hits = new LinkedHashMap<>();
+    public static int pixelWritten = 0;
 
 
     public static void renderScene(Scene3D scene, Canvas canvas) {
@@ -78,10 +78,11 @@ public class Renderer {
                        if(c == null){
                            c = scene.voidColor;
                        }
-                       hits.put(rayHit.targetPixels, rayHit);
+                       pixelWritten += 1;
                         pxw.setColor((int)rayHit.targetPixels.x, (int)rayHit.targetPixels.y, c);
 
                     }
+                    Main.progressBar.setProgress(pixelWritten / (canvas.getWidth() * canvas.getHeight()));
                 }
 
 

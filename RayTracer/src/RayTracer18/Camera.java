@@ -67,8 +67,10 @@ public class Camera {
 
         //Create the ray with the direction from eye(this.position) to the worldPos
         Ray r = new Ray(this.position, Vector3.sub(worldPos, this.position.clone()).normalize(), this.scene);
-        r.targetPixels = new Vector2(x, y);
+        Vector2 targetPixels = new Vector2(x, y);
+        r.targetPixels = targetPixels;
         RayHit rayHit = r.shoot();
+        rayHit.targetPixels = targetPixels;
 
         return rayHit;
 

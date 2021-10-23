@@ -8,6 +8,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class Renderer {
@@ -66,17 +67,19 @@ public class Renderer {
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 PixelWriter pxw = gc.getPixelWriter();
                 for(RenderWorker worker: workers){
-                    LinkedHashMap<Vector2, RayHit> data= worker.getData();
-                    if(data.keySet().size() == 0){
+                    ConcurrentLinkedQueue<RayHit> data= worker.getData();
+                    if(data.size() == 0){
                         continue;
                     }
-                   for(Vector2 key: data.keySet()){
-                       Color c = data.get(key).getColor();
+                    Iterator<RayHit> it = data.iterator();
+                   while(it.hasNext()){
+                       RayHit rayHit = it.next();
+                       Color c = rayHit.getColor();
                        if(c == null){
                            c = scene.voidColor;
                        }
-                       hits.put(key, data.get(key));
-                        pxw.setColor((int)key.x, (int)key.y, c);
+                       hits.put(rayHit.targetPixels, rayHit);
+                        pxw.setColor((int)rayHit.targetPixels.x, (int)rayHit.targetPixels.y, c);
 
                     }
                 }

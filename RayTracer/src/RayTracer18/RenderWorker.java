@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RenderWorker implements Runnable
 {
@@ -18,7 +19,7 @@ public class RenderWorker implements Runnable
     int startX;
     Scene3D scene;
     boolean exit = false;
-    public LinkedHashMap<Vector2, RayHit> data = new LinkedHashMap<>();
+    public ConcurrentLinkedQueue<RayHit> data = new ConcurrentLinkedQueue<>();
 
     public RenderWorker(int startX, int maxX, int maxY, Scene3D scene) {
         this.maxX = maxX;
@@ -28,11 +29,13 @@ public class RenderWorker implements Runnable
 
     }
 
-    public LinkedHashMap<Vector2, RayHit> getData(){
-        LinkedHashMap<Vector2, RayHit> sendBack = this.data;
-        this.data = new LinkedHashMap<>();
-
-        return (LinkedHashMap<Vector2, RayHit>) sendBack.clone();
+    public ConcurrentLinkedQueue<RayHit> getData(){
+        ConcurrentLinkedQueue<RayHit> sendBack = this.data;
+        this.data = new ConcurrentLinkedQueue<>();
+        if(this.data.size() > 0){
+            System.out.println('l');
+        }
+        return sendBack;
     }
     public void shutDown(){
         exit = true;
@@ -51,8 +54,8 @@ public class RenderWorker implements Runnable
                     //Canvas y = 0 is the top, in 3d its the bottom.
                     int useY =(maxY - y);
                     RayHit rayHit = scene.camera.getRayHit(x, y);
-
-                    data.put(new Vector2(x, useY), rayHit);
+                    rayHit.targetPixels = new Vector2(x, useY);
+                    data.add(rayHit);
                 }
 
             }

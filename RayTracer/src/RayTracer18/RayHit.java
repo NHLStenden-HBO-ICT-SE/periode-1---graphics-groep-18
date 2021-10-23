@@ -9,6 +9,7 @@ public class RayHit {
 
     private double distance;
     public Color color;
+    public Vector2 targetPixels;
 
     public RayHit(Color c, double distance){
             this.distance = distance;

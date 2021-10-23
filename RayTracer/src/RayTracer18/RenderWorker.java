@@ -41,7 +41,6 @@ public class RenderWorker implements Runnable
     {
         try
         {
-            System.out.println(startX + " to MAX " +maxX  + " and y: " + maxY);
 
             for (int x =startX ; x < maxX; x++){
 

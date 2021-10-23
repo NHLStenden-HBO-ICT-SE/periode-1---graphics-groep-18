@@ -46,8 +46,8 @@ public class Renderer {
         if(workers.size() == 0){
             for (int i = 0; i < numOfThreads; i++) {
                 int bonus = 0;
-                if(i == numOfThreads){
-                    bonus = (int)canvas.getWidth()/numOfThreads;
+                if(i == numOfThreads-1){
+                    bonus = (int)canvas.getWidth() % numOfThreads;
                 }
                 RenderWorker w1 =  new RenderWorker(threadStartIndex,threadStartIndex + widthPerThread + bonus, (int)canvas.getHeight(), scene);
                 threadStartIndex += widthPerThread;
@@ -80,7 +80,6 @@ public class Renderer {
 
                     }
                 }
-                System.out.println(hits.size());
 
 
 

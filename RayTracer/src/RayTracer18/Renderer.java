@@ -83,12 +83,17 @@ public class Renderer {
 
                     }
                     Main.progressBar.setProgress(pixelWritten / (canvas.getWidth() * canvas.getHeight()));
+                   if(pixelWritten == (canvas.getWidth() * canvas.getHeight())){
+                       //Render is done....
+                       Main.progressBar.setStyle("-fx-accent: green");
+
+                   }
                 }
 
 
 
             }
-        }, 0, 100);
+        }, 0, 250);
         for (Thread t: Renderer.threads) {
             t.start();
         }

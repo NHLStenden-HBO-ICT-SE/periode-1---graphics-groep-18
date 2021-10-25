@@ -27,10 +27,10 @@ public class Box extends Object3D {
         double tfar = Double.POSITIVE_INFINITY;
         double temp;
         boolean intersectFlag = true;
-        double[] rayDirection = ray.getDirection().toArray();
-        double[] rayOrigin = ray.getOrigin().toArray();
-        double[] b1 = min.toArray();
-        double[] b2 = max.toArray();
+        double[] rayDirection = ray.getDirection().toArrayList();
+        double[] rayOrigin = ray.getOrigin().toArrayList();
+        double[] b1 = min.toArrayList();
+        double[] b2 = max.toArrayList();
 
         for (int i = 0; i < 3; i++) {
             if (rayDirection[i] == 0) {
@@ -63,7 +63,7 @@ public class Box extends Object3D {
     @Override
     public Vector3 getNormalAt(Vector3 point) {
 
-        double[] direction = point.subtract2(position).toArray();
+        double[] direction = point.subtract2(position).toArrayList();
         double biggestValue = Float.NaN;
 
         for (int i = 0; i<3; i++) {

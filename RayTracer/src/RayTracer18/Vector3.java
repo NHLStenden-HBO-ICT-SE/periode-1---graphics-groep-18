@@ -1,10 +1,13 @@
 package RayTracer18;
 
+import java.util.ArrayList;
+
 public class Vector3 {
 
     public double x;
     public double y;
     public double z;
+    private double w;
 
 
     public Vector3(double x, double y, double z){
@@ -104,8 +107,12 @@ public class Vector3 {
     }
 
 
-    public double[] toArray(){
-        return new double[]{x, y, z};
+    public ArrayList<Double> toArrayList(){
+        ArrayList<Double> list = new ArrayList<>();
+        list.add(x);
+        list.add(y);
+        list.add(z);
+        return list;
     }
 
     /**
@@ -221,19 +228,40 @@ public class Vector3 {
         return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
     }
 
-    public Vector3 transformVector(Matrix matrix) {
+    public Vector3 multiplyVector(Matrix matrix) {
         if(this.getLength() != matrix.getColumns())
             throw new RuntimeException("Invalid input");
-        int rows = 3;
-        int columns = 3;
+        int rows = matrix.getRows();
+        int columns = matrix.getColumns();
         double[] listVector = new double[rows];
 
         for (int i = 0; i < rows; i++){
             double value = 0;
             for (int j = 0; j < columns; j++){
-                value += matrix.matrix[i][j] * this.toArray()[j];
+                value += matrix.matrix[i][j] * this.toArrayList().get(j);
             }
             listVector[i] = value;
+        }
+        this.x = listVector[0];
+        this.y = listVector[1];
+        this.z = listVector[2];
+        return this;
+    }
+
+    public Vector3 translateVector(double [][] matrix){
+        //if(this.getLength() != matrix.getColumns())
+        //    throw new RuntimeException("Invalid input");
+        int rows = 4;
+        int columns = 4;
+        double[] listVector = new double[rows];
+
+        ArrayList<Double> list = new ArrayList<Double>(this.toArrayList().add(1.0));
+        for (int i = 0; i < rows; i++){
+            double value = 0;
+            for (int j = 0; j < columns; j++){
+                value += matrix[j][i] * this;
+            }
+            listVector[i] = value + matrix[i][4];
         }
         this.x = listVector[0];
         this.y = listVector[1];

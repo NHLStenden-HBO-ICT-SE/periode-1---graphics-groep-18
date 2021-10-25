@@ -2,12 +2,10 @@ package RayTracer18;
 
 
 import RayTracer18.Light.Light;
-import RayTracer18.ObjLoader.*;
 import RayTracer18.Primitives.Object3D;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Ray {
 
@@ -23,10 +21,12 @@ public class Ray {
 
     public double distance = 0;
 
+    public Vector2 targetPixels;
+
 
     public Color currentColor;
 
-
+    public Object3D from = null;
 
     public Ray(Vector3 origin, Vector3 direction, Scene3D scene){
         this.t = 1;
@@ -35,10 +35,11 @@ public class Ray {
         this.origin = origin;
         this.bounces = 0;
 
+
     }
 
 
-    public void incrementBounces(int b){
+    public void incrementBounces(){
         this.bounces +=1;
 
     }
@@ -56,20 +57,21 @@ public class Ray {
 
 
 
-    public boolean hasBlockade(Light l){
+    public Vector3 hasBlockade(Light l){
         for (Object3D ob: this.scene.getObjects()) {
             Vector3 crossPoint = ob.calculateIntersection(this);
             if(crossPoint != null){
-
                 double distanceToPoint = this.getOrigin().distanceTo(crossPoint);
                 double distanceToLight = this.getOrigin().distanceTo(l.position);
+
                 if( distanceToPoint < distanceToLight ){
-                    return true;
+
+                    return crossPoint;
                 }
 
             }
         }
-        return false;
+        return null;
 
     }
 
@@ -78,55 +80,29 @@ public class Ray {
 
 
     public RayHit shoot(){
-
-
-
-
         //Loop through all objects in the scene to see if it intersects with the current ray
         Object3D hitObject = null;
         Vector3 hitPoint = new Vector3();
         double smallestDistance = Double.POSITIVE_INFINITY;
 
-
         for (Object3D ob: this.scene.getObjects()) {
-            if (ob instanceof ObjLoader){
-                try {
-                    ArrayList<Triangle> triangles = new ArrayList<Triangle>(Arrays.asList(ObjLoader.parseFile(((ObjLoader) ob).file)));
-                    for (Triangle triangle : triangles){
-                        triangle.applyMaterial(ob.getMaterial());
-                        Vector3 crossPoint = triangle.calculateIntersection(this);
-                        if(crossPoint == null){
-                            continue;
-                        }
-                        double distance = Vector3.sub(scene.camera.getPosition(),crossPoint).getLength();
-                        if(distance < smallestDistance){
-                            hitObject = triangle;
-                            smallestDistance = distance;
-                            hitPoint = crossPoint;
-                        }
-                    }
+            Vector3 crossPoint = ob.calculateIntersection(this);
+            if(crossPoint == null){
+                continue;
+            }
+            double distance = Vector3.sub(scene.camera.getPosition(),crossPoint).getLength();
+            if(distance < smallestDistance){
+                hitObject = ob;
+                smallestDistance = distance;
+                hitPoint = crossPoint;
+            }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            else {
-                Vector3 crossPoint = ob.calculateIntersection(this);
-                if(crossPoint == null){
-                    continue;
-                }
-                double distance = Vector3.sub(scene.camera.getPosition(),crossPoint).getLength();
-                if(distance < smallestDistance){
-                    hitObject = ob;
-                    smallestDistance = distance;
-                    hitPoint = crossPoint;
-                }
-            }
         }
 
 
 
         if(hitObject == null){
+
             return new RayHit(scene.voidColor, 1000);
 
         }
@@ -143,9 +119,11 @@ public class Ray {
             Vector3 startingPoint = hitPoint.add(direction.clone().multiplyScalar(Renderer.EPSILON));
 
             Ray reflectionRay = new Ray(startingPoint, direction, scene);
+            reflectionRay.incrementBounces();
+            reflectionRay.from = hitObject;
 
-            reflectionRay.incrementBounces(this.bounces + 1);
             RayHit refHit = reflectionRay.shoot();
+
             currentColor = hitObject.getMaterial().getColor().interpolate(refHit.color, reflectionAmount);
             refHit.color = currentColor;
             return refHit;
@@ -153,17 +131,22 @@ public class Ray {
         }
 
 
-        ArrayList<Light> reachAbleLights = new ArrayList<Light>();
+        ArrayList<Light> reachAbleLights = new ArrayList<>();
+
         for (Light light:scene.getLights()) {
 
             Vector3 rayDir = Vector3.sub(light.position, hitPoint).normalize();
-            Vector3 startingPoint = hitPoint.add(rayDir.clone().multiplyScalar(Renderer.EPSILON));
+            Vector3 startingPoint = hitPoint.clone().add(rayDir.clone().multiplyScalar(Renderer.EPSILON));
 
             Ray shadowRay = new Ray(startingPoint,rayDir , scene);
-
-            boolean hasBlockade = shadowRay.hasBlockade(light);
-            if(!hasBlockade){
+            shadowRay.bounces = bounces;
+            Vector3 blockadePosition = shadowRay.hasBlockade(light);
+            //If not blocked, add it to reachable
+            if(blockadePosition == null){
                 reachAbleLights.add(light);
+            }
+            if(this.bounces > 0 && blockadePosition != null){
+                Object3D x = this.from;
             }
 
         }
@@ -173,25 +156,31 @@ public class Ray {
 
         if(reachAbleLights.size() == 0){
             //No lights absolute shadow
-            new RayHit(Color.BLACK, this.distance);
+            return new RayHit(Color.BLACK, this.distance);
         }
 
-        Color cur = hitObject.getMaterial().getColor();
+        Color cur = hitObject.getColorAt(hitPoint);
 
 
-        int totalWeight = 0;
+
+        Color totalLightColor = Color.BLACK;
+
         for(Light l: reachAbleLights){
-            totalWeight += l.intensity;
+
+            totalLightColor = totalLightColor.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
+
         }
-        for (Light l : reachAbleLights){
-           cur = cur.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
-        }
+
+        cur = Utils.mixColors(cur, totalLightColor);
+
+
 
 
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
         double prod = Vector3.dot(lightDir, normal);
         prod += 1;
         prod *=0.5;
+
         Color returnColor = cur.interpolate(Color.BLACK, prod);
         return new RayHit(returnColor, this.distance);
 

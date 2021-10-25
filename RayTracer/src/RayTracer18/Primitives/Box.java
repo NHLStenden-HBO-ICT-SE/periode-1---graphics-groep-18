@@ -2,7 +2,9 @@ package RayTracer18.Primitives;
 
 
 import RayTracer18.Ray;
+import RayTracer18.Renderer;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 public class Box extends Object3D {
     Vector3 min, max;
@@ -54,8 +56,10 @@ public class Box extends Object3D {
                     intersectFlag = false;
             }
         }
-        if (intersectFlag)
-            return ray.getOrigin().add(ray.getDirection().multiplyScalar(tnear));
+        if (intersectFlag) {
+            Vector3 endpoint = ray.getOrigin().add(ray.getDirection().multiplyScalar(tnear));
+            return endpoint.add(getNormalAt(endpoint).multiplyScalar(Renderer.EPSILON));
+        }
         else
             return null;
     }
@@ -86,5 +90,10 @@ public class Box extends Object3D {
         }
 
         return new Vector3(0, 0, 0);
+    }
+
+    @Override
+    public Color getColorAt(Vector3 cords) {
+        return getMaterial().color;
     }
 }

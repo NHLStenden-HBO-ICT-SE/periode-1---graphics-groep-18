@@ -3,6 +3,7 @@ package RayTracer18.Primitives;
 import RayTracer18.Ray;
 import RayTracer18.Renderer;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 import static RayTracer18.Vector3.*;
 
@@ -33,8 +34,6 @@ public class Triangle extends Object3D{
         Vector3 v1 = this.p2;
         Vector3 v2 = this.p3;
 
-
-
         Vector3 v0v1 = sub(v1, v0);
         Vector3 v0v2 = sub(v2,v0);
 
@@ -42,8 +41,7 @@ public class Triangle extends Object3D{
 
         Vector3 pvec = r.getDirection().cross(v0v2);
         double det = v0v1.dot(pvec);
-        if (det < Renderer.EPSILON)
-            return null;
+
 
         double invDet = (1.0 / det);
         Vector3 tvec = sub(r.getOrigin(),v0);
@@ -51,7 +49,9 @@ public class Triangle extends Object3D{
 
         if (u < 0 || u > 1)
             return null;
-
+        //Uncomment for backface culling > Rays will pass trough the backside of triangles
+//        if (det < Renderer.)
+//            return null;
         Vector3 qvec = tvec.cross(v0v1);
         double v = r.getDirection().dot(qvec) * invDet;
 
@@ -59,13 +59,20 @@ public class Triangle extends Object3D{
             return null;
 
         double distance =  (v0v2.dot(qvec) * invDet);
+        //Return if the ray was shot backwards, the opposite of direction
+        if(distance < 0){
+            return null;
+        }
         Vector3 endpoint = new Vector3(r.getOrigin());
         Vector3 towards = r.getDirection().multiplyScalar(distance);
         endpoint.add(towards);
 
-
-
         return endpoint;
+    }
+
+    @Override
+    public Color getColorAt(Vector3 cords) {
+        return getMaterial().color;
     }
 
     @Override

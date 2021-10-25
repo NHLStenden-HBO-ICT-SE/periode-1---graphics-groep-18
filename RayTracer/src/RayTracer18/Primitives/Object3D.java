@@ -4,6 +4,7 @@ package RayTracer18.Primitives;
 import RayTracer18.Material.Material;
 import RayTracer18.Ray;
 import RayTracer18.Vector3;
+import javafx.scene.paint.Color;
 
 import java.util.UUID;
 
@@ -22,9 +23,6 @@ public abstract class Object3D {
     public Object3D(Vector3 pos){
         this.position = pos;
         this.id = UUID.randomUUID().toString();
-    }
-
-    public Object3D(RayTracer18.ObjLoader.Material material) {
     }
 
     public void rotate() {
@@ -62,6 +60,11 @@ public abstract class Object3D {
     }
 
 
+    public Color getColorAt(Vector3 cords){
+        System.out.println("Not implented");
+        return null;
+    }
+
     public Vector3 calculateIntersection(Ray ray) {
         return null;
     }
@@ -69,7 +72,8 @@ public abstract class Object3D {
     @Override
     public String toString() {
         return "Object3D{" +
-                "position=" + position +
+                "NAME: " + name +
+                " position=" + position +
                 ", rotation=" + rotation +
                 ", material=" + material +
                 '}';

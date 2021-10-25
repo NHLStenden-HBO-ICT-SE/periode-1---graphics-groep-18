@@ -1,15 +1,6 @@
 package RayTracer18;
 
-import RayTracer18.Main;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
-
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.LinkedHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RenderWorker implements Runnable
@@ -22,7 +13,9 @@ public class RenderWorker implements Runnable
 
 
     boolean sending = false;
-    public ConcurrentLinkedQueue<RayHit> data = new ConcurrentLinkedQueue<>();
+    public ConcurrentLinkedQueue<RayHit> data1 = new ConcurrentLinkedQueue<>();
+    public ConcurrentLinkedQueue<RayHit> data2 = new ConcurrentLinkedQueue<>();
+    private boolean useData1 = true;
 
     public RenderWorker(int startX, int maxX, int maxY, Scene3D scene) {
         this.maxX = maxX;
@@ -32,9 +25,22 @@ public class RenderWorker implements Runnable
 
     }
 
-    public ConcurrentLinkedQueue<RayHit> getData(){
-        
-        return this.data;
+    public ArrayList<RayHit> getData(){
+        //Need so switch lists because will we lose some data
+        ArrayList<RayHit> result = new ArrayList<>();
+        if(useData1){
+             useData1 = false;
+             result.addAll(this.data1);
+             this.data1.clear();
+
+        }
+        else{
+            useData1 = true;
+            result.addAll(this.data2);
+            this.data2.clear();
+
+        }
+        return result;
     }
     public void shutDown(){
         exit = true;
@@ -54,7 +60,13 @@ public class RenderWorker implements Runnable
                     int useY =(maxY - y);
                     RayHit rayHit = scene.camera.getRayHit(x, y);
                     rayHit.targetPixels = new Vector2(x, useY);
-                    data.add(rayHit);
+                    if(useData1){
+                        data1.add(rayHit);
+
+                    }
+                    else{
+                        data2.add(rayHit);
+                    }
                 }
 
             }

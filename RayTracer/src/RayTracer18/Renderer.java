@@ -74,7 +74,7 @@ public class Renderer extends AnimationTimer {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         PixelWriter pxw = gc.getPixelWriter();
         for(RenderWorker worker: workers){
-            ConcurrentLinkedQueue<RayHit> data= worker.getData();
+            ArrayList<RayHit> data= worker.getData();
             if(data == null || data.size() == 0){
                 continue;
             }

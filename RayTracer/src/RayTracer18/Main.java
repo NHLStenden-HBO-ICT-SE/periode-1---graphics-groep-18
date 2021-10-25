@@ -248,7 +248,7 @@ public class Main extends Application {
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rick.obj"), 1.0);
         //green.isChecker = true;
         objLoader.applyMaterial(green);
 

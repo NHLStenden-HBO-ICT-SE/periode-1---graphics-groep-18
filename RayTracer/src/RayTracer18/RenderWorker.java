@@ -19,6 +19,9 @@ public class RenderWorker implements Runnable
     int startX;
     Scene3D scene;
     boolean exit = false;
+
+
+    boolean sending = false;
     public ConcurrentLinkedQueue<RayHit> data = new ConcurrentLinkedQueue<>();
 
     public RenderWorker(int startX, int maxX, int maxY, Scene3D scene) {
@@ -30,13 +33,8 @@ public class RenderWorker implements Runnable
     }
 
     public ConcurrentLinkedQueue<RayHit> getData(){
-        ConcurrentLinkedQueue<RayHit> sendBack = new ConcurrentLinkedQueue<>();
-        sendBack.addAll(this.data);
-        this.data.clear();
-        if(this.data.size() > 0){
-            return null;
-        }
-        return sendBack;
+        
+        return this.data;
     }
     public void shutDown(){
         exit = true;
@@ -45,10 +43,10 @@ public class RenderWorker implements Runnable
     {
         try
         {
-
             for (int x =startX ; x < maxX; x++){
 
                 for(int y=0; y < maxY; y++){
+
                     if(exit){
                         return;
                     }

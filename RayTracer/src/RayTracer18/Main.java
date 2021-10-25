@@ -5,6 +5,7 @@ import RayTracer18.Light.PointLight;
 import RayTracer18.Material.Material;
 import RayTracer18.ObjLoader.ObjLoader;
 import RayTracer18.Primitives.*;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -37,6 +38,8 @@ public class Main extends Application {
     Label idLabel = new Label();
     Label coordsLabel = new Label();
     Button applyButton = new Button();
+    public AnimationTimer renderer = new Renderer();
+
     public static ProgressBar progressBar = new ProgressBar(0);
 
 
@@ -119,7 +122,7 @@ public class Main extends Application {
 
 
             Renderer.renderScene(scene, canvas);
-
+            renderer.start();
 
         });
 

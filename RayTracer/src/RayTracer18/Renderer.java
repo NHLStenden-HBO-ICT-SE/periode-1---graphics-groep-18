@@ -1,18 +1,21 @@
 package RayTracer18;
 
 
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 
-public class Renderer {
+public class Renderer extends AnimationTimer {
 
     public static Canvas canvas;
     public static double EPSILON = 0.001;
@@ -21,17 +24,14 @@ public class Renderer {
     public static ArrayList<Thread> threads = new ArrayList<>();
     public static ArrayList<RenderWorker> workers = new ArrayList<>();
 
-    private static Timer timer = null;
+    private static boolean started = false;
 
     public static int pixelWritten = 0;
 
+    public static Scene3D scene;
 
     public static void renderScene(Scene3D scene, Canvas canvas) {
-        if(timer != null){
-            //When a ren
-            timer.cancel();
-
-        }
+        Renderer.scene = scene;
         Renderer.canvas = canvas;
         int numKeepFreeThreads = 1;
         int numOfThreads = Runtime.getRuntime().availableProcessors() - numKeepFreeThreads;
@@ -58,49 +58,42 @@ public class Renderer {
         }
 
         System.out.println("TIMERR");
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                GraphicsContext gc = canvas.getGraphicsContext2D();
-                PixelWriter pxw = gc.getPixelWriter();
-                for(RenderWorker worker: workers){
-                    ConcurrentLinkedQueue<RayHit> data= worker.getData();
-                    if(data == null || data.size() == 0){
-                        continue;
-                    }
-                    Iterator<RayHit> it = data.iterator();
-                   while(it.hasNext()){
-                       RayHit rayHit = it.next();
-                       Color c = rayHit.getColor();
-                       if(c == null){
-                           c = scene.voidColor;
-                       }
-                       pixelWritten += 1;
-                        pxw.setColor((int)rayHit.targetPixels.x, (int)rayHit.targetPixels.y, c);
 
-                    }
-                    Main.progressBar.setProgress(pixelWritten / (canvas.getWidth() * canvas.getHeight()));
-                   if(pixelWritten == (canvas.getWidth() * canvas.getHeight())){
-                       //Render is done....
-                       Main.progressBar.setStyle("-fx-accent: green");
-
-                   }
-                }
-
-
-
-            }
-        }, 100, 900);
         for (Thread t: Renderer.threads) {
             t.start();
         }
-
-
-
-
-
-
+        started = true;
 
     }
+
+    @Override
+    public void handle(long l) {
+        if(!started){
+            return;
+        }
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        PixelWriter pxw = gc.getPixelWriter();
+        for(RenderWorker worker: workers){
+            ConcurrentLinkedQueue<RayHit> data= worker.getData();
+            if(data == null || data.size() == 0){
+                continue;
+            }
+            Iterator<RayHit> it = data.iterator();
+            while(it.hasNext()){
+                RayHit rayHit = it.next();
+                Color c = rayHit.getColor();
+                if(c == null){
+                    c = scene.voidColor;
+                }
+                pixelWritten += 1;
+                pxw.setColor((int)rayHit.targetPixels.x, (int)rayHit.targetPixels.y, c);
+
+            }
+            Main.progressBar.setProgress(pixelWritten / (canvas.getWidth() * canvas.getHeight()));
+            if(pixelWritten == (canvas.getWidth() * canvas.getHeight())){
+                //Render is done....
+                Main.progressBar.setStyle("-fx-accent: green");
+
+            }
+    }}
 }

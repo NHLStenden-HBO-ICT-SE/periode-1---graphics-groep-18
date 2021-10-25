@@ -34,18 +34,18 @@ public class ObjLoader extends Object3D {
         ArrayList<Triangle> triangles = new ArrayList<Triangle>();
         triangles.add(new Triangle(
                 null,
-                parseTriangleVertex(data[1].split("/"), vertices).add(new Vector3(0,-1,6)),
-                parseTriangleVertex(data[2].split("/"), vertices).add(new Vector3(0,-1,6)),
-                parseTriangleVertex(data[3].split("/"), vertices).add(new Vector3(0,-1,6))
+                parseTriangleVertex(data[1].split("/"), vertices).add(new Vector3(0,0,6)),
+                parseTriangleVertex(data[2].split("/"), vertices).add(new Vector3(0,0,6)),
+                parseTriangleVertex(data[3].split("/"), vertices).add(new Vector3(0,0,6))
         ));
 
         //checks if the data is a quad instead of a triangle, if so it will split the quad and add two triangles
         if (data.length == 5){
             triangles.add(new Triangle(
                     null,
-                    parseTriangleVertex(data[1].split("/"), vertices).add(new Vector3(0,-1,6)),
-                    parseTriangleVertex(data[3].split("/"), vertices).add(new Vector3(0,-1,6)),
-                    parseTriangleVertex(data[4].split("/"), vertices).add(new Vector3(0,-1,6))
+                    parseTriangleVertex(data[1].split("/"), vertices).add(new Vector3(0,0,6)),
+                    parseTriangleVertex(data[3].split("/"), vertices).add(new Vector3(0,0,6)),
+                    parseTriangleVertex(data[4].split("/"), vertices).add(new Vector3(0,0,6))
 
             ));
         }

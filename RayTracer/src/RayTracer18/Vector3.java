@@ -6,6 +6,9 @@ public class Vector3 {
     public double y;
     public double z;
 
+    //Only used for texture cords
+    public double u = -1;
+    public double v = -1;
 
     public Vector3(double x, double y, double z){
         this.x = x;

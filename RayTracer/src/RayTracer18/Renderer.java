@@ -1,6 +1,7 @@
 package RayTracer18;
 
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -20,10 +21,7 @@ public class Renderer {
     public static ArrayList<Thread> threads = new ArrayList<>();
     public static ArrayList<RenderWorker> workers = new ArrayList<>();
 
-    private static Timer timer;
-    public static void draw(int x, int y, Color c){
-        canvas.getGraphicsContext2D().getPixelWriter().setColor(x, y, c);
-    }
+    private static Timer timer = null;
 
     public static int pixelWritten = 0;
 
@@ -68,7 +66,7 @@ public class Renderer {
                 PixelWriter pxw = gc.getPixelWriter();
                 for(RenderWorker worker: workers){
                     ConcurrentLinkedQueue<RayHit> data= worker.getData();
-                    if(data.size() == 0){
+                    if(data == null || data.size() == 0){
                         continue;
                     }
                     Iterator<RayHit> it = data.iterator();
@@ -93,7 +91,7 @@ public class Renderer {
 
 
             }
-        }, 0, 250);
+        }, 100, 900);
         for (Thread t: Renderer.threads) {
             t.start();
         }

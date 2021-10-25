@@ -244,9 +244,11 @@ public class Main extends Application {
         t.applyMaterial(blue);
 
 
-
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/busobj.obj"), 1.0);
+        //TODO: Try catch for if not found
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/lowpolytree.obj"), 1.0);
+        //green.isChecker = true;
         objLoader.applyMaterial(green);
+
         scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));

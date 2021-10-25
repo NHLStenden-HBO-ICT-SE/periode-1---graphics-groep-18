@@ -30,10 +30,11 @@ public class RenderWorker implements Runnable
     }
 
     public ConcurrentLinkedQueue<RayHit> getData(){
-        ConcurrentLinkedQueue<RayHit> sendBack = this.data;
-        this.data = new ConcurrentLinkedQueue<>();
+        ConcurrentLinkedQueue<RayHit> sendBack = new ConcurrentLinkedQueue<>();
+        sendBack.addAll(this.data);
+        this.data.clear();
         if(this.data.size() > 0){
-            System.out.println('l');
+            return null;
         }
         return sendBack;
     }

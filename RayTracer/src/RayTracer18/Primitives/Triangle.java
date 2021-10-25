@@ -66,7 +66,8 @@ public class Triangle extends Object3D{
         Vector3 endpoint = new Vector3(r.getOrigin());
         Vector3 towards = r.getDirection().multiplyScalar(distance);
         endpoint.add(towards);
-
+        endpoint.u = u;
+        endpoint.v = v;
         return endpoint;
     }
 

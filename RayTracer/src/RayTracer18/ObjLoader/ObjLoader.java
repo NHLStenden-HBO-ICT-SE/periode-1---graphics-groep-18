@@ -43,9 +43,9 @@ public class ObjLoader extends Object3D {
         ArrayList<Triangle> triangles = new ArrayList<>();
         Triangle t = new Triangle(
                 null,
-                parseTriangleVertex(data[1].split("/")).add(new Vector3(0,0,2)),
-                parseTriangleVertex(data[2].split("/")).add(new Vector3(0,0,2)),
-                parseTriangleVertex(data[3].split("/")).add(new Vector3(0,0,2))
+                parseTriangleVertex(data[1].split("/")).add(new Vector3(0,-3,2)),
+                parseTriangleVertex(data[2].split("/")).add(new Vector3(0,-3,2)),
+                parseTriangleVertex(data[3].split("/")).add(new Vector3(0,-3,2))
         );
         if(t.p1.getNormal() != null && t.p2.getNormal() != null && t.p3.getNormal() != null){
             t.hasVertexNormals = true;
@@ -57,9 +57,9 @@ public class ObjLoader extends Object3D {
             System.out.println("Quad");
             Triangle t2 = new Triangle(
                     null,
-                    parseTriangleVertex(data[1].split("/")).add(new Vector3(0,0,2)),
-                    parseTriangleVertex(data[3].split("/")).add(new Vector3(0,0,2)),
-                    parseTriangleVertex(data[4].split("/")).add(new Vector3(0,0,2))
+                    parseTriangleVertex(data[1].split("/")).add(new Vector3(0,-3,2)),
+                    parseTriangleVertex(data[3].split("/")).add(new Vector3(0,-3,2)),
+                    parseTriangleVertex(data[4].split("/")).add(new Vector3(0,-3,2))
 
             );
             if(t2.p1.getNormal() != null && t2.p2.getNormal() != null && t2.p3.getNormal() != null){

@@ -273,14 +273,14 @@ public class Main extends Application {
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/t.obj"), 1.0);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rikuv.obj"), 1.0);
         try {
 
             objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        objLoader.applyMaterial(brick);
+        objLoader.applyMaterial(objtex);
         scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
@@ -306,7 +306,7 @@ public class Main extends Application {
         Box box = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         box.applyMaterial(red);
         //scene.add(box);
-        //scene.add(mirrorSphere);
+        scene.add(mirrorSphere);
 
         PointLight l = new PointLight(new Vector3(0,2,0.2), 8f, Color.WHITE);
         scene.add(l);

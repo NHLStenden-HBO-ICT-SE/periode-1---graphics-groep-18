@@ -70,7 +70,6 @@ public class Renderer extends AnimationTimer {
 
     public void reRender(){
         if(workers.size() > 0){
-            System.out.println("starting them");
             pixelWritten = 0;
 
             for(RenderWorker w: workers){

@@ -38,16 +38,21 @@ public class Plane extends Object3D{
 
     @Override
     public Color getColorAt(Vector3 cords) {
-        if(Math.sin(cords.getX()*4) <0){
-            if(Math.cos(cords.getZ()*4) > 0){
-                return Color.WHITE;
+        if(getMaterial().isChecker){
+            if(Math.sin(cords.getX()*4) <0){
+                if(Math.cos(cords.getZ()*4) > 0){
+                    return Color.WHITE;
+                }
+                return Color.GRAY;
             }
-            return Color.GRAY;
+            if(Math.cos(cords.getZ()*4) > 0){
+                return Color.GRAY;
+            }
+            return Color.WHITE;
         }
-        if(Math.cos(cords.getZ()*4) > 0){
-            return Color.GRAY;
-        }
-        return Color.WHITE;
+        return getMaterial().getColorAt();
+
+
     }
 
     @Override

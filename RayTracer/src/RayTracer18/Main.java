@@ -26,14 +26,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
-
     BorderPane borderPane;
     GridPane gridPane;
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
     Canvas canvas = new Canvas(1000, 500);
-    Object3D lastSelected = null;
     Customizer customizer = new Customizer();
 
     Label idLabel = new Label();
@@ -42,7 +40,7 @@ public class Main extends Application {
     public Renderer renderer = new Renderer();
 
     public static ProgressBar progressBar = new ProgressBar(0);
-
+    private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
@@ -243,8 +241,12 @@ public class Main extends Application {
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
         Material brick = new Material(Color.BLACK);
+        Material checker = new Material(Color.PURPLE);
+        checker.isChecker = true;
+
+
         try {
-            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/bricks.jpg")));
+            brick.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/bricks.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -254,38 +256,38 @@ public class Main extends Application {
 
         mirror.setReflection(1);
 
-        //Triangle points
         Vector3 tp1 = new Vector3(-2, -0.5, 3);
         Vector3 tp2 = new Vector3(0, 2, 3);
         Vector3 tp3 = new Vector3(2, -0.5, 3);
-
         //Triangle uv positions
-        tp1.textureCords = new Vector2(0, 1);
-        tp2.textureCords = new Vector2(0.5, 0);
-        tp3.textureCords = new Vector2(1, 1);
-
+//        tp1.textureCords = new Vector2(0,1);
+//        tp2.textureCords = new Vector2(0.5,0);
+//        tp3.textureCords = new Vector2(1,1);
         Triangle t = new Triangle(
-                new Vector3(1, 0, 5),
+                new Vector3(0, -.5, 3),
                 tp1, tp2, tp3
         );
+        scene.add(t);
+        Vector3 test = new Vector3(1, 0, 0);
+        System.out.println(test.rotateZAxis(90));
+        t.rotateZ(20);
+        t.applyMaterial(orange);
 
-        //scene.add(t);
-        //t.applyMaterial(objtex);
-        blue.isChecker = true;
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File( new File("").getAbsolutePath() + "/RayTracer/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
         try {
-            objtex.setColorMap(ImageIO.read(new File(new File("").getAbsolutePath() + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
+
+            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        scene.add(objLoader);
+        //scene.add(objLoader);
 
-        Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
-        scene.add(p);
-        p.applyMaterial(green);
+        Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
+        scene.add(floor);
+        floor.applyMaterial(checker);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);

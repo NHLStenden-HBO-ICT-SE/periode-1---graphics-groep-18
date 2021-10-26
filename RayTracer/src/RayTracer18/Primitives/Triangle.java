@@ -1,7 +1,6 @@
 package RayTracer18.Primitives;
 
 import RayTracer18.Ray;
-import RayTracer18.Renderer;
 import RayTracer18.Vector2;
 import RayTracer18.Vector3;
 import javafx.scene.paint.Color;
@@ -120,10 +119,24 @@ public class Triangle extends Object3D{
         double w = 1- u - v;
 
         return Vector3.addVectors(p1n.multiplyScalar(u), p2n.multiplyScalar(v)).add(p3n.multiplyScalar(w));
+    }
 
+    public void rotateZ(double angle){
+       Vector3 dVec1 = sub(this.p1, this.position);
+       dVec1.rotateZAxis(angle);
+       Vector3 newP1 = addVectors(dVec1, this.position);
 
+       Vector3 dVec2 = sub(this.p2, this.position);
+       dVec2.rotateZAxis(angle);
+       Vector3 newP2 = addVectors(dVec2, this.position);
 
+       Vector3 dVec3 = sub(this.p3, this.position);
+       dVec3.rotateZAxis(angle);
+       Vector3 newP3 = addVectors(dVec3, this.position);
 
+       this.p1 = newP1;
+       this.p2 = newP2;
+       this.p3 = newP3;
     }
 
     @Override

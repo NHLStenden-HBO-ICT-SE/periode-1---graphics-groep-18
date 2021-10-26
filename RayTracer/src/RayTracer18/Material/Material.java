@@ -17,6 +17,8 @@ public class Material {
     public boolean hasNormalMap = false;
     public BufferedImage normalMap = null;
 
+
+
     public boolean isChecker = false;
     public Material(Color c){
         this.color = c;

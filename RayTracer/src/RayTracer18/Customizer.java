@@ -8,10 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
 import javafx.util.converter.DoubleStringConverter;
-
-import java.util.ArrayList;
 
 public class Customizer {
     Label labelScale = new Label();
@@ -122,7 +119,7 @@ public class Customizer {
     public void objectCustomizer(Object3D object) {
         //TODO: fix the recalling of applyMaterial of selecting another object by changing the value of the fields
         //Colorpicker
-        colorPicker.setValue(object.getMaterial().getColor());
+        colorPicker.setValue(object.getMaterial().getColorAt());
 
         //Reflectivity slider
         slider.setValue(object.getMaterial().getReflection());

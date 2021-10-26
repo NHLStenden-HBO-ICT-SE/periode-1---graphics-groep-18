@@ -10,6 +10,19 @@ public class Vector3 {
     private double w;
 
 
+
+    public Vector2 uv = new Vector2(-10, -10);
+
+
+    public boolean isVertex = false;
+
+    private Vector3 normal = null;
+
+    public Vector2 textureCords = null;
+
+
+
+
     public Vector3(double x, double y, double z){
         this.x = x;
         this.y = y;
@@ -19,6 +32,24 @@ public class Vector3 {
         this.x = 0;
         this.y = 0;
         this.z = 0;
+    }
+
+    public Vector3 getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Vector3 normal) {
+        this.normal = normal;
+    }
+
+    public void setUv(Vector2 uv){
+        this.uv = uv;
+    }
+    public void setUv(double u, double v){
+        this.uv = new Vector2(u, v);
+    }
+    public Vector2 getUv() {
+        return uv;
     }
 
     public Vector3 clone(){
@@ -56,7 +87,7 @@ public class Vector3 {
                 v1.z * v0.x - v0.x * v1.z,
                 v1.x * v0.y - v0.y * v1.x );
     }
-    public static Vector3 add(Vector3 v1, Vector3 v2){
+    public static Vector3 addVectors(Vector3 v1, Vector3 v2){
         return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
     }
     public static Vector3 sub(Vector3 v1, Vector3 v2){

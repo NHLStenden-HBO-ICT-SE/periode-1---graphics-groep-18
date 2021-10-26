@@ -124,7 +124,7 @@ public class Ray {
 
             RayHit refHit = reflectionRay.shoot();
 
-            currentColor = hitObject.getMaterial().getColor().interpolate(refHit.color, reflectionAmount);
+            currentColor = hitObject.getMaterial().getColorAt().interpolate(refHit.color, reflectionAmount);
             refHit.color = currentColor;
             return refHit;
 
@@ -158,10 +158,8 @@ public class Ray {
             //No lights absolute shadow
             return new RayHit(Color.BLACK, this.distance);
         }
-
+        //System.out.println(hitPoint.u + " v: " + hitPoint.v);
         Color cur = hitObject.getColorAt(hitPoint);
-
-
 
         Color totalLightColor = Color.BLACK;
 

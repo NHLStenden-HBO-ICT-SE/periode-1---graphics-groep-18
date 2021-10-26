@@ -274,24 +274,22 @@ public class Main extends Application {
 
         mirror.setReflection(1);
 
-        //Triangle points
         Vector3 tp1 =  new Vector3(-2, -0.5, 3);
         Vector3 tp2 = new Vector3(  0,    2, 3);
         Vector3 tp3 = new Vector3(  2, -0.5, 3);
-
         //Triangle uv positions
-        tp1.textureCords = new Vector2(0,1);
-        tp2.textureCords = new Vector2(0.5,0);
-        tp3.textureCords = new Vector2(1,1);
-
+//        tp1.textureCords = new Vector2(0,1);
+//        tp2.textureCords = new Vector2(0.5,0);
+//        tp3.textureCords = new Vector2(1,1);
         Triangle t = new Triangle(
-                new Vector3(1, 0, 5),
+                new Vector3(0, -.5, 3),
                 tp1,tp2,tp3
-                );
-
-        //scene.add(t);
-        //t.applyMaterial(objtex);
-        blue.isChecker = true;
+        );
+        scene.add(t);
+        Vector3 test = new Vector3(1,0,0);
+        System.out.println(test.rotateZAxis(90));
+        t.rotateZ(20);
+        t.applyMaterial(orange);
 
 
         //TODO: Try catch for if not found
@@ -303,7 +301,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        scene.add(objLoader);
+        //scene.add(objLoader);
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);

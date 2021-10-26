@@ -128,11 +128,11 @@ public class Triangle extends Object3D{
 
        Vector3 dVec2 = sub(this.p2, this.position);
        dVec2.rotateZAxis(angle);
-       Vector3 newP2 = addVectors(dVec1, this.position);
+       Vector3 newP2 = addVectors(dVec2, this.position);
 
        Vector3 dVec3 = sub(this.p3, this.position);
        dVec3.rotateZAxis(angle);
-       Vector3 newP3 = addVectors(dVec1, this.position);
+       Vector3 newP3 = addVectors(dVec3, this.position);
 
        this.p1 = newP1;
        this.p2 = newP2;

@@ -7,14 +7,10 @@ public class Vector3 {
     public double x;
     public double y;
     public double z;
-    private double w;
 
 
 
     public Vector2 uv = new Vector2(-10, -10);
-
-
-    public boolean isVertex = false;
 
     private Vector3 normal = null;
 

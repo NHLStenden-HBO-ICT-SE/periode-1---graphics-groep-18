@@ -183,9 +183,10 @@ public class Main extends Application {
                     customizer.sliderScale.setVisible(false);
                     customizer.labelScale.setVisible(false);
                     //Do stuff with selected light
-                    customizer.lightCustomizer(selectedLight);
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
                     sliderLabel.setText("Light intensity");
+                    customizer.lightCustomizer(selectedLight);
+
                 }
                 if (selectedObject != null) {
                     customizer.sliderScale.setVisible(true);
@@ -258,8 +259,12 @@ public class Main extends Application {
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
         Material brick = new Material(Color.BLACK);
+        Material checker = new Material(Color.PURPLE);
+        checker.isChecker = true;
+
+
         try {
-            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/bricks.jpg")));
+            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/bricks.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -271,37 +276,38 @@ public class Main extends Application {
 
         //Triangle points
         Vector3 tp1 =  new Vector3(-2, -0.5, 3);
-        Vector3 tp2 = new Vector3(  0, 2, 3);
+        Vector3 tp2 = new Vector3(  0,    2, 3);
         Vector3 tp3 = new Vector3(  2, -0.5, 3);
 
         //Triangle uv positions
-        //tp1.textureCords = new Vector2(0,1);
-        //tp2.textureCords = new Vector2(0.5,0);
-        //tp3.textureCords = new Vector2(1,1);
+        tp1.textureCords = new Vector2(0,1);
+        tp2.textureCords = new Vector2(0.5,0);
+        tp3.textureCords = new Vector2(1,1);
 
         Triangle t = new Triangle(
-                new Vector3(0, -0.5, 3),
+                new Vector3(1, 0, 5),
                 tp1,tp2,tp3
                 );
-        t.rotateZ(90);
-        scene.add(t);
-        t.applyMaterial(green);
+
+        //scene.add(t);
+        //t.applyMaterial(objtex);
         blue.isChecker = true;
 
+
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
         try {
 
-            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/rickastley_D2.jpg")));
+            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        //scene.add(objLoader);
+        scene.add(objLoader);
 
-        Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
-        //scene.add(p);
-        p.applyMaterial(green);
+        Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
+        scene.add(floor);
+        floor.applyMaterial(checker);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);
@@ -311,10 +317,6 @@ public class Main extends Application {
 
         Sphere mirrorSphere = new Sphere(new Vector3(-2,0.5,2), 1);
         mirrorSphere.applyMaterial(mirror);
-
-
-
-
 
 
 

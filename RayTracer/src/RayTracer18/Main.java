@@ -259,8 +259,12 @@ public class Main extends Application {
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
         Material brick = new Material(Color.BLACK);
+        Material checker = new Material(Color.PURPLE);
+        checker.isChecker = true;
+
+
         try {
-            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/bricks.jpg")));
+            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/bricks.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -291,19 +295,19 @@ public class Main extends Application {
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
         try {
 
-            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/rickastley_D2.jpg")));
+            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
         scene.add(objLoader);
 
-        Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
-        scene.add(p);
-        p.applyMaterial(green);
+        Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
+        scene.add(floor);
+        floor.applyMaterial(checker);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);
         p2.applyMaterial(green);
@@ -313,10 +317,6 @@ public class Main extends Application {
 
         Sphere mirrorSphere = new Sphere(new Vector3(-2,0.5,2), 1);
         mirrorSphere.applyMaterial(mirror);
-
-
-
-
 
 
 

@@ -1,10 +1,13 @@
 package RayTracer18;
 
+import java.util.ArrayList;
+
 public class Vector3 {
 
     public double x;
     public double y;
     public double z;
+    private double w;
 
 
     public Vector3(double x, double y, double z){
@@ -106,6 +109,14 @@ public class Vector3 {
 
     public double[] toArray(){
         return new double[]{x, y, z};
+    }
+
+    public ArrayList<Double> toArrayList(){
+        ArrayList<Double> list = new ArrayList<>();
+        list.add(x);
+        list.add(y);
+        list.add(z);
+        return list;
     }
 
     /**
@@ -224,8 +235,8 @@ public class Vector3 {
     public Vector3 transformVector(Matrix matrix) {
         if(this.getLength() != matrix.getColumns())
             throw new RuntimeException("Invalid input");
-        int rows = 3;
-        int columns = 3;
+        int rows = matrix.getRows();
+        int columns = matrix.getColumns();
         double[] listVector = new double[rows];
 
         for (int i = 0; i < rows; i++){
@@ -239,6 +250,90 @@ public class Vector3 {
         this.y = listVector[1];
         this.z = listVector[2];
         return this;
+    }
+
+    public Vector3 rotateZAxis(double theta){
+        double[][] matrix = new double[][]{
+                {Math.cos(theta), -Math.sin(theta), 0},
+                {Math.sin(theta), Math.cos(theta), 0},
+                {0,0,1}
+        };
+
+        double[] listVectorZ = new double[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++){
+            double value = 0;
+            for (int j = 0; j < matrix.length; j++){
+                value += matrix[i][j] * this.toArray()[j];
+            }
+            listVectorZ[i] = value;
+        }
+        this.x = listVectorZ[0];
+        this.y = listVectorZ[1];
+        this.z = listVectorZ[2];
+        return this;
+    }
+
+    public Vector3 rotateXAxis(double theta){
+        double[][] matrix = new double[][]{
+                {1, 0, 0},
+                {0, Math.cos(theta), -Math.sin(theta)},
+                {0, Math.sin(theta), Math.cos(theta)}
+        };
+
+        double[] listVectorX = new double[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++){
+            double value = 0;
+            for (int j = 0; j < matrix.length; j++){
+                value += matrix[i][j] * this.toArray()[j];
+            }
+            listVectorX[i] = value;
+        }
+        this.x = listVectorX[0];
+        this.y = listVectorX[1];
+        this.z = listVectorX[2];
+        return this;
+    }
+
+    public Vector3 rotateYAxis(double theta) {
+        double[][] matrix = new double[][]{
+                {Math.cos(theta), 0, Math.sin(theta)},
+                {0, 1, 0},
+                {-Math.sin(theta),0,Math.cos(theta)}
+        };
+
+        double[] listVectorY = new double[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++){
+            double value = 0;
+            for (int j = 0; j < matrix.length; j++){
+                value += matrix[i][j] * this.toArray()[j];
+            }
+            listVectorY[i] = value;
+        }
+        this.x = listVectorY[0];
+        this.y = listVectorY[1];
+        this.z = listVectorY[2];
+        return this;
+    }
+
+
+    public static Vector3 rotateVector(Vector3 vec, double theta){
+        double x, y, z;
+        double u, v, w;
+        x=vec.getX();y=vec.getY();z=vec.getZ();
+        u= 0 ;v= 1;w= 0;
+        double xPrime = u*(u*x + v*y + w*z)*(1d - Math.cos(theta))
+                + x*Math.cos(theta)
+                + (-w*y + v*z)*Math.sin(theta);
+        double yPrime = v*(u*x + v*y + w*z)*(1d - Math.cos(theta))
+                + y*Math.cos(theta)
+                + (w*x - u*z)*Math.sin(theta);
+        double zPrime = w*(u*x + v*y + w*z)*(1d - Math.cos(theta))
+                + z*Math.cos(theta)
+                + (-v*x + u*y)*Math.sin(theta);
+        return new Vector3(xPrime, yPrime, zPrime);
     }
 }
 

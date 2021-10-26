@@ -89,7 +89,6 @@ public class Main extends Application {
 
         primaryStage.setTitle("Ray tracer");
 
-
         Label label = new Label();
         label.setText(String.format("Field of View (FoV): %.1f ", Math.abs(.3 * 100 - 100)));
 
@@ -235,19 +234,20 @@ public class Main extends Application {
         mirror.setReflection(1);
 
         Triangle t = new Triangle(
-                new Vector3(1, 0, 5),
-                new Vector3(-2, -0.5, 3),
-                new Vector3(1, 6, 5),
-                new Vector3(4, -0.5, 5));
+                new Vector3(0, 0, 0),
+                new Vector3(-1, 0, 5).rotateXAxis(90),
+                new Vector3(1, 4, 5).rotateXAxis(90),
+                new Vector3(3, 0, 5).rotateXAxis(90));
 
-        //scene.add(t);
+        scene.add(t);
         t.applyMaterial(blue);
 
 
 
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/busobj.obj"), 1.0);
-        objLoader.applyMaterial(green);
-        scene.add(objLoader);
+        //ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/src/Models/lowpolytree.obj"), 1.0);
+        //objLoader.applyMaterial(green);
+        //scene.add(objLoader);
+
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);

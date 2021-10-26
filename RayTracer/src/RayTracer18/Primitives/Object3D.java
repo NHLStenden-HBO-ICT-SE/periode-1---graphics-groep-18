@@ -3,6 +3,7 @@ package RayTracer18.Primitives;
 
 import RayTracer18.Material.Material;
 import RayTracer18.Ray;
+import RayTracer18.Vector2;
 import RayTracer18.Vector3;
 import javafx.scene.paint.Color;
 

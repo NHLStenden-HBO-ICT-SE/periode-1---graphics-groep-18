@@ -2,6 +2,7 @@ package RayTracer18.Primitives;
 
 import RayTracer18.Ray;
 import RayTracer18.Renderer;
+import RayTracer18.Vector2;
 import RayTracer18.Vector3;
 import javafx.scene.paint.Color;
 
@@ -73,11 +74,28 @@ public class Triangle extends Object3D{
 
     @Override
     public Color getColorAt(Vector3 cords) {
+
+        if(cords.u != -10){
+            double u = this.p1.textureCords.x + cords.u * (this.p2.textureCords.x - this.p1.textureCords.x) + cords.v * (this.p3.textureCords.x - this.p1.textureCords.x);
+            double v = this.p1.textureCords.y + cords.u * (this.p2.textureCords.y - this.p1.textureCords.y) + cords.v * (this.p3.textureCords.y - this.p1.textureCords.y);
+
+            //Some calculations resulted in -0.0000000005
+
+            u = Math.max(0, u);
+            v = Math.max(0, v);
+            //u = 1-u;
+
+            //return new Color(cords.u, cords.v, Math.max(0,1-cords.v-cords.u), 1);
+            return getMaterial().getColorByUv(u, v);
+        }
+
         return getMaterial().color;
     }
 
     @Override
     public Vector3 getNormalAt(Vector3 point) {
+
+
 
         Vector3 a = Vector3.sub(p2, p1);
         Vector3 b = Vector3.sub(p3, p1);

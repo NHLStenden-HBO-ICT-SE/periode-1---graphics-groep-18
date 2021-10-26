@@ -21,7 +21,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -31,7 +34,7 @@ public class Main extends Application {
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(1200, 600);
+    Canvas canvas = new Canvas(1000, 500);
     Object3D lastSelected = null;
     Customizer customizer = new Customizer();
 
@@ -235,25 +238,40 @@ public class Main extends Application {
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
 
+        Material objtex = new Material(Color.PINK);
+
         mirror.setReflection(1);
+
+        //Triangle points
+        Vector3 tp1 =  new Vector3(-2, -0.5, 3);
+        Vector3 tp2 = new Vector3(  0,    2, 3);
+        Vector3 tp3 = new Vector3(  2, -0.5, 3);
+
+        //Triangle uv positions
+        tp1.textureCords = new Vector2(0,1);
+        tp2.textureCords = new Vector2(0.5,0);
+        tp3.textureCords = new Vector2(1,1);
 
         Triangle t = new Triangle(
                 new Vector3(1, 0, 5),
-                new Vector3(-2, -0.5, 3),
-                new Vector3(1, 6, 5),
-                new Vector3(4, -0.5, 5));
+                tp1,tp2,tp3
+                );
 
-        scene.add(t);
-        t.applyMaterial(blue);
+        //scene.add(t);
+        t.applyMaterial(objtex);
         blue.isChecker = true;
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rick.obj"), 1.0);
-        green.isChecker = true;
-        objLoader.applyMaterial(green);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rikuv.obj"), 1.0);
+        try {
 
-        //scene.add(objLoader);
+            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        objLoader.applyMaterial(objtex);
+        scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
@@ -277,12 +295,12 @@ public class Main extends Application {
 
         Box box = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         box.applyMaterial(red);
-        scene.add(box);
-        scene.add(mirrorSphere);
+        //scene.add(box);
+        //scene.add(mirrorSphere);
 
-        PointLight l = new PointLight(new Vector3(0,2,4), 8f, Color.ORANGE);
+        PointLight l = new PointLight(new Vector3(0,2,0.2), 8f, Color.WHITE);
         scene.add(l);
-        PointLight l2 = new PointLight(new Vector3(0,1,1), 3f, Color.BLUE);
+        PointLight l2 = new PointLight(new Vector3(0,1,1), 3f, Color.WHITE);
         scene.add(l2);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }

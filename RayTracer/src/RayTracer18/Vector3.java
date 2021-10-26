@@ -7,8 +7,19 @@ public class Vector3 {
     public double z;
 
     //Only used for texture cords
-    public double u = -1;
-    public double v = -1;
+    public double u = -10;
+    public double v = -10;
+
+
+
+    public boolean isVertex = false;
+
+    public Vector3 normal = null;
+
+    public Vector2 textureCords = new Vector2();
+
+
+
 
     public Vector3(double x, double y, double z){
         this.x = x;

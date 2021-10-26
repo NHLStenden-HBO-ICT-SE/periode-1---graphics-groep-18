@@ -18,10 +18,10 @@ public class Scene3D {
 
     public Scene3D(){
         this.objects = new ArrayList<Object3D>();
-        this.camera = new Camera(0.3, this);
+        this.camera = new Camera(0.22, this);
         this.lights = new ArrayList<Light>();
         //Color if a pixel hits nothing
-        this.voidColor = Color.BLACK;
+        this.voidColor = Color.PINK;
 
     }
     public void add(ArrayList<Triangle> triangles){
@@ -32,7 +32,7 @@ public class Scene3D {
     public void add(Object3D ob){
         if (ob instanceof ObjLoader){
             try {
-                Triangle[] triangles = ObjLoader.parseFile(((ObjLoader) ob).file);
+                Triangle[] triangles = ((ObjLoader)ob).parseFile();
                 for (Triangle triangle : triangles){
                     triangle.position = ob.position;
                     triangle.applyMaterial(ob.getMaterial());

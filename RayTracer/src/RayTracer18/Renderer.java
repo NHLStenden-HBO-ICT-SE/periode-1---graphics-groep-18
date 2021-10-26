@@ -60,6 +60,7 @@ public class Renderer extends AnimationTimer {
         System.out.println("TIMERR");
 
         for (Thread t: Renderer.threads) {
+
             t.start();
         }
         started = true;

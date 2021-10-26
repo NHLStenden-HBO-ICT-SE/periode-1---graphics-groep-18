@@ -16,17 +16,15 @@ import java.util.Arrays;
 public class ObjLoader extends Object3D {
 
     public File file;
-    public Double scale;
     private ArrayList<Vector2> textureCords = new ArrayList<>();
     private ArrayList<Vector3> vertices = new ArrayList<>();
     private ArrayList<Triangle> faces = new ArrayList<>();
     private ArrayList<Vector3> normals = new ArrayList<>();
 
-    public ObjLoader(Vector3 pos, File file, Double scale) {
+    public ObjLoader(Vector3 pos, File file, String name) {
         super(pos);
         this.file = file;
-        this.scale = scale;
-        this.name = "CustomObject";
+        this.name = name;
     }
 
     public static Vector3 parseVertex(String[] data) {

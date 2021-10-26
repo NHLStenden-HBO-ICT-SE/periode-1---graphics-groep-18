@@ -59,12 +59,28 @@ public class Main extends Application {
         });
     }
 
+    public void applyChildren(Object3D object, TreeItem tree){
+        if (object instanceof ObjLoader){
+            try {
+                Triangle[] triangles = ((ObjLoader) object).parseFile();
+                for (Triangle triangle : triangles){
+                    String name = triangle.getName() + " id:" + triangle.id;
+                    TreeItem<String> item = new TreeItem<>(name);
+                    tree.getChildren().add(item);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     TreeItem<String> rootHierarchy = new TreeItem<>("Entities");
     TreeItem<String> rootObjects = new TreeItem<>("Objects");
     TreeItem<String> rootLights = new TreeItem<>("Lights");
 
     public void createHierarchy(){
-        ArrayList<Object3D> objectList =new ArrayList<>(scene.getObjects());
+        ArrayList<Object3D> objectList = new ArrayList<>(scene.getHiarcyObjects());
         ArrayList<Light> lightList = new ArrayList<>(scene.getLights());
 
         rootObjects.getChildren().clear();
@@ -72,9 +88,10 @@ public class Main extends Application {
         for (Object3D ob : objectList) {
             String name = ob.getName() + " id:" + ob.id;
             TreeItem<String> item = new TreeItem<>(name);
-
+            applyChildren(ob, item);
             rootObjects.getChildren().add(item);
         }
+
         for (Light l : lightList) {
             String name = l.getName() + "id:" + l.id;
             TreeItem<String> item = new TreeItem<>(name);
@@ -242,7 +259,7 @@ public class Main extends Application {
         Material mirror = new Material(Color.GRAY);
         Material brick = new Material(Color.BLACK);
         try {
-            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/bricks.jpg")));
+            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/bricks.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -273,10 +290,10 @@ public class Main extends Application {
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rikuv.obj"), 1.0);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
         try {
 
-            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
+            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/rickastley_D2.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -282,11 +282,12 @@ public class Vector3 {
         this.z = listVector[2];
         return this;
     }
-
+//Moet static worden
     public Vector3 rotateZAxis(double theta){
+        double rad = (theta * Math.PI) / 180;
         double[][] matrix = new double[][]{
-                {Math.cos(theta), -Math.sin(theta), 0},
-                {Math.sin(theta), Math.cos(theta), 0},
+                {Math.cos(rad), -Math.sin(rad), 0},
+                {Math.sin(rad), Math.cos(rad), 0},
                 {0,0,1}
         };
 
@@ -331,7 +332,7 @@ public class Vector3 {
         double[][] matrix = new double[][]{
                 {Math.cos(theta), 0, Math.sin(theta)},
                 {0, 1, 0},
-                {-Math.sin(theta),0,Math.cos(theta)}
+                {Math.sin(theta),0,Math.cos(theta)}
         };
 
         double[] listVectorY = new double[matrix.length];
@@ -350,11 +351,11 @@ public class Vector3 {
     }
 
 
-    public static Vector3 rotateVector(Vector3 vec, double theta){
+    public static Vector3 rotateVector(Vector3 vec,Vector3 axis, double theta){
         double x, y, z;
         double u, v, w;
         x=vec.getX();y=vec.getY();z=vec.getZ();
-        u= 0 ;v= 1;w= 0;
+        u=axis.getX() ;v=axis.getY();w=axis.getZ();
         double xPrime = u*(u*x + v*y + w*z)*(1d - Math.cos(theta))
                 + x*Math.cos(theta)
                 + (-w*y + v*z)*Math.sin(theta);

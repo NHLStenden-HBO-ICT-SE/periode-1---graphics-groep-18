@@ -271,23 +271,22 @@ public class Main extends Application {
 
         //Triangle points
         Vector3 tp1 =  new Vector3(-2, -0.5, 3);
-        Vector3 tp2 = new Vector3(  0,    2, 3);
+        Vector3 tp2 = new Vector3(  0, 2, 3);
         Vector3 tp3 = new Vector3(  2, -0.5, 3);
 
         //Triangle uv positions
-        tp1.textureCords = new Vector2(0,1);
-        tp2.textureCords = new Vector2(0.5,0);
-        tp3.textureCords = new Vector2(1,1);
+        //tp1.textureCords = new Vector2(0,1);
+        //tp2.textureCords = new Vector2(0.5,0);
+        //tp3.textureCords = new Vector2(1,1);
 
         Triangle t = new Triangle(
-                new Vector3(1, 0, 5),
+                new Vector3(0, -0.5, 3),
                 tp1,tp2,tp3
                 );
-
-        //scene.add(t);
-        //t.applyMaterial(objtex);
+        t.rotateZ(90);
+        scene.add(t);
+        t.applyMaterial(green);
         blue.isChecker = true;
-
 
         //TODO: Try catch for if not found
         ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
@@ -298,10 +297,10 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        scene.add(objLoader);
+        //scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
-        scene.add(p);
+        //scene.add(p);
         p.applyMaterial(green);
         Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
         scene.add(p2);

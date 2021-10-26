@@ -160,9 +160,10 @@ public class Main extends Application {
                     customizer.sliderScale.setVisible(false);
                     customizer.labelScale.setVisible(false);
                     //Do stuff with selected light
-                    customizer.lightCustomizer(selectedLight);
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
                     sliderLabel.setText("Light intensity");
+                    customizer.lightCustomizer(selectedLight);
+
                 }
                 if (selectedObject != null) {
                     customizer.sliderScale.setVisible(true);
@@ -253,7 +254,7 @@ public class Main extends Application {
         green.isChecker = true;
         objLoader.applyMaterial(green);
 
-        //scene.add(objLoader);
+//        scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);

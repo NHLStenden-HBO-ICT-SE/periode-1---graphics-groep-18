@@ -19,6 +19,7 @@ public class Customizer {
     TextField numberFieldX = new TextField();
     TextField numberFieldY = new TextField();
     TextField numberFieldZ = new TextField();
+    TextField axisField = numberFieldX;
 
     public void generateCustomizer(GridPane gridPane){
         gridPane.add(slider, 0, 4);
@@ -61,54 +62,10 @@ public class Customizer {
         //Colorpicker
         colorPicker.setValue(light.color);
 
-
-        //Text field for changing x
-        numberFieldX.setText(String.valueOf(light.position.getX()));
-
-        numberFieldX.textProperty().addListener((obs, oldValue, newValue) -> {
-            numberFieldX.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                numberFieldX.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                numberFieldX.setBorder(null);
-                light.setPosition(new Vector3(Double.parseDouble(newValue), 0, 0));
-            } catch (NumberFormatException e) {
-                numberFieldX.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
-
-        //Text field for changing y
-        numberFieldY.setText(String.valueOf(light.position.getY()));
-
-        numberFieldY.textProperty().addListener((obs, oldValue, newValue) -> {
-            numberFieldY.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                numberFieldY.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                numberFieldY.setBorder(null);
-                light.setPosition(new Vector3(0, Double.parseDouble(newValue), 0));
-            } catch (NumberFormatException e) {
-                numberFieldY.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
-
-        //Text field for changing z
-        numberFieldZ.setText(String.valueOf(light.position.getZ()));
-
-        numberFieldZ.textProperty().addListener((obs, oldValue, newValue) -> {
-            numberFieldZ.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                numberFieldZ.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                numberFieldZ.setBorder(null);
-                light.setPosition(new Vector3(0, 0, Double.parseDouble(newValue)));
-            } catch (NumberFormatException e) {
-                numberFieldZ.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
+        //Sets the numberFields for XYZ
+        setNumberFieldLight('X', light);
+        setNumberFieldLight('Y', light);
+        setNumberFieldLight('Z', light);
 
         //Sets intensity of current light
         slider.valueProperty().addListener((observable, oldValue, newValue) -> light.setIntensity((Double) newValue));
@@ -139,53 +96,10 @@ public class Customizer {
         sliderScale.setShowTickLabels(true);
         sliderScale.setSnapToTicks(true);
 
-        //Text field for changing x
-        numberFieldX.setText(String.valueOf(object.position.getX()));
-
-        numberFieldX.textProperty().addListener((obs, oldValue, newValue) -> {
-            numberFieldX.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                numberFieldX.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                numberFieldX.setBorder(null);
-                object.setPosition(new Vector3(Double.parseDouble(newValue), 0, 0));
-            } catch (NumberFormatException e) {
-                numberFieldX.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
-
-        //Text field for changing y
-        numberFieldY.setText(String.valueOf(object.position.getY()));
-
-        numberFieldY.textProperty().addListener((obs, oldValue, newValue) -> {
-            numberFieldY.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                numberFieldY.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                numberFieldY.setBorder(null);
-                object.setPosition(new Vector3(0, Double.parseDouble(newValue), 0));
-            } catch (NumberFormatException e) {
-                numberFieldY.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
-
-        //Text field for changing z
-        numberFieldZ.setText(String.valueOf(object.position.getZ()));
-
-        numberFieldZ.textProperty().addListener((obs, oldValue, newValue) -> {
-            numberFieldZ.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                numberFieldZ.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                numberFieldZ.setBorder(null);
-                object.setPosition(new Vector3(0, 0, Double.parseDouble(newValue)));
-            } catch (NumberFormatException e) {
-                numberFieldZ.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
+        //Sets the numberFields for XYZ
+        setNumberFieldObject('X', object);
+        setNumberFieldObject('Y', object);
+        setNumberFieldObject('Z', object);
 
         final double[] reflectivity = {0.00000};
         //Sets reflectivity of current object
@@ -213,4 +127,56 @@ public class Customizer {
         });
 
     }
+
+    public void setNumberFieldObject(char axis, Object3D object){
+        if(axis == 'X')
+            axisField = numberFieldX;
+        if(axis == 'Y')
+            axisField = numberFieldY;
+        if(axis == 'Z')
+            axisField = numberFieldZ;
+
+        //Text field for changing an axis
+        axisField.setText(String.valueOf(object.position.getX()));
+
+        axisField.textProperty().addListener((obs, oldValue, newValue) -> {
+            axisField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+
+            try {
+                axisField.getTextFormatter().getValueConverter().fromString(newValue);
+                // no exception above means valid
+                axisField.setBorder(null);
+                object.setPosition(new Vector3(Double.parseDouble(newValue), 0, 0));
+            } catch (NumberFormatException e) {
+                axisField.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
+            }
+        });
+    }
+
+    public void setNumberFieldLight(char axis, Light light){
+        if(axis == 'X')
+            axisField = numberFieldX;
+        if(axis == 'Y')
+            axisField = numberFieldY;
+        if(axis == 'Z')
+            axisField = numberFieldZ;
+
+        //Text field for changing an axis
+        axisField.setText(String.valueOf(light.position.getX()));
+
+        axisField.textProperty().addListener((obs, oldValue, newValue) -> {
+            axisField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
+
+            try {
+                axisField.getTextFormatter().getValueConverter().fromString(newValue);
+                // no exception above means valid
+                axisField.setBorder(null);
+                light.setPosition(new Vector3(Double.parseDouble(newValue), 0, 0));
+            } catch (NumberFormatException e) {
+                axisField.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
+            }
+        });
+    }
 }
+
+

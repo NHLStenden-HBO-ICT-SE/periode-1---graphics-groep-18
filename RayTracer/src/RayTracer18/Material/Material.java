@@ -13,6 +13,10 @@ public class Material {
     public BufferedImage colorMap = null;
     public boolean textured = false;
 
+
+    public boolean hasNormalMap = false;
+    public BufferedImage normalMap = null;
+
     public boolean isChecker = false;
     public Material(Color c){
         this.color = c;
@@ -24,7 +28,8 @@ public class Material {
         this.textured = true;
     }
 
-    public Color getColorByUv(double u, double v){
+
+    public Color getPixel(BufferedImage img, double u, double v){
         u = u%1;
         v = v%1;
         int width = this.colorMap.getWidth();
@@ -35,7 +40,7 @@ public class Material {
         //System.out.println("X: " + x + " Y: " + y);
         int clr = 0;
         try{
-           clr  = this.colorMap.getRGB(x, y);
+            clr  = img.getRGB(x, y);
 
         }
         catch(Error r){
@@ -50,6 +55,11 @@ public class Material {
         Color c = new Color((double)red/255, (double)green/255, (double)blue/255, 1);
         return c;
     }
+
+    public Color getColorByUv(double u, double v){
+        return getPixel(this.colorMap, u, v);
+    }
+
 
     public void setReflection(double v){
         this.reflection = v;

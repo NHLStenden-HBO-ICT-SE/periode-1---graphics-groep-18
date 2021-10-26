@@ -1,7 +1,6 @@
 package RayTracer18;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
 
 
 public class Camera {
@@ -27,7 +26,6 @@ public class Camera {
             position.z += 0.1;
         else
             position.z -= 0.1;
-        Renderer.renderScene(scene, canvas);
     }
 
     public void resetCamera() {

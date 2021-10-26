@@ -5,7 +5,6 @@ import RayTracer18.Light.PointLight;
 import RayTracer18.Material.Material;
 import RayTracer18.ObjLoader.ObjLoader;
 import RayTracer18.Primitives.*;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class Main extends Application {
     Label idLabel = new Label();
     Label coordsLabel = new Label();
     Button applyButton = new Button();
-    public AnimationTimer renderer = new Renderer();
+    public Renderer renderer = new Renderer();
 
     public static ProgressBar progressBar = new ProgressBar(0);
 
@@ -57,7 +55,7 @@ public class Main extends Application {
                 scene.camera.setFov(scene.camera.getFov() - 0.05);
 
             }
-            Renderer.renderScene(scene, canvas);
+            //Renderer.renderScene(scene, canvas);
         });
     }
 
@@ -111,10 +109,10 @@ public class Main extends Application {
             label.setText(String.format("Field of View (FoV): %.1f ", Math.abs((double) newValue * 100 - 100)));
 
 
-            Renderer.renderScene(scene, canvas);
+            //Renderer.renderScene(scene, canvas);
 
         });
-        initRender(scene, canvas);
+        initScene(scene, canvas);
         createHierarchy();
 //        customizeLights();
 
@@ -123,9 +121,14 @@ public class Main extends Application {
         renderButton.setOnAction(e -> {
 
 
+            if(renderer.running){
+                renderer.reRender();
+            }
+            else{
+                renderer.initRenderer(scene, canvas);
+                renderer.start();
+            }
 
-            Renderer.renderScene(scene, canvas);
-            renderer.start();
 
         });
 
@@ -181,7 +184,7 @@ public class Main extends Application {
 //                    selectedObject.applyMaterial(pink);
                     coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
                     sliderLabel.setText("Object reflectivity");
-                    Renderer.renderScene(scene, canvas);
+                    //Renderer.renderScene(scene, canvas);
                 }
 
                 //Creates button and applies light changes
@@ -193,7 +196,7 @@ public class Main extends Application {
                         coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
 
                     customizer.sliderScale.setValue(1f);
-                    Renderer.renderScene(scene, canvas);
+                    //Renderer.renderScene(scene, canvas);
                     createHierarchy();
                 });
 
@@ -231,12 +234,19 @@ public class Main extends Application {
 
 
 
-    public static void initRender(Scene3D scene, Canvas canvas) {
+    public static void initScene(Scene3D scene, Canvas canvas) {
         Material blue = new Material(Color.BLUE);
         Material green = new Material(Color.GREEN);
         Material red = new Material(Color.RED);
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
+        Material brick = new Material(Color.BLACK);
+        try {
+            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/bricks.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         Material objtex = new Material(Color.PINK);
 
@@ -270,7 +280,7 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        objLoader.applyMaterial(orange);
+        objLoader.applyMaterial(brick);
         scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));

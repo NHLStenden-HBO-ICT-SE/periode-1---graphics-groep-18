@@ -48,28 +48,26 @@ public class Main extends Application {
         node.setOnScroll((ScrollEvent event) -> {
 
             double deltaY = event.getDeltaY();
-            if(deltaY > 0){
+            if (deltaY > 0) {
                 scene.camera.setFov(scene.camera.getFov() + 0.05);
-            }
-            else{
+            } else {
                 scene.camera.setFov(scene.camera.getFov() - 0.05);
 
             }
-            //Renderer.renderScene(scene, canvas);
+            renderer.reRender();
         });
     }
 
-    public void applyChildren(Object3D object, TreeItem tree){
-        if (object instanceof ObjLoader){
+    public void applyChildren(Object3D object, TreeItem tree) {
+        if (object instanceof ObjLoader) {
             try {
                 Triangle[] triangles = ((ObjLoader) object).parseFile();
-                for (Triangle triangle : triangles){
+                for (Triangle triangle : triangles) {
                     String name = triangle.getName() + " id:" + triangle.id;
                     TreeItem<String> item = new TreeItem<>(name);
                     tree.getChildren().add(item);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -79,7 +77,7 @@ public class Main extends Application {
     TreeItem<String> rootObjects = new TreeItem<>("Objects");
     TreeItem<String> rootLights = new TreeItem<>("Lights");
 
-    public void createHierarchy(){
+    public void createHierarchy() {
         ArrayList<Object3D> objectList = new ArrayList<>(scene.getHiarcyObjects());
         ArrayList<Light> lightList = new ArrayList<>(scene.getLights());
 
@@ -126,7 +124,7 @@ public class Main extends Application {
             label.setText(String.format("Field of View (FoV): %.1f ", Math.abs((double) newValue * 100 - 100)));
 
 
-            //Renderer.renderScene(scene, canvas);
+            renderer.reRender();
 
         });
         initScene(scene, canvas);
@@ -138,10 +136,9 @@ public class Main extends Application {
         renderButton.setOnAction(e -> {
 
 
-            if(renderer.running){
+            if (renderer.running) {
                 renderer.reRender();
-            }
-            else{
+            } else {
                 renderer.initRenderer(scene, canvas);
                 renderer.start();
             }
@@ -182,7 +179,6 @@ public class Main extends Application {
                 if (selectedLight != null) {
                     customizer.sliderScale.setVisible(false);
                     customizer.labelScale.setVisible(false);
-                    //Do stuff with selected light
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
                     sliderLabel.setText("Light intensity");
                     customizer.lightCustomizer(selectedLight);
@@ -191,30 +187,23 @@ public class Main extends Application {
                 if (selectedObject != null) {
                     customizer.sliderScale.setVisible(true);
                     customizer.labelScale.setVisible(true);
-                    //Do stuff with object
-                    customizer.objectCustomizer(selectedObject);
-                    if (lastSelected != null) {
-//                        lastSelected.restoreMaterial();
-                    }
-                    //TODO: fix the pink selection feature, so the colorpicker also works
-                    lastSelected = selectedObject;
-//                    Material pink = new Material(Color.PINK);
-//                    selectedObject.applyMaterial(pink);
                     coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
                     sliderLabel.setText("Object reflectivity");
-                    //Renderer.renderScene(scene, canvas);
+                    customizer.objectCustomizer(selectedObject);
                 }
 
                 //Creates button and applies light changes
                 applyButton.setOnAction(e -> {
-                    if (selectedObject != null)
+                    if (selectedObject != null) {
+                        customizer.applyChangesObject(selectedObject);
                         coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
-
-                    else if (selectedLight != null)
+                    } else if (selectedLight != null) {
+                        customizer.applyChangesLight(selectedLight);
                         coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
+                    }
 
                     customizer.sliderScale.setValue(1f);
-                    //Renderer.renderScene(scene, canvas);
+                    renderer.reRender();
                     createHierarchy();
                 });
 
@@ -247,11 +236,6 @@ public class Main extends Application {
     }
 
 
-
-
-
-
-
     public static void initScene(Scene3D scene, Canvas canvas) {
         Material blue = new Material(Color.BLUE);
         Material green = new Material(Color.GREEN);
@@ -271,30 +255,28 @@ public class Main extends Application {
         mirror.setReflection(1);
 
         //Triangle points
-        Vector3 tp1 =  new Vector3(-2, -0.5, 3);
-        Vector3 tp2 = new Vector3(  0,    2, 3);
-        Vector3 tp3 = new Vector3(  2, -0.5, 3);
+        Vector3 tp1 = new Vector3(-2, -0.5, 3);
+        Vector3 tp2 = new Vector3(0, 2, 3);
+        Vector3 tp3 = new Vector3(2, -0.5, 3);
 
         //Triangle uv positions
-        tp1.textureCords = new Vector2(0,1);
-        tp2.textureCords = new Vector2(0.5,0);
-        tp3.textureCords = new Vector2(1,1);
+        tp1.textureCords = new Vector2(0, 1);
+        tp2.textureCords = new Vector2(0.5, 0);
+        tp3.textureCords = new Vector2(1, 1);
 
         Triangle t = new Triangle(
                 new Vector3(1, 0, 5),
-                tp1,tp2,tp3
-                );
+                tp1, tp2, tp3
+        );
 
         //scene.add(t);
         //t.applyMaterial(objtex);
         blue.isChecker = true;
 
-
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File( new File("").getAbsolutePath() + "/RayTracer/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
         try {
-
-            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/rickastley_D2.jpg")));
+            objtex.setColorMap(ImageIO.read(new File(new File("").getAbsolutePath() + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -311,24 +293,18 @@ public class Main extends Application {
         scene.add(p3);
         p3.applyMaterial(orange);
 
-        Sphere mirrorSphere = new Sphere(new Vector3(-2,0.5,2), 1);
+        Sphere mirrorSphere = new Sphere(new Vector3(-2, 0.5, 2), 1);
         mirrorSphere.applyMaterial(mirror);
 
 
-
-
-
-
-
-
-        Box box = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
+        Box box = new Box(new Vector3(-2, 0, 1.3), new Vector3(1, 1, 1));
         box.applyMaterial(red);
         //scene.add(box);
         scene.add(mirrorSphere);
 
-        PointLight l = new PointLight(new Vector3(0,2,0.2), 8f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(0, 2, 0.2), 8f, Color.WHITE);
         scene.add(l);
-        PointLight l2 = new PointLight(new Vector3(0,1,1), 3f, Color.WHITE);
+        PointLight l2 = new PointLight(new Vector3(0, 1, 1), 3f, Color.WHITE);
         scene.add(l2);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }

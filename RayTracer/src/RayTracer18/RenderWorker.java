@@ -9,7 +9,7 @@ public class RenderWorker implements Runnable
     int maxY;
     int startX;
     Scene3D scene;
-    boolean exit = false;
+    boolean initiated = true;
 
 
     boolean sending = false;
@@ -42,9 +42,7 @@ public class RenderWorker implements Runnable
         }
         return result;
     }
-    public void shutDown(){
-        exit = true;
-    }
+
     public void run()
     {
         try
@@ -53,9 +51,7 @@ public class RenderWorker implements Runnable
 
                 for(int y=0; y < maxY; y++){
 
-                    if(exit){
-                        return;
-                    }
+                    
                     //Canvas y = 0 is the top, in 3d its the bottom.
                     int useY =(maxY - y);
                     RayHit rayHit = scene.camera.getRayHit(x, y);

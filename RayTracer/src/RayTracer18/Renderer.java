@@ -1,18 +1,14 @@
 package RayTracer18;
 
 
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class Renderer extends AnimationTimer {
@@ -24,13 +20,13 @@ public class Renderer extends AnimationTimer {
     public static ArrayList<Thread> threads = new ArrayList<>();
     public static ArrayList<RenderWorker> workers = new ArrayList<>();
 
-    private static boolean started = false;
+    public boolean running = false;
 
     public static int pixelWritten = 0;
 
     public static Scene3D scene;
 
-    public static void renderScene(Scene3D scene, Canvas canvas) {
+    public void initRenderer(Scene3D scene, Canvas canvas) {
         Renderer.scene = scene;
         Renderer.canvas = canvas;
         int numKeepFreeThreads = 1;
@@ -43,6 +39,7 @@ public class Renderer extends AnimationTimer {
 
 
         if(workers.size() == 0){
+            //Create the workers
             for (int i = 0; i < numOfThreads; i++) {
                 int bonus = 0;
                 if(i == numOfThreads-1){
@@ -57,18 +54,33 @@ public class Renderer extends AnimationTimer {
             }
         }
 
-        System.out.println("TIMERR");
 
-        for (Thread t: Renderer.threads) {
-            t.start();
+
+        if(!running){
+            for (Thread t: Renderer.threads) {
+
+                t.start();
+            }
         }
-        started = true;
 
+        running = true;
+
+    }
+
+
+    public void reRender(){
+        if(workers.size() > 0){
+            pixelWritten = 0;
+
+            for(RenderWorker w: workers){
+                w.run();
+            }
+        }
     }
 
     @Override
     public void handle(long l) {
-        if(!started){
+        if(!running){
             return;
         }
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -90,10 +102,13 @@ public class Renderer extends AnimationTimer {
 
             }
             Main.progressBar.setProgress(pixelWritten / (canvas.getWidth() * canvas.getHeight()));
+
             if(pixelWritten == (canvas.getWidth() * canvas.getHeight())){
                 //Render is done....
                 Main.progressBar.setStyle("-fx-accent: green");
 
+
             }
+
     }}
 }

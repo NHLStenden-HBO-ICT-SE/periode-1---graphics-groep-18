@@ -5,7 +5,6 @@ import RayTracer18.Light.PointLight;
 import RayTracer18.Material.Material;
 import RayTracer18.ObjLoader.ObjLoader;
 import RayTracer18.Primitives.*;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,7 +20,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -31,14 +32,14 @@ public class Main extends Application {
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(1200, 600);
+    Canvas canvas = new Canvas(1000, 500);
     Object3D lastSelected = null;
     Customizer customizer = new Customizer();
 
     Label idLabel = new Label();
     Label coordsLabel = new Label();
     Button applyButton = new Button();
-    public AnimationTimer renderer = new Renderer();
+    public Renderer renderer = new Renderer();
 
     public static ProgressBar progressBar = new ProgressBar(0);
 
@@ -54,8 +55,24 @@ public class Main extends Application {
                 scene.camera.setFov(scene.camera.getFov() - 0.05);
 
             }
-            Renderer.renderScene(scene, canvas);
+            //Renderer.renderScene(scene, canvas);
         });
+    }
+
+    public void applyChildren(Object3D object, TreeItem tree){
+        if (object instanceof ObjLoader){
+            try {
+                Triangle[] triangles = ((ObjLoader) object).parseFile();
+                for (Triangle triangle : triangles){
+                    String name = triangle.getName() + " id:" + triangle.id;
+                    TreeItem<String> item = new TreeItem<>(name);
+                    tree.getChildren().add(item);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     TreeItem<String> rootHierarchy = new TreeItem<>("Entities");
@@ -63,7 +80,7 @@ public class Main extends Application {
     TreeItem<String> rootLights = new TreeItem<>("Lights");
 
     public void createHierarchy(){
-        ArrayList<Object3D> objectList =new ArrayList<>(scene.getObjects());
+        ArrayList<Object3D> objectList = new ArrayList<>(scene.getHiarcyObjects());
         ArrayList<Light> lightList = new ArrayList<>(scene.getLights());
 
         rootObjects.getChildren().clear();
@@ -71,9 +88,10 @@ public class Main extends Application {
         for (Object3D ob : objectList) {
             String name = ob.getName() + " id:" + ob.id;
             TreeItem<String> item = new TreeItem<>(name);
-
+            applyChildren(ob, item);
             rootObjects.getChildren().add(item);
         }
+
         for (Light l : lightList) {
             String name = l.getName() + "id:" + l.id;
             TreeItem<String> item = new TreeItem<>(name);
@@ -108,10 +126,10 @@ public class Main extends Application {
             label.setText(String.format("Field of View (FoV): %.1f ", Math.abs((double) newValue * 100 - 100)));
 
 
-            Renderer.renderScene(scene, canvas);
+            //Renderer.renderScene(scene, canvas);
 
         });
-        initRender(scene, canvas);
+        initScene(scene, canvas);
         createHierarchy();
 //        customizeLights();
 
@@ -120,9 +138,14 @@ public class Main extends Application {
         renderButton.setOnAction(e -> {
 
 
+            if(renderer.running){
+                renderer.reRender();
+            }
+            else{
+                renderer.initRenderer(scene, canvas);
+                renderer.start();
+            }
 
-            Renderer.renderScene(scene, canvas);
-            renderer.start();
 
         });
 
@@ -179,7 +202,7 @@ public class Main extends Application {
 //                    selectedObject.applyMaterial(pink);
                     coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
                     sliderLabel.setText("Object reflectivity");
-                    Renderer.renderScene(scene, canvas);
+                    //Renderer.renderScene(scene, canvas);
                 }
 
                 //Creates button and applies light changes
@@ -191,7 +214,7 @@ public class Main extends Application {
                         coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
 
                     customizer.sliderScale.setValue(1f);
-                    Renderer.renderScene(scene, canvas);
+                    //Renderer.renderScene(scene, canvas);
                     createHierarchy();
                 });
 
@@ -229,32 +252,54 @@ public class Main extends Application {
 
 
 
-    public static void initRender(Scene3D scene, Canvas canvas) {
+    public static void initScene(Scene3D scene, Canvas canvas) {
         Material blue = new Material(Color.BLUE);
         Material green = new Material(Color.GREEN);
         Material red = new Material(Color.RED);
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
+        Material brick = new Material(Color.BLACK);
+        try {
+            brick.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/bricks.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Material objtex = new Material(Color.PINK);
 
         mirror.setReflection(1);
 
+        //Triangle points
+        Vector3 tp1 =  new Vector3(-2, -0.5, 3);
+        Vector3 tp2 = new Vector3(  0,    2, 3);
+        Vector3 tp3 = new Vector3(  2, -0.5, 3);
+
+        //Triangle uv positions
+        tp1.textureCords = new Vector2(0,1);
+        tp2.textureCords = new Vector2(0.5,0);
+        tp3.textureCords = new Vector2(1,1);
+
         Triangle t = new Triangle(
                 new Vector3(1, 0, 5),
-                new Vector3(-2, -0.5, 3),
-                new Vector3(1, 6, 5),
-                new Vector3(4, -0.5, 5));
+                tp1,tp2,tp3
+                );
 
-        scene.add(t);
-        t.applyMaterial(blue);
+        //scene.add(t);
+        //t.applyMaterial(objtex);
         blue.isChecker = true;
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rick.obj"), 1.0);
-        green.isChecker = true;
-        objLoader.applyMaterial(green);
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
+        try {
 
-//        scene.add(objLoader);
+            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/src/Models/Textures/rickastley_D2.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        objLoader.applyMaterial(objtex);
+        scene.add(objLoader);
 
         Plane p = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(p);
@@ -278,12 +323,12 @@ public class Main extends Application {
 
         Box box = new Box(new Vector3(-2,0,1.3), new Vector3(1,1,1));
         box.applyMaterial(red);
-        scene.add(box);
+        //scene.add(box);
         scene.add(mirrorSphere);
 
-        PointLight l = new PointLight(new Vector3(0,2,4), 8f, Color.ORANGE);
+        PointLight l = new PointLight(new Vector3(0,2,0.2), 8f, Color.WHITE);
         scene.add(l);
-        PointLight l2 = new PointLight(new Vector3(0,1,1), 3f, Color.BLUE);
+        PointLight l2 = new PointLight(new Vector3(0,1,1), 3f, Color.WHITE);
         scene.add(l2);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }

@@ -160,31 +160,6 @@ public class Ray {
         }
         //System.out.println(hitPoint.u + " v: " + hitPoint.v);
         Color cur = hitObject.getColorAt(hitPoint);
-        if(hitObject.getMaterial().isChecker && hitPoint.u != -1){
-            double u = hitPoint.u;
-            double v = hitPoint.v;
-            double blue = 1 - u -v;
-            if(blue < 0){
-                blue = 0;
-            }
-            cur = new Color(u, v, blue, 1);
-        }
-//        if(hitObject.getMaterial().isChecker){
-//            if(hitPoint.u != -1){
-//                System.out.println("U: " + hitPoint.u + " V: " + hitPoint.v);
-//
-//            }
-//            if(Math.sin(hitPoint.u) <0.5){
-//                if(Math.cos(hitPoint.v) > 0.5){
-//                    cur =  Color.WHITE;
-//                }
-//                cur = Color.GRAY;
-//            }
-//            if(hitPoint.v > 0.5){
-//                cur = Color.GRAY;
-//            }
-//        }
-
 
         Color totalLightColor = Color.BLACK;
 

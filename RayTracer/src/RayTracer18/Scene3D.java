@@ -18,7 +18,7 @@ public class Scene3D {
 
     public Scene3D(){
         this.objects = new ArrayList<Object3D>();
-        this.camera = new Camera(0.22, this);
+        this.camera = new Camera(0.32, this);
         this.lights = new ArrayList<Light>();
         //Color if a pixel hits nothing
         this.voidColor = Color.PINK;

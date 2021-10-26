@@ -43,23 +43,31 @@ public class ObjLoader extends Object3D {
         ArrayList<Triangle> triangles = new ArrayList<>();
         Triangle t = new Triangle(
                 null,
-                parseTriangleVertex(data[1].split("/")).add(new Vector3(0,0,4)),
-                parseTriangleVertex(data[2].split("/")).add(new Vector3(0,0,4)),
-                parseTriangleVertex(data[3].split("/")).add(new Vector3(0,0,4))
+                parseTriangleVertex(data[1].split("/")).add(new Vector3(0,0,2)),
+                parseTriangleVertex(data[2].split("/")).add(new Vector3(0,0,2)),
+                parseTriangleVertex(data[3].split("/")).add(new Vector3(0,0,2))
         );
+        if(t.p1.getNormal() != null && t.p2.getNormal() != null && t.p3.getNormal() != null){
+            t.hasVertexNormals = true;
+        }
 
         triangles.add(t);
         //checks if the data is a quad instead of a triangle, if so it will split the quad and add two triangles
         if (data.length == 5){
             System.out.println("Quad");
-            triangles.add(new Triangle(
+            Triangle t2 = new Triangle(
                     null,
-                    parseTriangleVertex(data[1].split("/")).add(new Vector3(0,0,4)),
-                    parseTriangleVertex(data[3].split("/")).add(new Vector3(0,0,4)),
-                    parseTriangleVertex(data[4].split("/")).add(new Vector3(0,0,4))
+                    parseTriangleVertex(data[1].split("/")).add(new Vector3(0,0,2)),
+                    parseTriangleVertex(data[3].split("/")).add(new Vector3(0,0,2)),
+                    parseTriangleVertex(data[4].split("/")).add(new Vector3(0,0,2))
 
-            ));
+            );
+            if(t2.p1.getNormal() != null && t2.p2.getNormal() != null && t2.p3.getNormal() != null){
+                t2.hasVertexNormals = true;
+            }
+            triangles.add(t2);
         }
+
 
         return triangles;
     }
@@ -76,7 +84,7 @@ public class ObjLoader extends Object3D {
             vertex.textureCords = textureCords.get(index).clone();
         }
         if(!data[2].isEmpty()){
-            vertex.normal = normals.get(Integer.parseInt(data[2])-1);
+            vertex.setNormal(normals.get(Integer.parseInt(data[2])-1));
         }
 
         return vertex;

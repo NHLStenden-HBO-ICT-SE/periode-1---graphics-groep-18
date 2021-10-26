@@ -13,6 +13,9 @@ public class Triangle extends Object3D{
 
     public Vector3 p1, p2, p3;
 
+
+    public boolean hasVertexNormals = false;
+
     public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3){
 
         super(pos);
@@ -67,17 +70,17 @@ public class Triangle extends Object3D{
         Vector3 endpoint = new Vector3(r.getOrigin());
         Vector3 towards = r.getDirection().multiplyScalar(distance);
         endpoint.add(towards);
-        endpoint.u = u;
-        endpoint.v = v;
+        endpoint.setUv(u ,v);
         return endpoint;
     }
 
     @Override
     public Color getColorAt(Vector3 cords) {
 
-        if(cords.u != -10){
-            double u = this.p1.textureCords.x + cords.u * (this.p2.textureCords.x - this.p1.textureCords.x) + cords.v * (this.p3.textureCords.x - this.p1.textureCords.x);
-            double v = this.p1.textureCords.y + cords.u * (this.p2.textureCords.y - this.p1.textureCords.y) + cords.v * (this.p3.textureCords.y - this.p1.textureCords.y);
+        Vector2 uv = cords.getUv();
+        if(getMaterial().textured){
+            double u = this.p1.textureCords.x + uv.x * (this.p2.textureCords.x - this.p1.textureCords.x) + uv.y * (this.p3.textureCords.x - this.p1.textureCords.x);
+            double v = this.p1.textureCords.y + uv.x * (this.p2.textureCords.y - this.p1.textureCords.y) + uv.y * (this.p3.textureCords.y - this.p1.textureCords.y);
 
             //Some calculations resulted in -0.0000000005
 
@@ -96,11 +99,26 @@ public class Triangle extends Object3D{
     public Vector3 getNormalAt(Vector3 point) {
 
 
+        if(!this.hasVertexNormals ){
+            Vector3 a = Vector3.sub(p2, p1);
+            Vector3 b = Vector3.sub(p3, p1);
+            Vector3 res = a.cross(b).normalize();
+            return res;
+        }
+        //Has vertex normals
+        Vector3 p1n = this.p1.getNormal();
+        Vector3 p2n = this.p2.getNormal();
+        Vector3 p3n = this.p3.getNormal();
 
-        Vector3 a = Vector3.sub(p2, p1);
-        Vector3 b = Vector3.sub(p3, p1);
-        Vector3 res = a.cross(b).normalize();
-        return res;
+        double u  = point.uv.x;
+        double v = point.uv.y;
+        double w = 1- u - v;
+
+        return Vector3.addVectors(p1n.multiplyScalar(u), p2n.multiplyScalar(v)).add(p3n.multiplyScalar(w));
+
+
+
+
     }
 
     @Override

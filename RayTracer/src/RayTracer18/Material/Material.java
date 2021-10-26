@@ -11,6 +11,8 @@ public class Material {
     private double reflection;
 
     public BufferedImage colorMap = null;
+    public boolean textured = false;
+
     public boolean isChecker = false;
     public Material(Color c){
         this.color = c;
@@ -19,6 +21,7 @@ public class Material {
 
     public void setColorMap(BufferedImage imgBuffer){
         this.colorMap = imgBuffer;
+        this.textured = true;
     }
 
     public Color getColorByUv(double u, double v){

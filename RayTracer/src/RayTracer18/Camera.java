@@ -4,11 +4,12 @@ import javafx.scene.canvas.Canvas;
 
 
 public class Camera {
+
+    //Position is eye point
     private Vector3 position;
     private Vector3 direction;
     private double fov;
     private double rotation;
-    private Vector3 center;
 
     private Vector3 topRight;
     private Vector3 bottomLeft;

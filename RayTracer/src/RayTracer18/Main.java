@@ -44,20 +44,20 @@ public class Main extends Application {
     public static ProgressBar progressBar = new ProgressBar(0);
 
 
-    public void addMouseScrolling(Node node) {
-        node.setOnScroll((ScrollEvent event) -> {
-
-            double deltaY = event.getDeltaY();
-            if(deltaY > 0){
-                scene.camera.setFov(scene.camera.getFov() + 0.05);
-            }
-            else{
-                scene.camera.setFov(scene.camera.getFov() - 0.05);
-
-            }
-            //Renderer.renderScene(scene, canvas);
-        });
-    }
+//    public void addMouseScrolling(Node node) {
+//        node.setOnScroll((ScrollEvent event) -> {
+//
+//            double deltaY = event.getDeltaY();
+//            if(deltaY > 0){
+//                scene.camera.setFov(scene.camera.getFov() + 0.05);
+//            }
+//            else{
+//                scene.camera.setFov(scene.camera.getFov() - 0.05);
+//
+//            }
+//            //Renderer.renderScene(scene, canvas);
+//        });
+//    }
 
     public void applyChildren(Object3D object, TreeItem tree){
         if (object instanceof ObjLoader){
@@ -106,7 +106,7 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
         borderPane = new BorderPane();
         gridPane = new GridPane();
-        addMouseScrolling(canvas);
+        //addMouseScrolling(canvas);
 
         primaryStage.setTitle("Ray tracer");
 
@@ -285,23 +285,27 @@ public class Main extends Application {
                 new Vector3(0, -.5, 3),
                 tp1,tp2,tp3
         );
-        scene.add(t);
-        Vector3 test = new Vector3(1,0,0);
-        System.out.println(test.rotateZAxis(90));
-        t.rotateZ(20);
-        t.applyMaterial(orange);
+        //scene.add(t);
+
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2,0,4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
-        try {
+        {
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(System.getProperty("user.dir") + "/RayTracer/src/Models/turtle.obj"), "Dominace asserting Rick Astley");
+            try {
 
-            objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/rickastley_D2.jpg")));
-        } catch (IOException e) {
-            e.printStackTrace();
+                objtex.setColorMap(ImageIO.read(new File(System.getProperty("user.dir") + "/RayTracer/src/Models/Textures/turtle.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
         }
-        objLoader.applyMaterial(objtex);
-        //scene.add(objLoader);
+
+
+
+
+
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);
@@ -311,7 +315,7 @@ public class Main extends Application {
         p2.applyMaterial(green);
         Plane p3 = new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1));
         scene.add(p3);
-        p3.applyMaterial(orange);
+        p3.applyMaterial(brick);
 
         Sphere mirrorSphere = new Sphere(new Vector3(-2,0.5,2), 1);
         mirrorSphere.applyMaterial(mirror);

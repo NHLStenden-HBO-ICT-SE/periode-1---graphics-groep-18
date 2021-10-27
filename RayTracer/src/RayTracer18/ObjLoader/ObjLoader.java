@@ -52,7 +52,6 @@ public class ObjLoader extends Object3D {
         triangles.add(t);
         //checks if the data is a quad instead of a triangle, if so it will split the quad and add two triangles
         if (data.length == 5){
-            System.out.println("Quad");
             Triangle t2 = new Triangle(
                     null,
                     parseTriangleVertex(data[1].split("/")).add(new Vector3(0,-3,2)),
@@ -81,7 +80,7 @@ public class ObjLoader extends Object3D {
             int index = Integer.parseInt(data[1]) -1;
             vertex.textureCords = textureCords.get(index).clone();
         }
-        if(!data[2].isEmpty()){
+        if(data.length > 2){
             vertex.setNormal(normals.get(Integer.parseInt(data[2])-1));
         }
 

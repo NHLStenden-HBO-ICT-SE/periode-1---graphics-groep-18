@@ -20,8 +20,9 @@ public class Customizer {
     TextField numberFieldY = new TextField();
     TextField numberFieldZ = new TextField();
     TextField axisField = numberFieldX;
+    double reflectivity = 0.00000;
 
-    public void generateCustomizer(GridPane gridPane){
+    public void generateCustomizer(GridPane gridPane) {
         gridPane.add(slider, 0, 4);
         Label labelColorPicker = new Label();
         labelColorPicker.setText("Color: ");
@@ -66,11 +67,6 @@ public class Customizer {
         setNumberFieldLight('X', light);
         setNumberFieldLight('Y', light);
         setNumberFieldLight('Z', light);
-
-        //Sets intensity of current light
-        slider.valueProperty().addListener((observable, oldValue, newValue) -> light.setIntensity((Double) newValue));
-        //Sets color of current light
-        colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> light.setColor(newValue));
     }
 
     public void objectCustomizer(Object3D object) {
@@ -101,81 +97,53 @@ public class Customizer {
         setNumberFieldObject('Y', object);
         setNumberFieldObject('Z', object);
 
-        final double[] reflectivity = {0.00000};
-        //Sets reflectivity of current object
-        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            reflectivity[0] = (double) newValue;
-        });
-
         sliderScale.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if(object.name.contains("Sphere")) {
+            if (object.name.contains("Sphere")) {
                 Sphere sphere = (Sphere) object;
                 sphere.setScale((Double) newValue);
             }
-            if(object.name.contains("Box")) {
+            if (object.name.contains("Box")) {
                 Box box = (Box) object;
                 box.setScale((Double) newValue);
             }
         });
+    }
 
-        //Sets color of current object
-        colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            RayTracer18.Material.Material material = new RayTracer18.Material.Material(newValue);
+    public void setNumberFieldObject(char axis, Object3D object) {
+        if (axis == 'X')
+            numberFieldX.setText(String.valueOf(object.position.getX()));
+        if (axis == 'Y')
+            numberFieldY.setText(String.valueOf(object.position.getY()));
+        if (axis == 'Z')
+            numberFieldZ.setText(String.valueOf(object.position.getZ()));
+    }
 
-            material.setReflection(reflectivity[0]);
-            object.applyMaterial(material);
-        });
+    public void setNumberFieldLight(char axis, Light light) {
+        if (axis == 'X')
+            numberFieldX.setText(String.valueOf(light.position.getX()));
+        if (axis == 'Y')
+            numberFieldY.setText(String.valueOf(light.position.getY()));
+        if (axis == 'Z')
+            numberFieldZ.setText(String.valueOf(light.position.getZ()));
+    }
+
+    public void applyChangesObject(Object3D object) {
+        //Object set position
+        object.setPosition(new Vector3(Double.parseDouble(numberFieldX.getText()), Double.parseDouble(numberFieldY.getText()), Double.parseDouble(numberFieldZ.getText())));
+        //Sets material from colorpicker
+        RayTracer18.Material.Material material = new RayTracer18.Material.Material(colorPicker.getValue());
+        material.setReflection(slider.getValue());
+        object.applyMaterial(material);
 
     }
 
-    public void setNumberFieldObject(char axis, Object3D object){
-        if(axis == 'X')
-            axisField = numberFieldX;
-        if(axis == 'Y')
-            axisField = numberFieldY;
-        if(axis == 'Z')
-            axisField = numberFieldZ;
-
-        //Text field for changing an axis
-        axisField.setText(String.valueOf(object.position.getX()));
-
-        axisField.textProperty().addListener((obs, oldValue, newValue) -> {
-            axisField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                axisField.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                axisField.setBorder(null);
-                object.setPosition(new Vector3(Double.parseDouble(newValue), 0, 0));
-            } catch (NumberFormatException e) {
-                axisField.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
-    }
-
-    public void setNumberFieldLight(char axis, Light light){
-        if(axis == 'X')
-            axisField = numberFieldX;
-        if(axis == 'Y')
-            axisField = numberFieldY;
-        if(axis == 'Z')
-            axisField = numberFieldZ;
-
-        //Text field for changing an axis
-        axisField.setText(String.valueOf(light.position.getX()));
-
-        axisField.textProperty().addListener((obs, oldValue, newValue) -> {
-            axisField.setTextFormatter(new TextFormatter<>(new DoubleStringConverter()));
-
-            try {
-                axisField.getTextFormatter().getValueConverter().fromString(newValue);
-                // no exception above means valid
-                axisField.setBorder(null);
-                light.setPosition(new Vector3(Double.parseDouble(newValue), 0, 0));
-            } catch (NumberFormatException e) {
-                axisField.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
-            }
-        });
+    public void applyChangesLight(Light light) {
+        //Light set position
+        light.setPosition(new Vector3(Double.parseDouble(numberFieldX.getText()), Double.parseDouble(numberFieldY.getText()), Double.parseDouble(numberFieldZ.getText())));
+        //Sets intensity of current light
+        light.setIntensity(slider.getValue());
+        //Sets color of current light
+        light.setColor(colorPicker.getValue());
     }
 }
 

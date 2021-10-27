@@ -264,13 +264,13 @@ public class Main extends Application {
 //        tp2.textureCords = new Vector2(0.5,0);
 //        tp3.textureCords = new Vector2(1,1);
         Triangle t = new Triangle(
-                new Vector3(0, -.5, 3),
+                Triangle.calculateCenter(tp1, tp2, tp3),
                 tp1, tp2, tp3
         );
         scene.add(t);
-        Vector3 test = new Vector3(1, 0, 0);
-        System.out.println(test.rotateZAxis(90));
-        t.rotateZ(20);
+
+        t.rotateY(125);
+        t.rotateX(0);
         t.applyMaterial(orange);
 
 

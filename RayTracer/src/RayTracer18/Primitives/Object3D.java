@@ -13,7 +13,7 @@ public abstract class Object3D {
 
 
     public Vector3 position;
-    private double rotation;
+    public double rotation;
     private Material material;
     public String name;
     public String id;

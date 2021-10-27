@@ -151,13 +151,11 @@ public class Main extends Application {
         tree.setShowRoot(false);
         tree.setMaxHeight(150);
 
-        Label sliderLabel = new Label();
 
         rightPane.add(idLabel, 0, 1);
         rightPane.add(coordsLabel, 0, 2);
-        rightPane.add(sliderLabel, 0, 3);
         applyButton.setText("Apply");
-        rightPane.add(applyButton, 0, 15);
+        rightPane.add(applyButton, 0, 22);
 
 
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -178,7 +176,6 @@ public class Main extends Application {
                     customizer.sliderScale.setVisible(false);
                     customizer.labelScale.setVisible(false);
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
-                    sliderLabel.setText("Light intensity");
                     customizer.lightCustomizer(selectedLight);
 
                 }
@@ -186,7 +183,6 @@ public class Main extends Application {
                     customizer.sliderScale.setVisible(true);
                     customizer.labelScale.setVisible(true);
                     coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
-                    sliderLabel.setText("Object reflectivity");
                     customizer.objectCustomizer(selectedObject);
                 }
 

@@ -31,7 +31,7 @@ public class Main extends Application {
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(1000, 500);
+    Canvas canvas = new Canvas(900, 400);
     Customizer customizer = new Customizer();
 
     Label idLabel = new Label();
@@ -228,7 +228,7 @@ public class Main extends Application {
         borderPane.setRight(rightPane);
         borderPane.setBottom(statusbar);
 
-        primaryStage.setScene(new Scene(borderPane, 1200, 800));
+        primaryStage.setScene(new Scene(borderPane, 1500, 800));
         primaryStage.show();
 
     }
@@ -283,7 +283,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        //scene.add(objLoader);
+//        scene.add(objLoader);
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);

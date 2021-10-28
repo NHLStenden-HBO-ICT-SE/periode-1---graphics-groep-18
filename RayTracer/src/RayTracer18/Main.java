@@ -200,7 +200,12 @@ public class Main extends Application {
                     }
 
                     customizer.sliderScale.setValue(1f);
-                    renderer.reRender();
+                    if (renderer.running) {
+                        renderer.reRender();
+                    } else {
+                        renderer.initRenderer(scene, canvas);
+                        renderer.start();
+                    }
                     createHierarchy();
                 });
 
@@ -282,7 +287,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-       // scene.add(objLoader);
+        // scene.add(objLoader);
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);

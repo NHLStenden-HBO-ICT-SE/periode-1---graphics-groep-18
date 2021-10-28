@@ -127,7 +127,6 @@ public class Customizer {
 
 
         //Enables the used fields
-        labelScale.setVisible(true);
         labelSlider.setVisible(true);
         labelColorPicker.setVisible(true);
 
@@ -186,15 +185,21 @@ public class Customizer {
         numberFieldX.setVisible(true);
         numberFieldY.setVisible(true);
         numberFieldZ.setVisible(true);
-
+        if (object.name.contains("Plane")) {
+            //Disables/Enables the unused fields
+            labelScale.setVisible(false);
+            sliderScale.setVisible(false);
+        }
         if (object.name.contains("Triangle")) {
             //Disables/Enables the unused fields
+            labelScale.setVisible(false);
             labelRotateX.setVisible(true);
             labelRotateY.setVisible(true);
             labelRotateZ.setVisible(true);
             sliderRotateX.setVisible(true);
             sliderRotateY.setVisible(true);
             sliderRotateZ.setVisible(true);
+            sliderScale.setVisible(false);
 
             //Updates rotation labels in real time
             sliderRotateX.valueProperty().addListener((observable, oldValue, newValue) -> {

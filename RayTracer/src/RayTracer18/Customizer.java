@@ -1,10 +1,7 @@
 package RayTracer18;
 
 import RayTracer18.Lights.Light;
-import RayTracer18.Primitives.Box;
-import RayTracer18.Primitives.Object3D;
-import RayTracer18.Primitives.Sphere;
-import RayTracer18.Primitives.Triangle;
+import RayTracer18.Primitives.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -168,6 +165,11 @@ public class Customizer {
     public void objectCustomizer(Object3D object) {
         labelSlider.setText("Object reflectivity: " + object.getMaterial().getReflection());
 
+        //Resets values
+        sliderRotateX.setValue(0.00);
+        sliderRotateY.setValue(0.00);
+        sliderRotateZ.setValue(0.00);
+
         //Disables the unused fields
         labelRotateX.setVisible(false);
         labelRotateY.setVisible(false);
@@ -215,6 +217,34 @@ public class Customizer {
                 labelRotateZ.setText("Rotate Z: " + String.format("%.2f", newValue));
             });
         }
+        if (object.name.contains("CUSTOM")) {
+            //Disables the unused fields
+//            colorPicker.setVisible(false);
+//            slider.setVisible(false);
+//            labelColorPicker.setVisible(false);
+//            labelSlider.setVisible(false);
+//            colorPicker.setVisible(false);
+
+            //Enables the unused fields
+            labelRotateX.setVisible(true);
+            labelRotateY.setVisible(true);
+            labelRotateZ.setVisible(true);
+            sliderRotateX.setVisible(true);
+            sliderRotateY.setVisible(true);
+            sliderRotateZ.setVisible(true);
+
+            //Updates rotation labels in real time
+            sliderRotateX.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateX.setText("Rotate X: " + String.format("%.2f", newValue));
+            });
+            sliderRotateY.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateY.setText("Rotate Y: " + String.format("%.2f", newValue));
+            });
+            sliderRotateZ.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateZ.setText("Rotate Z: " + String.format("%.2f", newValue));
+            });
+        }
+
 
         //Colorpicker
         colorPicker.setValue(object.getMaterial().getColorAt());
@@ -267,7 +297,7 @@ public class Customizer {
         material.setReflection(slider.getValue());
         object.applyMaterial(material);
 
-        //Sets the rotation
+        //Sets the rotation Triangle
         if (object.name.contains("Triangle")) {
             Triangle triangle = (Triangle) object;
             triangle.rotateX(sliderRotateX.getValue());
@@ -282,12 +312,25 @@ public class Customizer {
     }
 
     public void applyChangesLight(Light light) {
-        //Light set position
         light.setPosition(new Vector3(Double.parseDouble(numberFieldX.getText()), Double.parseDouble(numberFieldY.getText()), Double.parseDouble(numberFieldZ.getText())));
-        //Sets intensity of current light
         light.setIntensity(slider.getValue());
-        //Sets color of current light
         light.setColor(colorPicker.getValue());
+    }
+
+    public void applyChangesCustomObject(ObjLoader customObject) {
+        customObject.move(new Vector3(Double.parseDouble(numberFieldX.getText()) - customObject.position.x, Double.parseDouble(numberFieldY.getText()) - customObject.position.y, Double.parseDouble(numberFieldZ.getText())  - customObject.position.z));
+
+        RayTracer18.Material.Material material = new RayTracer18.Material.Material(colorPicker.getValue());
+        material.setReflection(slider.getValue());
+        customObject.applyMaterial(material);
+
+        customObject.rotateX(sliderRotateX.getValue());
+        customObject.rotateY(sliderRotateY.getValue());
+        customObject.rotateZ(sliderRotateZ.getValue());
+
+        sliderRotateX.setValue(0.00);
+        sliderRotateY.setValue(0.00);
+        sliderRotateZ.setValue(0.00);
     }
 }
 

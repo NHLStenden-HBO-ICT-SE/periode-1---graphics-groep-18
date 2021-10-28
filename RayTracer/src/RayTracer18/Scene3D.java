@@ -76,10 +76,6 @@ public class Scene3D {
         return null;
     }
 
-    public ArrayList<Object3D> getObjectListById(String id) {
-        return this.hierarchyObjects;
-    }
-
     public Light getLightById(String id) {
         for (Light l : this.lights) {
             if (l.id.equalsIgnoreCase(id)) {

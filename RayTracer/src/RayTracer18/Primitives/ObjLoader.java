@@ -128,6 +128,12 @@ public class ObjLoader extends Object3D {
         return new Vector3(Double.parseDouble(data[1]), Double.parseDouble(data[2]), Double.parseDouble(data[3]));
     }
 
+    public void rotateY(double angle){
+        for (Triangle t : faces){
+            t.rotateYAround(this, angle);
+        }
+    }
+
     @Override
     public Color getColorAt(Vector3 cords) {
         return getMaterial().color;

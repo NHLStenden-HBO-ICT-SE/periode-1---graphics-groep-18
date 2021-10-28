@@ -40,7 +40,7 @@ public class Main extends Application {
     public Renderer renderer = new Renderer();
 
     public static ProgressBar progressBar = new ProgressBar(0);
-    private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
+    private static String basePath = new File("").getAbsolutePath();
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
@@ -99,7 +99,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
+        //primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
         borderPane = new BorderPane();
         gridPane = new GridPane();
         addMouseScrolling(canvas);
@@ -271,7 +271,7 @@ public class Main extends Application {
                 Triangle.calculateCenter(tp1, tp2, tp3),
                 tp1, tp2, tp3
         );
-        scene.add(t);
+        //scene.add(t);
 
         t.rotateY(125);
         t.rotateX(0);
@@ -287,7 +287,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        // scene.add(objLoader);
+        scene.add(objLoader);
+        objLoader.rotateY(25);
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);

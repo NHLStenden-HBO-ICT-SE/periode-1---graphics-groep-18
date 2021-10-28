@@ -291,7 +291,8 @@ public class Main extends Application {
         }
         objLoader.applyMaterial(objtex);
         scene.add(objLoader);
-        objLoader.test();
+        //objLoader.rotateY(25);
+        //objLoader.move(new Vector3(0,-2,2));
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);
         floor.applyMaterial(checker);

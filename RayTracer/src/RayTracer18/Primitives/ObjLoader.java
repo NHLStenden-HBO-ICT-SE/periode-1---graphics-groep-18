@@ -30,12 +30,15 @@ public class ObjLoader extends Object3D {
 
 
     public void move(Vector3 dir){
+        this.position.add(dir.x, dir.y, dir.z);
+        double x = dir.x;
+        double y = dir.y;
+        double z = dir.z;
         for(Triangle f: this.faces){
-            f.position.add(dir.clone());
-            f.p1.add(dir.clone());
-            f.p2.add(dir.clone());
-            f.p3.add(dir.clone());
-
+            f.p1.add(x, y, z);
+            f.p2.add(x, y, z);
+            f.p3.add(x, y, z);
+            f.position = Triangle.calculateCenter(f.p1, f.p2, f.p3);
         }
     }
 
@@ -129,9 +132,7 @@ public class ObjLoader extends Object3D {
         facesArray = faces.toArray(facesArray);
         return facesArray;
     }
-    public void test(){
-        System.out.println("YEET " + faces.size());
-    }
+
     public Vector3 parseNormal(String[] data){
         return new Vector3(Double.parseDouble(data[1]), Double.parseDouble(data[2]), Double.parseDouble(data[3]));
     }

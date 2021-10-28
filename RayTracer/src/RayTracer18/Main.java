@@ -155,6 +155,7 @@ public class Main extends Application {
         rightPane.add(idLabel, 0, 1);
         rightPane.add(coordsLabel, 0, 2);
         applyButton.setText("Apply");
+        applyButton.setVisible(false);
         rightPane.add(applyButton, 0, 22);
 
 
@@ -173,6 +174,7 @@ public class Main extends Application {
 
 
                 if (selectedLight != null) {
+                    applyButton.setVisible(true);
                     customizer.sliderScale.setVisible(false);
                     customizer.labelScale.setVisible(false);
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
@@ -180,6 +182,7 @@ public class Main extends Application {
 
                 }
                 if (selectedObject != null) {
+                    applyButton.setVisible(true);
                     customizer.sliderScale.setVisible(true);
                     customizer.labelScale.setVisible(true);
                     coordsLabel.setText("Coordinates : " + selectedObject.position.toString());

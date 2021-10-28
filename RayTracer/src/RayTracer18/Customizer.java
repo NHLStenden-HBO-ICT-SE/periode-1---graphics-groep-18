@@ -69,29 +69,26 @@ public class Customizer {
 
 
         //Sets all slider properties
-        sliderRotateX.setMin(0f);
+        sliderRotateX.setMin(-360f);
         sliderRotateX.setMax(360f);
         sliderRotateX.setBlockIncrement(1);
         sliderRotateX.setMajorTickUnit(20);
         sliderRotateX.setMinorTickCount(10);
         sliderRotateX.setShowTickLabels(true);
-        sliderRotateX.setSnapToTicks(true);
 
-        sliderRotateY.setMin(0f);
+        sliderRotateY.setMin(-360f);
         sliderRotateY.setMax(360f);
         sliderRotateY.setBlockIncrement(1);
         sliderRotateY.setMajorTickUnit(20);
         sliderRotateY.setMinorTickCount(10);
         sliderRotateY.setShowTickLabels(true);
-        sliderRotateY.setSnapToTicks(true);
 
-        sliderRotateZ.setMin(0f);
+        sliderRotateZ.setMin(-360f);
         sliderRotateZ.setMax(360f);
         sliderRotateZ.setBlockIncrement(1);
         sliderRotateZ.setMajorTickUnit(20);
         sliderRotateZ.setMinorTickCount(10);
         sliderRotateZ.setShowTickLabels(true);
-        sliderRotateZ.setSnapToTicks(true);
 
 
         //Disables all fields and labels on startup
@@ -270,6 +267,9 @@ public class Customizer {
             triangle.rotateZ(sliderRotateZ.getValue());
 
             rotationLabel.setText("Rotation : x=" + String.format("%.2f", sliderRotateX.getValue()) + ", y=" + String.format("%.2f", sliderRotateY.getValue()) + ", z=" + String.format("%.2f", sliderRotateZ.getValue()));
+            sliderRotateX.setValue(0.00);
+            sliderRotateY.setValue(0.00);
+            sliderRotateZ.setValue(0.00);
         }
     }
 

@@ -1,6 +1,6 @@
 package RayTracer18;
 
-import RayTracer18.Light.Light;
+import RayTracer18.Lights.Light;
 import RayTracer18.Primitives.Box;
 import RayTracer18.Primitives.Object3D;
 import RayTracer18.Primitives.Sphere;

@@ -39,21 +39,18 @@ public class Material {
 
         int x = (int)(u*width);
         int y = (int)(v*height);
-        //System.out.println("X: " + x + " Y: " + y);
         int clr = 0;
         try{
             clr  = img.getRGB(x, y);
-
         }
         catch(Error r){
-            System.out.println("Could not get Color");
+            System.out.println("Error while getting color at x:" + x + " y:" + y);
             return null;
         }
 
         int red =   (clr & 0x00ff0000) >> 16;
         int green = (clr & 0x0000ff00) >> 8;
         int blue =   clr & 0x000000ff;
-        //System.out.println("R: " + red + " G:" + green + " B:" + blue);
         Color c = new Color((double)red/255, (double)green/255, (double)blue/255, 1);
         return c;
     }

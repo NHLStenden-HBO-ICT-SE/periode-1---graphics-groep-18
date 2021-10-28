@@ -1,7 +1,7 @@
 package RayTracer18;
 
-import RayTracer18.Light.Light;
-import RayTracer18.ObjLoader.ObjLoader;
+import RayTracer18.Lights.Light;
+import RayTracer18.Primitives.ObjLoader;
 import RayTracer18.Primitives.Object3D;
 import RayTracer18.Primitives.Triangle;
 import javafx.scene.paint.Color;

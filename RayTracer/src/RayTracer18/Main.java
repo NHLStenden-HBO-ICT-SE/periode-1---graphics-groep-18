@@ -42,6 +42,9 @@ public class Main extends Application {
     public static ProgressBar progressBar = new ProgressBar(0);
     private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
 
+
+
+
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
 
@@ -287,8 +290,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        // scene.add(objLoader);
-
+        scene.add(objLoader);
+        objLoader.test();
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);
         floor.applyMaterial(checker);

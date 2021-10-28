@@ -17,6 +17,10 @@ public class Customizer {
     Label labelRotateX = new Label();
     Label labelRotateY = new Label();
     Label labelRotateZ = new Label();
+    Label labelColorPicker = new Label();
+    Label labelX = new Label();
+    Label labelY = new Label();
+    Label labelZ = new Label();
 
     Slider slider = new Slider();
     Slider sliderScale = new Slider();
@@ -34,7 +38,6 @@ public class Customizer {
         gridPane.add(rotationLabel, 0, 3);
         gridPane.add(labelSlider, 0, 4);
         gridPane.add(slider, 0, 5);
-        Label labelColorPicker = new Label();
         labelColorPicker.setText("Color: ");
         gridPane.add(labelColorPicker, 0, 6);
         gridPane.add(colorPicker, 0, 7);
@@ -43,15 +46,12 @@ public class Customizer {
         gridPane.add(labelScale, 0, 8);
         gridPane.add(sliderScale, 0, 9);
 
-        Label labelX = new Label();
         labelX.setText("X: ");
         gridPane.add(labelX, 0, 10);
         gridPane.add(numberFieldX, 0, 11);
-        Label labelY = new Label();
         labelY.setText("Y: ");
         gridPane.add(labelY, 0, 12);
         gridPane.add(numberFieldY, 0, 13);
-        Label labelZ = new Label();
         labelZ.setText("Z: ");
         gridPane.add(labelZ, 0, 14);
         gridPane.add(numberFieldZ, 0, 15);
@@ -63,7 +63,7 @@ public class Customizer {
         labelRotateY.setText("Rotate Y: 0.00");
         gridPane.add(labelRotateY, 0, 18);
         gridPane.add(sliderRotateY, 0, 19);
-        labelRotateZ.setText("Rotate Y: 0.00");
+        labelRotateZ.setText("Rotate Z: 0.00");
         gridPane.add(labelRotateZ, 0, 20);
         gridPane.add(sliderRotateZ, 0, 21);
 
@@ -93,18 +93,58 @@ public class Customizer {
         sliderRotateZ.setShowTickLabels(true);
         sliderRotateZ.setSnapToTicks(true);
 
+
+        //Disables all fields and labels on startup
+        labelRotateX.setVisible(false);
+        labelRotateY.setVisible(false);
+        labelRotateZ.setVisible(false);
+        labelColorPicker.setVisible(false);
+        labelX.setVisible(false);
+        labelY.setVisible(false);
+        labelZ.setVisible(false);
+        labelScale.setVisible(false);
+
+        sliderRotateX.setVisible(false);
+        sliderRotateY.setVisible(false);
+        sliderRotateZ.setVisible(false);
+        slider.setVisible(false);
+        sliderScale.setVisible(false);
+        colorPicker.setVisible(false);
+        numberFieldX.setVisible(false);
+        numberFieldY.setVisible(false);
+        numberFieldZ.setVisible(false);
     }
 
     public void lightCustomizer(Light light) {
+        labelSlider.setText("Light intensity: " + light.intensity);
+
         //Disables the unused fields
         labelRotateX.setVisible(false);
         labelRotateY.setVisible(false);
         labelRotateZ.setVisible(false);
+        labelScale.setVisible(false);
+
         sliderRotateX.setVisible(false);
         sliderRotateY.setVisible(false);
         sliderRotateZ.setVisible(false);
 
-        labelSlider.setText("Light intensity");
+
+        //Enables the used fields
+        labelScale.setVisible(true);
+        labelSlider.setVisible(true);
+        labelColorPicker.setVisible(true);
+
+        slider.setVisible(true);
+        colorPicker.setVisible(true);
+
+        labelX.setVisible(true);
+        labelY.setVisible(true);
+        labelZ.setVisible(true);
+        numberFieldX.setVisible(true);
+        numberFieldY.setVisible(true);
+        numberFieldZ.setVisible(true);
+
+
         //Intensity slider
         slider.setValue(light.intensity);
         slider.setMin(0f);
@@ -113,7 +153,6 @@ public class Customizer {
         slider.setMajorTickUnit(2);
         slider.setMinorTickCount(1);
         slider.setShowTickLabels(true);
-        slider.setSnapToTicks(true);
 
         //Colorpicker
         colorPicker.setValue(light.color);
@@ -129,13 +168,27 @@ public class Customizer {
     }
 
     public void objectCustomizer(Object3D object) {
-        //Disables/Enables the unused fields
+        labelSlider.setText("Object reflectivity: " + object.getMaterial().getReflection());
+
+        //Disables the unused fields
         labelRotateX.setVisible(false);
         labelRotateY.setVisible(false);
         labelRotateZ.setVisible(false);
         sliderRotateX.setVisible(false);
         sliderRotateY.setVisible(false);
         sliderRotateZ.setVisible(false);
+
+        //Enables the used fields
+        labelColorPicker.setVisible(true);
+
+        colorPicker.setVisible(true);
+        slider.setVisible(true);
+        labelX.setVisible(true);
+        labelY.setVisible(true);
+        labelZ.setVisible(true);
+        numberFieldX.setVisible(true);
+        numberFieldY.setVisible(true);
+        numberFieldZ.setVisible(true);
 
         if (object.name.contains("Triangle")) {
             //Disables/Enables the unused fields
@@ -158,11 +211,8 @@ public class Customizer {
             });
         }
 
-
         //Colorpicker
         colorPicker.setValue(object.getMaterial().getColorAt());
-
-        labelSlider.setText("Object reflectivity");
 
         //Reflectivity slider
         slider.setValue(object.getMaterial().getReflection());
@@ -171,7 +221,6 @@ public class Customizer {
         slider.setBlockIncrement(.1);
         slider.setMajorTickUnit(.2);
         slider.setShowTickLabels(true);
-        slider.setSnapToTicks(true);
 
         //Scale
         sliderScale.setValue(1f);
@@ -180,7 +229,6 @@ public class Customizer {
         sliderScale.setBlockIncrement(.5);
         sliderScale.setMajorTickUnit(1);
         sliderScale.setShowTickLabels(true);
-        sliderScale.setSnapToTicks(true);
 
         //Sets the numberFields for XYZ
         numberFieldX.setText(String.valueOf(object.position.getX()));
@@ -221,7 +269,7 @@ public class Customizer {
             triangle.rotateY(sliderRotateY.getValue());
             triangle.rotateZ(sliderRotateZ.getValue());
 
-            rotationLabel.setText("Rotation : x=" + String.format("%.2f", sliderRotateX.getValue()) + ", y=" + String.format("%.2f",sliderRotateY.getValue()) + ", z=" + String.format("%.2f",sliderRotateZ.getValue()));
+            rotationLabel.setText("Rotation : x=" + String.format("%.2f", sliderRotateX.getValue()) + ", y=" + String.format("%.2f", sliderRotateY.getValue()) + ", z=" + String.format("%.2f", sliderRotateZ.getValue()));
         }
     }
 

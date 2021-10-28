@@ -92,12 +92,6 @@ public class ObjLoader extends Object3D {
         //reads the provided obj file and parses the file into triangles
 
         BufferedReader input = new BufferedReader(new FileReader(file));
-
-
-
-
-
-
         String line;
         while ((line = input.readLine()) != null) {
             String[] data = line.split(" ");

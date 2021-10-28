@@ -154,9 +154,9 @@ public class Triangle extends Object3D{
         rotateYAxis(dVec3, angle);
         Vector3 newP3 = addVectors(dVec3, this.position);
 
-        this.p1 = newP1;
-        this.p2 = newP2;
-        this.p3 = newP3;
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
     }
 
     public void rotateX(double angle){
@@ -172,9 +172,62 @@ public class Triangle extends Object3D{
         rotateXAxis(dVec3, angle);
         Vector3 newP3 = addVectors(dVec3, this.position);
 
-        this.p1 = newP1;
-        this.p2 = newP2;
-        this.p3 = newP3;
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+    public void rotateZAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        rotateZAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        rotateZAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        rotateZAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+
+    public void rotateYAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        rotateYAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        rotateYAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        rotateYAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+
+    public void rotateXAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        rotateXAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        rotateXAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        rotateXAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
     }
 
     @Override

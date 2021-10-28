@@ -17,7 +17,7 @@ public class Scene3D {
     public Camera camera;
     public Color voidColor;
 
-    public Scene3D(){
+    public Scene3D() {
         this.objects = new ArrayList<Object3D>();
         this.hierarchyObjects = new ArrayList<Object3D>();
         this.camera = new Camera(0.32, this);
@@ -27,11 +27,11 @@ public class Scene3D {
 
     }
 
-    public void add(Object3D ob){
-        if (ob instanceof ObjLoader){
+    public void add(Object3D ob) {
+        if (ob instanceof ObjLoader) {
             try {
                 Triangle[] triangles = ((ObjLoader) ob).parseFile();
-                for (Triangle triangle : triangles){
+                for (Triangle triangle : triangles) {
                     triangle.position = ob.position;
                     triangle.applyMaterial(ob.getMaterial());
                 }
@@ -40,44 +40,49 @@ public class Scene3D {
                 e.printStackTrace();
             }
 
-        }
-        else {
+        } else {
             objects.add(ob);
         }
         hierarchyObjects.add(ob);
     }
 
 
-    public void add(Light light){
+    public void add(Light light) {
         lights.add(light);
     }
 
-    public ArrayList<Light> getLights(){
+    public ArrayList<Light> getLights() {
         //Made this function for if we want to be able to hide certain objects(return only objects with object.visible = true for example)
         return this.lights;
     }
-    public ArrayList<Object3D> getObjects(){
+
+    public ArrayList<Object3D> getObjects() {
         //Made this function for if we want to be able to hide certain objects(return only objects with object.visible = true for example)
         return objects;
     }
 
-    public ArrayList<Object3D> getHiarcyObjects(){
+    public ArrayList<Object3D> getHiarcyObjects() {
         //Made this function for if we want to be able to hide certain objects(return only objects with object.visible = true for example)
         return hierarchyObjects;
     }
 
 
-    public Object3D getObjectById(String id){
-        for(Object3D ob: this.objects){
-            if (ob.id.equalsIgnoreCase(id)){
+    public Object3D getObjectById(String id) {
+        for (Object3D ob : this.hierarchyObjects) {
+            if (ob.id.equalsIgnoreCase(id)) {
                 return ob;
             }
         }
         return null;
     }
-    public Light getLightById(String id){
-        for(Light l: this.lights){
-            if (l.id.equalsIgnoreCase(id)){
+
+    public ArrayList<Object3D> getObjectListById(String id) {
+        return this.hierarchyObjects;
+    }
+
+    public Light getLightById(String id) {
+        for (Light l : this.lights) {
+            if (l.id.equalsIgnoreCase(id)) {
                 return l;
             }
         }

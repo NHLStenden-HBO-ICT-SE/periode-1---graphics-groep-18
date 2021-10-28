@@ -8,6 +8,8 @@ import RayTracer18.Primitives.Triangle;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+import java.util.ArrayList;
+
 public class Customizer {
     Label labelScale = new Label();
     Label labelSlider = new Label();
@@ -185,6 +187,7 @@ public class Customizer {
         numberFieldX.setVisible(true);
         numberFieldY.setVisible(true);
         numberFieldZ.setVisible(true);
+
         if (object.name.contains("Plane")) {
             //Disables/Enables the unused fields
             labelScale.setVisible(false);

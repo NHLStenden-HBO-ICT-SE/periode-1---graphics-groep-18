@@ -38,6 +38,7 @@ public class Main extends Application {
     Label coordsLabel = new Label();
     Button applyButton = new Button();
     public Renderer renderer = new Renderer();
+    ArrayList<Object3D> selectedObjects = null;
 
     public static ProgressBar progressBar = new ProgressBar(0);
     private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
@@ -168,6 +169,9 @@ public class Main extends Application {
                 String name = selectedItem.getValue();
                 String id = name.substring(name.indexOf("id:")).substring(3).trim();
                 Light selectedLight = scene.getLightById(id);
+                if (name.contains("CUSTOM"))
+                    selectedObjects = scene.getObjectListById(id);
+
                 Object3D selectedObject = scene.getObjectById(id);
 
                 idLabel.setText("Customizing: " + id);
@@ -191,6 +195,12 @@ public class Main extends Application {
 
                 //Creates button and applies light changes
                 applyButton.setOnAction(e -> {
+                    if (name.contains("CUSTOM"))
+                        for (Object3D selectedObjectFromObject : selectedObjects) {
+                            if (selectedObjectFromObject != null) {
+                                customizer.applyChangesObject(selectedObjectFromObject);
+                            }
+                        }
                     if (selectedObject != null) {
                         customizer.applyChangesObject(selectedObject);
                         coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
@@ -279,7 +289,7 @@ public class Main extends Application {
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley CUSTOM");
         try {
 
             objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
@@ -287,7 +297,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-        // scene.add(objLoader);
+        scene.add(objLoader);
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);

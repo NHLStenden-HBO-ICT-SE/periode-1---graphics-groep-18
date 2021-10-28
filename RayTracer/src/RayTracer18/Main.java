@@ -155,6 +155,7 @@ public class Main extends Application {
         rightPane.add(idLabel, 0, 1);
         rightPane.add(coordsLabel, 0, 2);
         applyButton.setText("Apply");
+        applyButton.setVisible(false);
         rightPane.add(applyButton, 0, 22);
 
 
@@ -173,6 +174,7 @@ public class Main extends Application {
 
 
                 if (selectedLight != null) {
+                    applyButton.setVisible(true);
                     customizer.sliderScale.setVisible(false);
                     customizer.labelScale.setVisible(false);
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
@@ -180,6 +182,7 @@ public class Main extends Application {
 
                 }
                 if (selectedObject != null) {
+                    applyButton.setVisible(true);
                     customizer.sliderScale.setVisible(true);
                     customizer.labelScale.setVisible(true);
                     coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
@@ -197,7 +200,12 @@ public class Main extends Application {
                     }
 
                     customizer.sliderScale.setValue(1f);
-                    renderer.reRender();
+                    if (renderer.running) {
+                        renderer.reRender();
+                    } else {
+                        renderer.initRenderer(scene, canvas);
+                        renderer.start();
+                    }
                     createHierarchy();
                 });
 
@@ -279,7 +287,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
-       // scene.add(objLoader);
+        // scene.add(objLoader);
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);

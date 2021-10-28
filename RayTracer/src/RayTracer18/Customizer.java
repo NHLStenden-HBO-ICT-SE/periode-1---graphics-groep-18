@@ -69,29 +69,26 @@ public class Customizer {
 
 
         //Sets all slider properties
-        sliderRotateX.setMin(0f);
+        sliderRotateX.setMin(-360f);
         sliderRotateX.setMax(360f);
         sliderRotateX.setBlockIncrement(1);
         sliderRotateX.setMajorTickUnit(20);
         sliderRotateX.setMinorTickCount(10);
         sliderRotateX.setShowTickLabels(true);
-        sliderRotateX.setSnapToTicks(true);
 
-        sliderRotateY.setMin(0f);
+        sliderRotateY.setMin(-360f);
         sliderRotateY.setMax(360f);
         sliderRotateY.setBlockIncrement(1);
         sliderRotateY.setMajorTickUnit(20);
         sliderRotateY.setMinorTickCount(10);
         sliderRotateY.setShowTickLabels(true);
-        sliderRotateY.setSnapToTicks(true);
 
-        sliderRotateZ.setMin(0f);
+        sliderRotateZ.setMin(-360f);
         sliderRotateZ.setMax(360f);
         sliderRotateZ.setBlockIncrement(1);
         sliderRotateZ.setMajorTickUnit(20);
         sliderRotateZ.setMinorTickCount(10);
         sliderRotateZ.setShowTickLabels(true);
-        sliderRotateZ.setSnapToTicks(true);
 
 
         //Disables all fields and labels on startup
@@ -130,7 +127,6 @@ public class Customizer {
 
 
         //Enables the used fields
-        labelScale.setVisible(true);
         labelSlider.setVisible(true);
         labelColorPicker.setVisible(true);
 
@@ -189,15 +185,21 @@ public class Customizer {
         numberFieldX.setVisible(true);
         numberFieldY.setVisible(true);
         numberFieldZ.setVisible(true);
-
+        if (object.name.contains("Plane")) {
+            //Disables/Enables the unused fields
+            labelScale.setVisible(false);
+            sliderScale.setVisible(false);
+        }
         if (object.name.contains("Triangle")) {
             //Disables/Enables the unused fields
+            labelScale.setVisible(false);
             labelRotateX.setVisible(true);
             labelRotateY.setVisible(true);
             labelRotateZ.setVisible(true);
             sliderRotateX.setVisible(true);
             sliderRotateY.setVisible(true);
             sliderRotateZ.setVisible(true);
+            sliderScale.setVisible(false);
 
             //Updates rotation labels in real time
             sliderRotateX.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -270,6 +272,9 @@ public class Customizer {
             triangle.rotateZ(sliderRotateZ.getValue());
 
             rotationLabel.setText("Rotation : x=" + String.format("%.2f", sliderRotateX.getValue()) + ", y=" + String.format("%.2f", sliderRotateY.getValue()) + ", z=" + String.format("%.2f", sliderRotateZ.getValue()));
+            sliderRotateX.setValue(0.00);
+            sliderRotateY.setValue(0.00);
+            sliderRotateZ.setValue(0.00);
         }
     }
 

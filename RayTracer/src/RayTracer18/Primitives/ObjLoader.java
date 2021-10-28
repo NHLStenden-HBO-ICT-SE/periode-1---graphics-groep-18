@@ -1,4 +1,4 @@
-package RayTracer18.ObjLoader;
+package RayTracer18.Primitives;
 
 
 import RayTracer18.Primitives.Object3D;

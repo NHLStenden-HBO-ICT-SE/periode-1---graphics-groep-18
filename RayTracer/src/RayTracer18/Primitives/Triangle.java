@@ -105,12 +105,6 @@ public class Triangle extends Object3D{
     @Override
     public Vector3 getNormalAt(Vector3 point) {
 
-
-//        if(getMaterial().hasNormalMap){
-//            return getMaterial().
-//        }
-
-
         if(!this.hasVertexNormals){
             Vector3 a = Vector3.sub(p2, p1);
             Vector3 b = Vector3.sub(p3, p1);

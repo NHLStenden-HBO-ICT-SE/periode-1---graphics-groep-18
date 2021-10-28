@@ -41,8 +41,7 @@ public class Main extends Application {
 
     public static ProgressBar progressBar = new ProgressBar(0);
     private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
-
-
+    private static ArrayList<ObjLoader> customObjects = new ArrayList<>();
 
 
     public void addMouseScrolling(Node node) {
@@ -128,9 +127,9 @@ public class Main extends Application {
             renderer.reRender();
 
         });
+        initCustomObjects();
         initScene(scene, canvas);
         createHierarchy();
-//        customizeLights();
 
         Button renderButton = new Button();
         renderButton.setText("Render");
@@ -171,6 +170,7 @@ public class Main extends Application {
                 String name = selectedItem.getValue();
                 String id = name.substring(name.indexOf("id:")).substring(3).trim();
                 Light selectedLight = scene.getLightById(id);
+
                 Object3D selectedObject = scene.getObjectById(id);
 
                 idLabel.setText("Customizing: " + id);
@@ -194,6 +194,9 @@ public class Main extends Application {
 
                 //Creates button and applies light changes
                 applyButton.setOnAction(e -> {
+                    if (name.contains("CUSTOM"))
+                        for (ObjLoader customObject : customObjects)
+                            customizer.applyChangesCustomObject(customObject);
                     if (selectedObject != null) {
                         customizer.applyChangesObject(selectedObject);
                         coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
@@ -240,6 +243,22 @@ public class Main extends Application {
 
     }
 
+    public void initCustomObjects() {
+        Material objtex = new Material(Color.PINK);
+
+        //TODO: Try catch for if not found
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/test.obj"), "CUSTOM Dominace asserting Rick Astley");
+        try {
+
+            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        objLoader.applyMaterial(objtex);
+
+        customObjects.add(objLoader);
+    }
+
 
     public static void initScene(Scene3D scene, Canvas canvas) {
         Material blue = new Material(Color.BLUE);
@@ -259,8 +278,6 @@ public class Main extends Application {
         }
 
 
-        Material objtex = new Material(Color.PINK);
-
         mirror.setReflection(1);
 
         Vector3 tp1 = new Vector3(-2, -0.5, 3);
@@ -275,22 +292,13 @@ public class Main extends Application {
                 tp1, tp2, tp3
         );
         scene.add(t);
-
         t.rotateY(125);
-        t.rotateX(0);
         t.applyMaterial(orange);
 
 
-        //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
-        try {
+        for (ObjLoader customObject : customObjects)
+            scene.add(customObject);
 
-            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        objLoader.applyMaterial(objtex);
-        scene.add(objLoader);
         //objLoader.rotateY(25);
         //objLoader.move(new Vector3(0,-2,2));
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));

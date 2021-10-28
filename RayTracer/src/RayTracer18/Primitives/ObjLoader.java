@@ -21,10 +21,25 @@ public class ObjLoader extends Object3D {
     private ArrayList<Triangle> faces = new ArrayList<>();
     private ArrayList<Vector3> normals = new ArrayList<>();
 
+
     public ObjLoader(Vector3 pos, File file, String name) {
         super(pos);
         this.file = file;
         this.name = name;
+    }
+
+
+    public void move(Vector3 dir){
+        this.position.add(dir.x, dir.y, dir.z);
+        double x = dir.x;
+        double y = dir.y;
+        double z = dir.z;
+        for(Triangle f: this.faces){
+            f.p1.add(x, y, z);
+            f.p2.add(x, y, z);
+            f.p3.add(x, y, z);
+            f.position = Triangle.calculateCenter(f.p1, f.p2, f.p3);
+        }
     }
 
     public static Vector3 parseVertex(String[] data) {
@@ -41,9 +56,9 @@ public class ObjLoader extends Object3D {
         ArrayList<Triangle> triangles = new ArrayList<>();
         Triangle t = new Triangle(
                 null,
-                parseTriangleVertex(data[1].split("/")).add(new Vector3(0,-3,2)),
-                parseTriangleVertex(data[2].split("/")).add(new Vector3(0,-3,2)),
-                parseTriangleVertex(data[3].split("/")).add(new Vector3(0,-3,2))
+                parseTriangleVertex(data[1].split("/")),
+                parseTriangleVertex(data[2].split("/")),
+                parseTriangleVertex(data[3].split("/"))
         );
         if(t.p1.getNormal() != null && t.p2.getNormal() != null && t.p3.getNormal() != null){
             t.hasVertexNormals = true;
@@ -54,9 +69,9 @@ public class ObjLoader extends Object3D {
         if (data.length == 5){
             Triangle t2 = new Triangle(
                     null,
-                    parseTriangleVertex(data[1].split("/")).add(new Vector3(0,-3,2)),
-                    parseTriangleVertex(data[3].split("/")).add(new Vector3(0,-3,2)),
-                    parseTriangleVertex(data[4].split("/")).add(new Vector3(0,-3,2))
+                    parseTriangleVertex(data[1].split("/")),
+                    parseTriangleVertex(data[3].split("/")),
+                    parseTriangleVertex(data[4].split("/"))
 
             );
             if(t2.p1.getNormal() != null && t2.p2.getNormal() != null && t2.p3.getNormal() != null){
@@ -113,11 +128,11 @@ public class ObjLoader extends Object3D {
             }
         }
         input.close();
-
         Triangle[] facesArray = new Triangle[faces.size()];
         facesArray = faces.toArray(facesArray);
         return facesArray;
     }
+
     public Vector3 parseNormal(String[] data){
         return new Vector3(Double.parseDouble(data[1]), Double.parseDouble(data[2]), Double.parseDouble(data[3]));
     }

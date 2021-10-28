@@ -122,9 +122,21 @@ public class ObjLoader extends Object3D {
         return new Vector3(Double.parseDouble(data[1]), Double.parseDouble(data[2]), Double.parseDouble(data[3]));
     }
 
+    public void rotateZ(double angle){
+        for (Triangle t : faces){
+            t.rotateZAround(this, angle);
+        }
+    }
+
     public void rotateY(double angle){
         for (Triangle t : faces){
             t.rotateYAround(this, angle);
+        }
+    }
+
+    public void rotateX(double angle){
+        for (Triangle t : faces){
+            t.rotateXAround(this, angle);
         }
     }
 

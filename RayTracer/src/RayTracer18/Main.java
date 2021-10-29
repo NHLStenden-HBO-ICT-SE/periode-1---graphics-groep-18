@@ -323,7 +323,7 @@ public class Main extends Application {
 
         }
 
-        Banana
+        //Banana
         {
             Material objtex = new Material(Color.PINK);
 

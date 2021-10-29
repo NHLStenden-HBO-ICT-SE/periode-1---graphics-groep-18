@@ -54,11 +54,11 @@ Selecteer een object/licht in de hierachy en dan kun je de waardes aanpassen, kl
 We kunnen driehoeken draaien om de origin van dat driehoek of om de origin van een ObjLoaded model.
 Wordt gebruikt in de final render om het nhl logo wat te draaien.
 
-#####Notes
+#### #Notes
 - Er zijn veel functies uitcommented die te maken hebben met normals, we hadden interpolated normals maar die zijn last minute weggehaald
 - Alle objecten, als ze draaien, draaien ze om de origin van het object heen. Vaak is die origin niet in het object dus draait het om bijvoobeeld 0,0,0 heen.
 
-###Setup
+### Setup
 #### Project uitpakken
 1. Pak de .zip uit in een folder.
 2. Open het project met IntelliJ IDEA (de buitenste folder). (andere IDE mag ook, maar geen installatie instructies voor)

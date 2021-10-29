@@ -158,13 +158,11 @@ public class Ray {
             //No lights absolute shadow
             return new RayHit(Color.BLACK, this.distance);
         }
-        //System.out.println(hitPoint.u + " v: " + hitPoint.v);
         Color cur = hitObject.getColorAt(hitPoint);
 
         Color totalLightColor = Color.BLACK;
 
         for(Light l: reachAbleLights){
-
             totalLightColor = totalLightColor.interpolate(l.color, 1/Math.pow(hitPoint.distanceTo(l.position) , 2) * l.intensity);
 
         }
@@ -179,6 +177,7 @@ public class Ray {
         prod += 1;
         prod *=0.5;
 
+        //Color returnColor = Utils.addColor(cur, Color.BLACK, prod);
         Color returnColor = cur.interpolate(Color.BLACK, prod);
         return new RayHit(returnColor, this.distance);
 

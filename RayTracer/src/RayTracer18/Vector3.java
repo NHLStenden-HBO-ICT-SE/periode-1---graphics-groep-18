@@ -11,7 +11,7 @@ public class Vector3 {
 
     public Vector2 uv = new Vector2(-10, -10);
 
-    public Vector3 normal = null;
+    //public Vector3 normal = null;
 
     public Vector2 textureCords = null;
 
@@ -28,13 +28,13 @@ public class Vector3 {
         this.z = 0;
     }
 
-    public Vector3 getNormal() {
-        return normal;
-    }
+//    public Vector3 getNormal() {
+//        return normal;
+//    }
 
-    public void setNormal(Vector3 normal) {
-        this.normal = normal;
-    }
+//    public void setNormal(Vector3 normal) {
+//        this.normal = normal;
+//    }
 
     public void setUv(Vector2 uv) {
         this.uv = uv;

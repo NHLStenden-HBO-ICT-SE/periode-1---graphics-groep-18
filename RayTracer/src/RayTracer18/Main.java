@@ -31,7 +31,7 @@ public class Main extends Application {
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(900, 400);
+    Canvas canvas = new Canvas(800, 400);
     Customizer customizer = new Customizer();
 
     Label idLabel = new Label();
@@ -196,7 +196,7 @@ public class Main extends Application {
                 applyButton.setOnAction(e -> {
                     if (name.contains("CUSTOM"))
                         for (ObjLoader customObject : customObjects)
-                            customizer.applyChangesCustomObject(customObject);
+                            //customizer.applyChangesCustomObject(customObject);
                     if (selectedObject != null) {
                         customizer.applyChangesObject(selectedObject);
                         coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
@@ -250,6 +250,7 @@ public class Main extends Application {
         Material red = new Material(Color.RED);
         Material orange = new Material(Color.ORANGE);
         Material mirror = new Material(Color.GRAY);
+        mirror.setReflection(1);
         Material brick = new Material(Color.BLACK);
         Material checker = new Material(Color.PURPLE);
         checker.isChecker = true;
@@ -262,39 +263,100 @@ public class Main extends Application {
         }
 
 
-        Material objtex = new Material(Color.PINK);
-
-        mirror.setReflection(1);
-
-        Vector3 tp1 = new Vector3(-2, -0.5, 3);
-        Vector3 tp2 = new Vector3(0, 2, 3);
-        Vector3 tp3 = new Vector3(2, -0.5, 3);
-        //Triangle uv positions
-//        tp1.textureCords = new Vector2(0,1);
-//        tp2.textureCords = new Vector2(0.5,0);
-//        tp3.textureCords = new Vector2(1,1);
-        Triangle t = new Triangle(
-                Triangle.calculateCenter(tp1, tp2, tp3),
-                tp1, tp2, tp3
-        );
-        //scene.add(t);
+        Plane background = new Plane(new Vector3(0,0,3), new Vector3(0,0,-1));
+        background.applyMaterial(orange);
+        scene.add(background);
 
 
-        t.applyMaterial(orange);
+
+
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/ricksmall.obj"), "[CUSTOM] Dominace asserting Rick Astley");
-        try {
 
-            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
-        } catch (IOException e) {
-            e.printStackTrace();
+        //Rubic cube
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "[CUSTOM] Rubic Cube");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(0,0,0.5));
+
+            customObjects.add(objLoader);
+
         }
-        objLoader.applyMaterial(objtex);
-        scene.add(objLoader);
-//        objLoader.rotateY(-45);
-        customObjects.add(objLoader);
+        //Rick Astley
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Asltey");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            customObjects.add(objLoader);
+            objLoader.move(new Vector3(-0.3,0,0.5));
+
+        }
+        //Nhl Logo
+        {
+            Material objtex = new Material(Color.BLUE);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
+
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            customObjects.add(objLoader);
+            objLoader.move(new Vector3(-0.6,0.1,0));
+            objLoader.rotateY(10);
+
+        }
+
+        Banana
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "[CUSTOM] Bananas");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            customObjects.add(objLoader);
+
+        }
+
+        //Dragon
+        {
+            Material objtex = new Material(Color.GREEN);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "[CUSTOM] Dragon");
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            customObjects.add(objLoader);
+            objLoader.move(new Vector3(0,0,0.4));
+        }
+
+
+
+        Sphere mirrorSphere = new Sphere(new Vector3(1,0.6,1.3), 0.5);
+        mirrorSphere.applyMaterial(mirror);
+        scene.add(mirrorSphere);
+
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);
@@ -306,19 +368,21 @@ public class Main extends Application {
         scene.add(p3);
         p3.applyMaterial(orange);
 
-        Sphere mirrorSphere = new Sphere(new Vector3(-2, 0.5, 2), 1);
-        mirrorSphere.applyMaterial(mirror);
-        //scene.add(mirrorSphere);
+
 
 
         Box box = new Box(new Vector3(-2, 0, 1.3), new Vector3(1, 1, 1));
         box.applyMaterial(red);
         //scene.add(box);
 
-        PointLight l = new PointLight(new Vector3(0, 2, 0.2), 8f, Color.WHITE);
+        PointLight l = new PointLight(new Vector3(0,0.2 , 0.2), 1f, Color.ORANGE);
         scene.add(l);
-        PointLight l2 = new PointLight(new Vector3(0, 1, 1), 3f, Color.WHITE);
+
+
+        PointLight l2 = new PointLight(new Vector3(2,0.2,1.8), 1f, Color.BLUE);
         scene.add(l2);
+        PointLight l3 = new PointLight(new Vector3(-2,0.2 , 0.2), 0.5f, Color.WHITE);
+        scene.add(l3);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }
 

@@ -104,23 +104,19 @@ public class Triangle extends Object3D{
 
     @Override
     public Vector3 getNormalAt(Vector3 point) {
-
-        if(!this.hasVertexNormals){
+        //Point was used for interpolated normals but removed later on
             Vector3 a = Vector3.sub(p2, p1);
             Vector3 b = Vector3.sub(p3, p1);
             Vector3 res = a.cross(b).normalize();
             return res;
-        }
         //Has vertex normals
-        Vector3 p1n = this.p1.getNormal();
-        Vector3 p2n = this.p2.getNormal();
-        Vector3 p3n = this.p3.getNormal();
-
-        double u  = point.uv.x;
-        double v = point.uv.y;
-        double w = 1- u - v;
-
-        return Vector3.addVectors(p1n.multiplyScalar(u), p2n.multiplyScalar(v)).add(p3n.multiplyScalar(w));
+//        Vector3 p1n = this.p1.getNormal();
+//        Vector3 p2n = this.p2.getNormal();
+//        Vector3 p3n = this.p3.getNormal();
+//        double u  = point.uv.x;
+//        double v = point.uv.y;
+//        double w = 1- u - v;
+//        return Vector3.addVectors(p1n.multiplyScalar(v), p2n.multiplyScalar(w)).add(p3n.multiplyScalar(u));
     }
 
     public void rotateZ(double angle){

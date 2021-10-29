@@ -29,7 +29,7 @@ public class Renderer extends AnimationTimer {
     public void initRenderer(Scene3D scene, Canvas canvas) {
         Renderer.scene = scene;
         Renderer.canvas = canvas;
-        int numKeepFreeThreads = 0;
+        int numKeepFreeThreads = 1;
         int numOfThreads = Runtime.getRuntime().availableProcessors() - numKeepFreeThreads;
         System.out.println("Working with " + numOfThreads + " threads 🔥");
         System.out.println("Scene contains " + scene.getObjects().size() + " objects.");

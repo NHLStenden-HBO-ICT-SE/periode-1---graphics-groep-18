@@ -60,9 +60,9 @@ public class ObjLoader extends Object3D {
                 parseTriangleVertex(data[2].split("/")),
                 parseTriangleVertex(data[3].split("/"))
         );
-        if(t.p1.getNormal() != null && t.p2.getNormal() != null && t.p3.getNormal() != null){
-            t.hasVertexNormals = true;
-        }
+//        if(t.p1.getNormal() != null && t.p2.getNormal() != null && t.p3.getNormal() != null){
+//            t.hasVertexNormals = true;
+//        }
 
         triangles.add(t);
         //checks if the data is a quad instead of a triangle, if so it will split the quad and add two triangles
@@ -74,9 +74,9 @@ public class ObjLoader extends Object3D {
                     parseTriangleVertex(data[4].split("/"))
 
             );
-            if(t2.p1.getNormal() != null && t2.p2.getNormal() != null && t2.p3.getNormal() != null){
-                t2.hasVertexNormals = true;
-            }
+//            if(t2.p1.getNormal() != null && t2.p2.getNormal() != null && t2.p3.getNormal() != null){
+//                t2.hasVertexNormals = true;
+//            }
             triangles.add(t2);
         }
 
@@ -95,9 +95,9 @@ public class ObjLoader extends Object3D {
             int index = Integer.parseInt(data[1]) -1;
             vertex.textureCords = textureCords.get(index).clone();
         }
-        if(data.length > 2){
-            vertex.setNormal(normals.get(Integer.parseInt(data[2])-1));
-        }
+//        if(data.length > 2){
+//            //vertex.setNormal(normals.get(Integer.parseInt(data[2])-1));
+//        }
 
         return vertex;
     }
@@ -140,12 +140,7 @@ public class ObjLoader extends Object3D {
     public void rotateX(double angle){
         for (Triangle t : faces){
             t.rotateXAround(this, angle);
-            if(t.hasVertexNormals){
-                t.p1.normal.rotateXAxis(angle);
-                t.p2.normal.rotateXAxis(angle);
-                t.p3.normal.rotateXAxis(angle);
 
-            }
         }
         System.out.println("rotate Y done");
     }
@@ -153,12 +148,7 @@ public class ObjLoader extends Object3D {
     public void rotateY(double angle){
         for (Triangle t : faces){
             t.rotateYAround(this, angle);
-            if(t.hasVertexNormals){
-                t.p1.normal.rotateYAxis(angle);
-                t.p2.normal.rotateYAxis(angle);
-                t.p3.normal.rotateYAxis(angle);
 
-            }
         }
         System.out.println("rotate Y done");
     }
@@ -166,12 +156,7 @@ public class ObjLoader extends Object3D {
     public void rotateZ(double angle){
         for (Triangle t : faces){
             t.rotateZAround(this, angle);
-            if(t.hasVertexNormals){
-                t.p1.normal.rotateZAxis(angle);
-                t.p2.normal.rotateZAxis(angle);
-                t.p3.normal.rotateZAxis(angle);
 
-            }
         }
         System.out.println("rotate Y done");
     }

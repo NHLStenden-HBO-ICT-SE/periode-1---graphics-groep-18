@@ -52,7 +52,6 @@ public abstract class Object3D {
     }
 
     public Vector3 getNormalAt(Vector3 pos){
-        //TODO:implement function ;)
         return null;
     };
 

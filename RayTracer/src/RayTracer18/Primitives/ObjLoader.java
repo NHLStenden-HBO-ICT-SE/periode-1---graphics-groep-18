@@ -158,12 +158,6 @@ public class ObjLoader extends Object3D {
         System.out.println("rotate Z done");
     }
 
-    public void rotateX(double angle){
-        for (Triangle t : faces){
-            t.rotateXAround(this, angle);
-        }
-    }
-
     @Override
     public Color getColorAt(Vector3 cords) {
         return getMaterial().color;

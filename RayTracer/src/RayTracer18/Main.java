@@ -259,7 +259,7 @@ public class Main extends Application {
         }
 
 
-        Material objtex = new Material(Color.PINK);
+        Material objtex = new Material(Color.BLACK);
 
         mirror.setReflection(1);
 
@@ -276,21 +276,20 @@ public class Main extends Application {
         );
         //scene.add(t);
 
-        
+
         t.applyMaterial(orange);
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/ricksmall.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic10.obj"), "Dominace asserting Rick Astley");
         try {
 
-            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
         objLoader.applyMaterial(objtex);
         scene.add(objLoader);
-        objLoader.rotateY(-0.1);
 
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));

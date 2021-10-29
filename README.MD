@@ -11,7 +11,9 @@ Wij vinden dat Rik Wildschut een hoger cijfer verdient, omdat hij veel meer werk
 
 ##Final Scene
 Onze final scene bestaat uit 4 custom objecten (`.obj`) en een sphere die reflectief is.
-In totaal zijn dit meer dan 11.000 objecten. Dit duurde met 12 threads op een Ryzen 5 2600 ongeveer 2.5 minuten.
+In totaal zijn dit meer dan 11.000 objecten.
+De resolutie was 1400x700.
+Dit duurde met 12 threads op een Ryzen 5 2600 ongeveer 2.5 minuten.
 
 
 ## Basis Onderdelen (60%)
@@ -53,8 +55,8 @@ We kunnen driehoeken draaien om de origin van dat driehoek of om de origin van e
 Wordt gebruikt in de final render om het nhl logo wat te draaien.
 
 #####Notes
-Er zijn veel functies uitcommented die te maken hebben met normals, we hadden interpolated normals maar die zijn last minute weggehaald
-
+- Er zijn veel functies uitcommented die te maken hebben met normals, we hadden interpolated normals maar die zijn last minute weggehaald
+- Alle objecten, als ze draaien, draaien ze om de origin van het object heen. Vaak is die origin niet in het object dus draait het om bijvoobeeld 0,0,0 heen.
 
 ###Setup
 Hoe run je dit

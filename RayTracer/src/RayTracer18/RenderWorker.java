@@ -9,6 +9,7 @@ public class RenderWorker implements Runnable
     int maxY;
     int startX;
     Scene3D scene;
+    boolean wait = false;
     public ConcurrentLinkedQueue<RayHit> data1 = new ConcurrentLinkedQueue<>();
     public ConcurrentLinkedQueue<RayHit> data2 = new ConcurrentLinkedQueue<>();
     private boolean useData1 = true;
@@ -45,13 +46,13 @@ public class RenderWorker implements Runnable
 
     public void run()
     {
-        try
-        {
-            for (int x =startX ; x < maxX; x++){
+
+            try
+            { for (int x =startX ; x < maxX; x++){
 
                 for(int y=0; y < maxY; y++){
 
-                    
+
                     //Canvas y = 0 is the top, in 3d its the bottom.
                     int useY =(maxY - y);
                     RayHit rayHit = scene.camera.getRayHit(x, y);
@@ -66,8 +67,11 @@ public class RenderWorker implements Runnable
                 }
 
             }
+                wait = true;
 
+            }
+            catch (Exception e) {System.out.println(e);}
         }
-        catch (Exception e) {System.out.println(e);}
-    }
-}//slowthread
+
+
+}

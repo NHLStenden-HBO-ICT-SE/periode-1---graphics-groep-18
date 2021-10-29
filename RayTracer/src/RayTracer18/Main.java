@@ -123,9 +123,6 @@ public class Main extends Application {
             scene.camera.setFov(newValue.doubleValue());
             label.setText(String.format("Field of View (FoV): %.1f ", Math.abs((double) newValue * 100 - 100)));
 
-
-            renderer.reRender();
-
         });
         initScene(scene, canvas);
         createHierarchy();
@@ -274,81 +271,81 @@ public class Main extends Application {
         //TODO: Try catch for if not found
 
         //Rubic cube
-        {
-            Material objtex = new Material(Color.PINK);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "[CUSTOM] Rubic Cube");
-            try {
-
-                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            objLoader.move(new Vector3(0,0,0.5));
-
-            customObjects.add(objLoader);
-
-        }
+//        {
+//            Material objtex = new Material(Color.PINK);
+//
+//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "[CUSTOM] Rubic Cube");
+//            try {
+//
+//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            objLoader.applyMaterial(objtex);
+//            scene.add(objLoader);
+//            objLoader.move(new Vector3(0,0,0.5));
+//
+//            customObjects.add(objLoader);
+//
+//        }
         //Rick Astley
-        {
-            Material objtex = new Material(Color.PINK);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Asltey");
-            try {
-
-                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            customObjects.add(objLoader);
-            objLoader.move(new Vector3(-0.3,0,0.5));
-
-        }
+//        {
+//            Material objtex = new Material(Color.PINK);
+//
+//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Asltey");
+//            try {
+//
+//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            objLoader.applyMaterial(objtex);
+//            scene.add(objLoader);
+//            customObjects.add(objLoader);
+//            objLoader.move(new Vector3(-0.3,0,0.5));
+//
+//        }
         //Nhl Logo
-        {
-            Material objtex = new Material(Color.BLUE);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
-
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            customObjects.add(objLoader);
-            objLoader.move(new Vector3(-0.7,0.5,0.7));
-            objLoader.rotateY(5);
-
-        }
+//        {
+//            Material objtex = new Material(Color.BLUE);
+//
+//            ObjLoader objLoader = new ObjLoader(new Vector3(0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
+//
+//            objLoader.applyMaterial(objtex);
+//            scene.add(objLoader);
+//            customObjects.add(objLoader);
+//            objLoader.move(new Vector3(-0.7,0.5,0.7));
+//            objLoader.rotateY(5);
+//
+//        }
 
         //Banana
-        {
-            Material objtex = new Material(Color.PINK);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "[CUSTOM] Bananas");
-            try {
-
-                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            customObjects.add(objLoader);
-
-        }
+//        {
+//            Material objtex = new Material(Color.PINK);
+//
+//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "[CUSTOM] Bananas");
+//            try {
+//
+//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            objLoader.applyMaterial(objtex);
+//            scene.add(objLoader);
+//            customObjects.add(objLoader);
+//
+//        }
 
 //        //Dragon
-        {
-            Material objtex = new Material(Color.GREEN);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "[CUSTOM] Dragon");
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            customObjects.add(objLoader);
-            objLoader.move(new Vector3(0,-0.06,0.4));
-        }
+//        {
+//            Material objtex = new Material(Color.GREEN);
+//
+//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "[CUSTOM] Dragon");
+//            objLoader.applyMaterial(objtex);
+//            scene.add(objLoader);
+//            customObjects.add(objLoader);
+//            objLoader.move(new Vector3(0,-0.06,0.4));
+//        }
 
 
 

@@ -135,7 +135,6 @@ public class Main extends Application {
             objLoader.move(new Vector3(0, -0.06, 0.4));
         }
 
-
         Sphere mirrorSphere = new Sphere(new Vector3(1, 0.6, 1.3), 0.5);
         mirrorSphere.applyMaterial(mirror);
         scene.add(mirrorSphere);
@@ -249,9 +248,9 @@ public class Main extends Application {
             renderer.reRender();
 
         });
+        initCustomObjects();
         initScene(scene, canvas);
         createHierarchy();
-//        customizeLights();
 
         Button renderButton = new Button();
         renderButton.setText("Render");
@@ -290,7 +289,7 @@ public class Main extends Application {
                                 Object newValue) {
                 TreeItem<String> selectedItem = (TreeItem<String>) newValue;
                 String name = selectedItem.getValue();
-
+              
                 if (name.contains("id")) {
                     String id = name.substring(name.indexOf("id:")).substring(3).trim();
                     Light selectedLight = scene.getLightById(id);
@@ -305,7 +304,6 @@ public class Main extends Application {
                         customizer.labelScale.setVisible(false);
                         coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
                         customizer.lightCustomizer(selectedLight);
-
                     }
                     if (selectedObject != null) {
                         applyButton.setVisible(true);

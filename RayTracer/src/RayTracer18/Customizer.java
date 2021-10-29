@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import java.util.ArrayList;
 
 public class Customizer {
     Label labelScale = new Label();
@@ -219,6 +220,7 @@ public class Customizer {
                 labelRotateZ.setText("Rotate Z: " + String.format("%.2f", newValue));
             });
         }
+
         if (object instanceof ObjLoader) {
             //Disables the unused fields
             labelColorPicker.setVisible(false);

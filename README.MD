@@ -1,4 +1,6 @@
-#Ray Tracer 18
+# Ray Tracer 18
+## 📒Note
+Wij vinden dat Rik Wildschut een hoger cijfer verdient, omdat hij veel meer werk heeft verzet dan de rest van de groep.
 
 ## 📒Note
 Wij vinden dat Rik Wildschut een hoger cijfer verdient, omdat hij veel meer werk heeft verzet dan de rest van de groep.

@@ -39,7 +39,6 @@ public class Scene3D {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             Main.customObjects.add((ObjLoader) ob);
         } else {
             objects.add(ob);

@@ -84,5 +84,8 @@ Wordt gebruikt in de final render om het nhl logo wat te draaien.
 #### Runnen
 11. Nu kun je de applicatie starten. Soms moet je de lib opnieuw toevoegen tot het werkt.
 
+Als je path errors krijgt pas dan de basepath aan in Main.java line 30
+Maak daar dan van `+ "/"` in plaats van`+ "/RayTracer"`.
+
 Java versie: [16.0.1](https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html)
 

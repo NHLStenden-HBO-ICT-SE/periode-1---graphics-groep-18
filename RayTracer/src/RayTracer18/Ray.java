@@ -79,6 +79,7 @@ public class Ray {
         Vector3 hitPoint = new Vector3();
         double smallestDistance = Double.POSITIVE_INFINITY;
 
+        //find the closest object
         for (Object3D ob : this.scene.getObjects()) {
             Vector3 crossPoint = ob.calculateIntersection(this);
             if (crossPoint == null) {
@@ -94,17 +95,23 @@ public class Ray {
         }
 
 
+        //If the ray hits nothing return the void color
         if (hitObject == null) {
 
             return new RayHit(scene.voidColor, 1000);
 
         }
 
+
+
         this.distance = hitPoint.distanceTo(this.getOrigin());
 
         Vector3 normal = hitObject.getNormalAt(hitPoint);
 
         double reflectionAmount = hitObject.getMaterial().getReflection();
+
+        //If the rays intersects with a reflective surface -> bounce the ray until it hits a normal surface OR the max bounces has been reached
+        //The colors of each bounce are mixed depending on the reflectiveness
         if (reflectionAmount > 0 && this.bounces < MAX_BOUNCES) {
 
             Vector3 reflectionEquation = normal.clone().multiplyScalar(Vector3.dot(this.getDirection(), normal.clone()) * 2);
@@ -112,8 +119,10 @@ public class Ray {
             Vector3 startingPoint = hitPoint.add(direction.clone().multiplyScalar(Renderer.EPSILON));
 
             Ray reflectionRay = new Ray(startingPoint, direction, scene);
+            reflectionRay.bounces = this.bounces;
             reflectionRay.incrementBounces();
             reflectionRay.from = hitObject;
+
 
             RayHit refHit = reflectionRay.shoot();
 
@@ -126,6 +135,7 @@ public class Ray {
 
         ArrayList<Light> reachAbleLights = new ArrayList<>();
 
+        //Collect all reachable lights
         for (Light light : scene.getLights()) {
 
             Vector3 rayDir = Vector3.sub(light.position, hitPoint).normalize();
@@ -145,22 +155,26 @@ public class Ray {
         }
 
 
+        //The spot is not lit at all so it is a aboslute shadow
         if (reachAbleLights.size() == 0) {
             //No lights absolute shadow
             return new RayHit(Color.BLACK, this.distance);
         }
+        //Get the color at the hitPoint
         Color cur = hitObject.getColorAt(hitPoint);
 
+        //Get a final light color by mixing them depending on distance and intensity
         Color totalLightColor = Color.BLACK;
-
         for (Light l : reachAbleLights) {
             totalLightColor = totalLightColor.interpolate(l.color, 1 / Math.pow(hitPoint.distanceTo(l.position), 2) * l.intensity);
 
         }
 
+        //Mix the color with the surface color
         cur = Utils.mixColors(cur, totalLightColor);
 
 
+        //Make the intensity of the color depeding on the angle it hits from the light source.
         Vector3 lightDir = Vector3.sub(hitPoint, this.origin).normalize();
         double prod = Vector3.dot(lightDir, normal);
         prod += 1;

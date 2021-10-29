@@ -145,7 +145,7 @@ public class ObjLoader extends Object3D {
     public void rotateY(double angle) {
         for (Triangle t : faces) {
             t.rotateYAround(this, angle);
-
+            System.out.println("rotated");
         }
         System.out.println("rotate Y done");
     }

@@ -32,7 +32,7 @@ public class Camera {
     }
 
     public void setFov(double fov) {
-        this.fov = fov;
+        this.fov = Math.max(0.1,fov);
     }
 
     public Vector3 getPosition() {

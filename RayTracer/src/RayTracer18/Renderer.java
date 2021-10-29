@@ -62,16 +62,14 @@ public class Renderer extends AnimationTimer {
 
 
     public void reRender() {
-        System.out.println("hi");
-        if (workers.size() > 0) {
-            pixelWritten = 0;
+        System.out.println("Restarting render...");
+        threads.clear();
+        workers.clear();
+        pixelWritten = 0;
+        Main.progressBar.setProgress(0);
+        running = false;
 
-            for (RenderWorker w : workers) {
-                w.wait = false;
-                //w.run();
-            }
-
-        }
+        initRenderer(scene, canvas);
     }
 
     @Override

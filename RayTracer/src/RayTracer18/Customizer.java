@@ -160,7 +160,10 @@ public class Customizer {
         numberFieldZ.setText(String.valueOf(light.position.getZ()));
 
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            labelSlider.setText("Light intensity: " + String.format("%.2f", newValue));
+            if(labelSlider.getText().contains("Light")) {
+
+                labelSlider.setText("Light intensity: " + String.format("%.2f", newValue));
+            }
         });
     }
 
@@ -279,20 +282,15 @@ public class Customizer {
 
         //Updates reflectivity label in real time
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            labelSlider.setText("Object reflectivity: " + String.format("%.2f", newValue));
+            if(labelSlider.getText().contains("Object")){
+                labelSlider.setText("Object reflectivity: " + String.format("%.2f", newValue));
+
+            }
         });
 
         //Updates scale label in real time
         sliderScale.valueProperty().addListener((observable, oldValue, newValue) -> {
             labelScale.setText("Scale: " + String.format("%.2f", newValue));
-            if (object instanceof Sphere) {
-                Sphere sphere = (Sphere) object;
-                sphere.setScale((Double) newValue);
-            }
-            if (object instanceof Box) {
-                Box box = (Box) object;
-                box.setScale((Double) newValue);
-            }
         });
     }
 
@@ -303,6 +301,16 @@ public class Customizer {
         RayTracer18.Material.Material material = new RayTracer18.Material.Material(colorPicker.getValue());
         material.setReflection(slider.getValue());
         object.applyMaterial(material);
+
+
+        if (object instanceof Sphere) {
+            Sphere sphere = (Sphere) object;
+            sphere.setScale(sliderScale.getValue());
+        }
+        if (object instanceof Box) {
+            Box box = (Box) object;
+            box.setScale(sliderScale.getValue());
+        }
 
         //Sets the rotation Triangle
         if (object instanceof Triangle) {

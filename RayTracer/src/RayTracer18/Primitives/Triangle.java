@@ -125,15 +125,15 @@ public class Triangle extends Object3D{
 
     public void rotateZ(double angle){
        Vector3 dVec1 = sub(this.p1, this.position);
-       rotateZAxis(dVec1, angle);
+       dVec1.rotateZAxis(angle);
        Vector3 newP1 = addVectors(dVec1, this.position);
 
        Vector3 dVec2 = sub(this.p2, this.position);
-        rotateZAxis(dVec2, angle);
+       dVec1.rotateZAxis(angle);
        Vector3 newP2 = addVectors(dVec2, this.position);
 
        Vector3 dVec3 = sub(this.p3, this.position);
-        rotateZAxis(dVec3, angle);
+       dVec3.rotateZAxis(angle);
        Vector3 newP3 = addVectors(dVec3, this.position);
 
        this.p1 = newP1;
@@ -161,16 +161,34 @@ public class Triangle extends Object3D{
 
     public void rotateX(double angle){
         Vector3 dVec1 = sub(this.p1, this.position);
-        rotateXAxis(dVec1, angle);
+        dVec1.rotateXAxis(angle);
         Vector3 newP1 = addVectors(dVec1, this.position);
 
         Vector3 dVec2 = sub(this.p2, this.position);
-        rotateXAxis(dVec2, angle);
+        dVec2.rotateXAxis(angle);
         Vector3 newP2 = addVectors(dVec2, this.position);
 
         Vector3 dVec3 = sub(this.p3, this.position);
-        rotateXAxis(dVec3, angle);
+        dVec3.rotateXAxis(angle);
         Vector3 newP3 = addVectors(dVec3, this.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+
+    public void rotateXAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        dVec1.rotateXAxis(angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        dVec2.rotateXAxis(angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        dVec3.rotateXAxis(angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
 
         this.p1.copy(newP1);
         this.p2.copy(newP2);
@@ -188,6 +206,24 @@ public class Triangle extends Object3D{
 
         Vector3 dVec3 = sub(this.p3, target.position);
         dVec3.rotateYAxis(angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+
+    public void rotateZAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        dVec1.rotateZAxis(angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        dVec2.rotateZAxis(angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        dVec3.rotateZAxis(angle);
         Vector3 newP3 = addVectors(dVec3, target.position);
 
         this.p1.copy(newP1);

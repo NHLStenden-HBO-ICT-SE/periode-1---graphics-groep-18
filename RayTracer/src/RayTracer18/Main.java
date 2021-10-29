@@ -41,7 +41,7 @@ public class Main extends Application {
 
     public static ProgressBar progressBar = new ProgressBar(0);
     private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
-
+    private static ArrayList<ObjLoader> customObjects = new ArrayList<>();
 
 
 
@@ -194,6 +194,9 @@ public class Main extends Application {
 
                 //Creates button and applies light changes
                 applyButton.setOnAction(e -> {
+                    if (name.contains("CUSTOM"))
+                        for (ObjLoader customObject : customObjects)
+                            customizer.applyChangesCustomObject(customObject);
                     if (selectedObject != null) {
                         customizer.applyChangesObject(selectedObject);
                         coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
@@ -276,12 +279,12 @@ public class Main extends Application {
         );
         //scene.add(t);
 
-        
+
         t.applyMaterial(orange);
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/ricksmall.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/ricksmall.obj"), "[CUSTOM] Dominace asserting Rick Astley");
         try {
 
             objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
@@ -290,8 +293,8 @@ public class Main extends Application {
         }
         objLoader.applyMaterial(objtex);
         scene.add(objLoader);
-        objLoader.rotateY(-0.1);
-
+//        objLoader.rotateY(-45);
+        customObjects.add(objLoader);
 
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);

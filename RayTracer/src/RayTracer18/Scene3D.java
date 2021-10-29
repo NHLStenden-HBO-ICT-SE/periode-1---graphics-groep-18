@@ -68,7 +68,7 @@ public class Scene3D {
 
 
     public Object3D getObjectById(String id){
-        for(Object3D ob: this.objects){
+        for(Object3D ob: this.hierarchyObjects){
             if (ob.id.equalsIgnoreCase(id)){
                 return ob;
             }

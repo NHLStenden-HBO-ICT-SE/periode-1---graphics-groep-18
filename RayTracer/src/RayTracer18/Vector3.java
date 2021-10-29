@@ -268,7 +268,7 @@ public class Vector3 {
         return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
     }
 
-    public static Vector3 rotateZAxis(Vector3 vec, double rad) {
+    public Vector3 rotateZAxis(double rad) {
         double theta = (rad * Math.PI) / 180;
         double[][] matrix = new double[][]{
                 {Math.cos(theta), -Math.sin(theta), 0},
@@ -281,17 +281,17 @@ public class Vector3 {
         for (int i = 0; i < matrix.length; i++) {
             double value = 0;
             for (int j = 0; j < matrix.length; j++) {
-                value += matrix[i][j] * vec.toArray()[j];
+                value += matrix[i][j] * this.toArray()[j];
             }
             listVectorZ[i] = value;
         }
-        vec.x = listVectorZ[0];
-        vec.y = listVectorZ[1];
-        vec.z = listVectorZ[2];
-        return vec;
+        this.x = listVectorZ[0];
+        this.y = listVectorZ[1];
+        this.z = listVectorZ[2];
+        return this;
     }
 
-    public static Vector3 rotateXAxis(Vector3 vec, double rad) {
+    public Vector3 rotateXAxis(double rad) {
         double theta = (rad * Math.PI) / 180;
         double[][] matrix = new double[][]{
                 {1, 0, 0},
@@ -304,14 +304,14 @@ public class Vector3 {
         for (int i = 0; i < matrix.length; i++) {
             double value = 0;
             for (int j = 0; j < matrix.length; j++) {
-                value += matrix[i][j] * vec.toArray()[j];
+                value += matrix[i][j] * this.toArray()[j];
             }
             listVectorX[i] = value;
         }
-        vec.x = listVectorX[0];
-        vec.y = listVectorX[1];
-        vec.z = listVectorX[2];
-        return vec;
+        this.x = listVectorX[0];
+        this.y = listVectorX[1];
+        this.z = listVectorX[2];
+        return this;
     }
 
     public Vector3 rotateYAxis(double rad) {

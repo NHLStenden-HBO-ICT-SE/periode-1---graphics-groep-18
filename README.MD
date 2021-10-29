@@ -9,6 +9,11 @@ Wij vinden dat Rik Wildschut een hoger cijfer verdient, omdat hij veel meer werk
 - Planes 
 - Box 
 
+##Final Scene
+Onze final scene bestaat uit 4 custom objecten (`.obj`) en een sphere die reflectief is.
+In totaal zijn dit meer dan 11.000 objecten. Dit duurde met 12 threads op een Ryzen 5 2600 ongeveer 2.5 minuten.
+
+
 ## Basis Onderdelen (60%)
 #### Camera([`Camera`](./RayTracer/src/RayTracer18/Camera.java))
 #### Schermvlak([`Camera`](./RayTracer/src/RayTracer18/Camera.java))
@@ -45,9 +50,11 @@ Dit zijn dingen als kleur, positie en rotatie bijvoorbeeld.
 Selecteer een object/licht in de hierachy en dan kun je de waardes aanpassen, klik dan op apply om de scene te re-renderen.
 #### ⭐Object rotatie ([`ObjLoader#rotateX/Y/Z`](./RayTracer/src/RayTracer18/Primitives/ObjLoader.java))
 We kunnen driehoeken draaien om de origin van dat driehoek of om de origin van een ObjLoaded model.
+Wordt gebruikt in de final render om het nhl logo wat te draaien.
 
 #####Notes
 Er zijn veel functies uitcommented die te maken hebben met normals, we hadden interpolated normals maar die zijn last minute weggehaald
+
 
 ###Setup
 Hoe run je dit

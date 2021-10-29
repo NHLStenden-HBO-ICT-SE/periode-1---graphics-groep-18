@@ -9,10 +9,6 @@ public class RenderWorker implements Runnable
     int maxY;
     int startX;
     Scene3D scene;
-    boolean initiated = true;
-
-
-    boolean sending = false;
     public ConcurrentLinkedQueue<RayHit> data1 = new ConcurrentLinkedQueue<>();
     public ConcurrentLinkedQueue<RayHit> data2 = new ConcurrentLinkedQueue<>();
     private boolean useData1 = true;
@@ -25,8 +21,12 @@ public class RenderWorker implements Runnable
 
     }
 
+    /**
+     * Get the calculated data that the thread has made so far
+     * @return
+     */
     public ArrayList<RayHit> getData(){
-        //Need so switch lists because will we lose some data
+        //Need so switch lists because will we lose some data in the returning process
         ArrayList<RayHit> result = new ArrayList<>();
         if(useData1){
              useData1 = false;

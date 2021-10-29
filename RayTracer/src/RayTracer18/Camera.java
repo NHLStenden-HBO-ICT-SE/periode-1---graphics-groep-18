@@ -18,20 +18,9 @@ public class Camera {
     private Vector2 projectorSize;
     private Scene3D scene;
 
-    public void moveCamera() {
 
-    }
 
-    public void zoomCamera(Canvas canvas, Scene3D scene, double deltaY) {
-        if (deltaY < 0)
-            position.z += 0.1;
-        else
-            position.z -= 0.1;
-    }
 
-    public void resetCamera() {
-
-    }
     public double getFov(){
         return this.fov;
     }
@@ -59,6 +48,12 @@ public class Camera {
     }
 
 
+    /**
+     * Get the ray hit at canvas x-y
+     * @param x
+     * @param y
+     * @return Rayhit containing the color and distance
+     */
     public RayHit getRayHit(double x, double y) {
 
         //Calculate the worldposition of the pixel on the projection plane

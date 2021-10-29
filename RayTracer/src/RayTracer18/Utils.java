@@ -20,14 +20,6 @@ public class Utils {
         );
     }
 
-    /**
-     * Weaken a color
-     * @param c1 Input color
-     * @param w factor between 0-1
-     * @return
-     */
-    public static Color weaken(Color c1, double w){
-        return new Color(c1.getRed() * w, c1.getGreen() * w, c1.getBlue() * w, 1);
-    }
+
 
 }

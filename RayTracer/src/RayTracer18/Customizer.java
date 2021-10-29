@@ -1,55 +1,145 @@
 package RayTracer18;
 
-import RayTracer18.Light.Light;
-import RayTracer18.Primitives.Box;
-import RayTracer18.Primitives.Object3D;
-import RayTracer18.Primitives.Sphere;
-import javafx.geometry.Insets;
+import RayTracer18.Lights.Light;
+import RayTracer18.Primitives.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.util.converter.DoubleStringConverter;
+
+import java.util.ArrayList;
 
 public class Customizer {
     Label labelScale = new Label();
+    Label labelSlider = new Label();
+
+    Label rotationLabel = new Label();
+
+    Label labelRotateX = new Label();
+    Label labelRotateY = new Label();
+    Label labelRotateZ = new Label();
+    Label labelColorPicker = new Label();
+    Label labelX = new Label();
+    Label labelY = new Label();
+    Label labelZ = new Label();
 
     Slider slider = new Slider();
     Slider sliderScale = new Slider();
+    Slider sliderRotateX = new Slider();
+    Slider sliderRotateY = new Slider();
+    Slider sliderRotateZ = new Slider();
+
     ColorPicker colorPicker = new ColorPicker();
+
     TextField numberFieldX = new TextField();
     TextField numberFieldY = new TextField();
     TextField numberFieldZ = new TextField();
-    TextField axisField = numberFieldX;
-    double reflectivity = 0.00000;
 
     public void generateCustomizer(GridPane gridPane) {
-        gridPane.add(slider, 0, 4);
-        Label labelColorPicker = new Label();
+        gridPane.add(rotationLabel, 0, 3);
+        gridPane.add(labelSlider, 0, 4);
+        gridPane.add(slider, 0, 5);
         labelColorPicker.setText("Color: ");
-        gridPane.add(labelColorPicker, 0, 5);
-        gridPane.add(colorPicker, 0, 6);
+        gridPane.add(labelColorPicker, 0, 6);
+        gridPane.add(colorPicker, 0, 7);
 
         labelScale.setText("Scale: ");
-        gridPane.add(labelScale, 0, 7);
-        gridPane.add(sliderScale, 0, 8);
+        gridPane.add(labelScale, 0, 8);
+        gridPane.add(sliderScale, 0, 9);
 
-        Label labelX = new Label();
         labelX.setText("X: ");
-        gridPane.add(labelX, 0, 9);
-        gridPane.add(numberFieldX, 0, 10);
-        Label labelY = new Label();
+        gridPane.add(labelX, 0, 10);
+        gridPane.add(numberFieldX, 0, 11);
         labelY.setText("Y: ");
-        gridPane.add(labelY, 0, 11);
-        gridPane.add(numberFieldY, 0, 12);
-        Label labelZ = new Label();
+        gridPane.add(labelY, 0, 12);
+        gridPane.add(numberFieldY, 0, 13);
         labelZ.setText("Z: ");
-        gridPane.add(labelZ, 0, 13);
-        gridPane.add(numberFieldZ, 0, 14);
+        gridPane.add(labelZ, 0, 14);
+        gridPane.add(numberFieldZ, 0, 15);
+
+        //Creates all rotation labels and sliders
+        labelRotateX.setText("Rotate X: 0.00");
+        gridPane.add(labelRotateX, 0, 16);
+        gridPane.add(sliderRotateX, 0, 17);
+        labelRotateY.setText("Rotate Y: 0.00");
+        gridPane.add(labelRotateY, 0, 18);
+        gridPane.add(sliderRotateY, 0, 19);
+        labelRotateZ.setText("Rotate Z: 0.00");
+        gridPane.add(labelRotateZ, 0, 20);
+        gridPane.add(sliderRotateZ, 0, 21);
 
 
+        //Sets all slider properties
+        sliderRotateX.setMin(-360f);
+        sliderRotateX.setMax(360f);
+        sliderRotateX.setBlockIncrement(1);
+        sliderRotateX.setMajorTickUnit(20);
+        sliderRotateX.setMinorTickCount(10);
+        sliderRotateX.setShowTickLabels(true);
+
+        sliderRotateY.setMin(-360f);
+        sliderRotateY.setMax(360f);
+        sliderRotateY.setBlockIncrement(1);
+        sliderRotateY.setMajorTickUnit(20);
+        sliderRotateY.setMinorTickCount(10);
+        sliderRotateY.setShowTickLabels(true);
+
+        sliderRotateZ.setMin(-360f);
+        sliderRotateZ.setMax(360f);
+        sliderRotateZ.setBlockIncrement(1);
+        sliderRotateZ.setMajorTickUnit(20);
+        sliderRotateZ.setMinorTickCount(10);
+        sliderRotateZ.setShowTickLabels(true);
+
+
+        //Disables all fields and labels on startup
+        labelRotateX.setVisible(false);
+        labelRotateY.setVisible(false);
+        labelRotateZ.setVisible(false);
+        labelColorPicker.setVisible(false);
+        labelX.setVisible(false);
+        labelY.setVisible(false);
+        labelZ.setVisible(false);
+        labelScale.setVisible(false);
+
+        sliderRotateX.setVisible(false);
+        sliderRotateY.setVisible(false);
+        sliderRotateZ.setVisible(false);
+        slider.setVisible(false);
+        sliderScale.setVisible(false);
+        colorPicker.setVisible(false);
+        numberFieldX.setVisible(false);
+        numberFieldY.setVisible(false);
+        numberFieldZ.setVisible(false);
     }
 
     public void lightCustomizer(Light light) {
+        labelSlider.setText("Light intensity: " + light.intensity);
+
+        //Disables the unused fields
+        labelRotateX.setVisible(false);
+        labelRotateY.setVisible(false);
+        labelRotateZ.setVisible(false);
+        labelScale.setVisible(false);
+
+        sliderRotateX.setVisible(false);
+        sliderRotateY.setVisible(false);
+        sliderRotateZ.setVisible(false);
+
+
+        //Enables the used fields
+        labelSlider.setVisible(true);
+        labelColorPicker.setVisible(true);
+
+        slider.setVisible(true);
+        colorPicker.setVisible(true);
+
+        labelX.setVisible(true);
+        labelY.setVisible(true);
+        labelZ.setVisible(true);
+        numberFieldX.setVisible(true);
+        numberFieldY.setVisible(true);
+        numberFieldZ.setVisible(true);
+
+
         //Intensity slider
         slider.setValue(light.intensity);
         slider.setMin(0f);
@@ -58,19 +148,104 @@ public class Customizer {
         slider.setMajorTickUnit(2);
         slider.setMinorTickCount(1);
         slider.setShowTickLabels(true);
-        slider.setSnapToTicks(true);
 
         //Colorpicker
         colorPicker.setValue(light.color);
 
         //Sets the numberFields for XYZ
-        setNumberFieldLight('X', light);
-        setNumberFieldLight('Y', light);
-        setNumberFieldLight('Z', light);
+        numberFieldX.setText(String.valueOf(light.position.getX()));
+        numberFieldY.setText(String.valueOf(light.position.getY()));
+        numberFieldZ.setText(String.valueOf(light.position.getZ()));
+
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            labelSlider.setText("Light intensity: " + String.format("%.2f", newValue));
+        });
     }
 
     public void objectCustomizer(Object3D object) {
-        //TODO: fix the recalling of applyMaterial of selecting another object by changing the value of the fields
+        labelSlider.setText("Object reflectivity: " + object.getMaterial().getReflection());
+
+        //Resets values
+        sliderRotateX.setValue(0.00);
+        sliderRotateY.setValue(0.00);
+        sliderRotateZ.setValue(0.00);
+
+        //Disables the unused fields
+        labelRotateX.setVisible(false);
+        labelRotateY.setVisible(false);
+        labelRotateZ.setVisible(false);
+        sliderRotateX.setVisible(false);
+        sliderRotateY.setVisible(false);
+        sliderRotateZ.setVisible(false);
+
+        //Enables the used fields
+        labelColorPicker.setVisible(true);
+
+        colorPicker.setVisible(true);
+        slider.setVisible(true);
+        labelX.setVisible(true);
+        labelY.setVisible(true);
+        labelZ.setVisible(true);
+        numberFieldX.setVisible(true);
+        numberFieldY.setVisible(true);
+        numberFieldZ.setVisible(true);
+
+        if (object.name.contains("Plane")) {
+            //Disables/Enables the unused fields
+            labelScale.setVisible(false);
+            sliderScale.setVisible(false);
+        }
+        if (object.name.contains("Triangle")) {
+            //Disables/Enables the unused fields
+            labelScale.setVisible(false);
+            labelRotateX.setVisible(true);
+            labelRotateY.setVisible(true);
+            labelRotateZ.setVisible(true);
+            sliderRotateX.setVisible(true);
+            sliderRotateY.setVisible(true);
+            sliderRotateZ.setVisible(true);
+            sliderScale.setVisible(false);
+
+            //Updates rotation labels in real time
+            sliderRotateX.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateX.setText("Rotate X: " + String.format("%.2f", newValue));
+            });
+            sliderRotateY.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateY.setText("Rotate Y: " + String.format("%.2f", newValue));
+            });
+            sliderRotateZ.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateZ.setText("Rotate Z: " + String.format("%.2f", newValue));
+            });
+        }
+        if (object.name.contains("CUSTOM")) {
+            //Disables the unused fields
+//            colorPicker.setVisible(false);
+//            slider.setVisible(false);
+//            labelColorPicker.setVisible(false);
+//            labelSlider.setVisible(false);
+//            colorPicker.setVisible(false);
+
+            //Enables the unused fields
+            labelRotateX.setVisible(true);
+            labelRotateY.setVisible(true);
+            labelRotateZ.setVisible(true);
+            sliderRotateX.setVisible(true);
+            sliderRotateY.setVisible(true);
+            sliderRotateZ.setVisible(true);
+
+            //Updates rotation labels in real time
+            sliderRotateX.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateX.setText("Rotate X: " + String.format("%.2f", newValue));
+            });
+            sliderRotateY.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateY.setText("Rotate Y: " + String.format("%.2f", newValue));
+            });
+            sliderRotateZ.valueProperty().addListener((observable, oldValue, newValue) -> {
+                labelRotateZ.setText("Rotate Z: " + String.format("%.2f", newValue));
+            });
+        }
+
+
         //Colorpicker
         colorPicker.setValue(object.getMaterial().getColorAt());
 
@@ -81,7 +256,6 @@ public class Customizer {
         slider.setBlockIncrement(.1);
         slider.setMajorTickUnit(.2);
         slider.setShowTickLabels(true);
-        slider.setSnapToTicks(true);
 
         //Scale
         sliderScale.setValue(1f);
@@ -90,14 +264,20 @@ public class Customizer {
         sliderScale.setBlockIncrement(.5);
         sliderScale.setMajorTickUnit(1);
         sliderScale.setShowTickLabels(true);
-        sliderScale.setSnapToTicks(true);
 
         //Sets the numberFields for XYZ
-        setNumberFieldObject('X', object);
-        setNumberFieldObject('Y', object);
-        setNumberFieldObject('Z', object);
+        numberFieldX.setText(String.valueOf(object.position.getX()));
+        numberFieldY.setText(String.valueOf(object.position.getY()));
+        numberFieldZ.setText(String.valueOf(object.position.getZ()));
 
+        //Updates reflectivity label in real time
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            labelSlider.setText("Object reflectivity: " + String.format("%.2f", newValue));
+        });
+
+        //Updates scale label in real time
         sliderScale.valueProperty().addListener((observable, oldValue, newValue) -> {
+            labelScale.setText("Scale: " + String.format("%.2f", newValue));
             if (object.name.contains("Sphere")) {
                 Sphere sphere = (Sphere) object;
                 sphere.setScale((Double) newValue);
@@ -109,24 +289,6 @@ public class Customizer {
         });
     }
 
-    public void setNumberFieldObject(char axis, Object3D object) {
-        if (axis == 'X')
-            numberFieldX.setText(String.valueOf(object.position.getX()));
-        if (axis == 'Y')
-            numberFieldY.setText(String.valueOf(object.position.getY()));
-        if (axis == 'Z')
-            numberFieldZ.setText(String.valueOf(object.position.getZ()));
-    }
-
-    public void setNumberFieldLight(char axis, Light light) {
-        if (axis == 'X')
-            numberFieldX.setText(String.valueOf(light.position.getX()));
-        if (axis == 'Y')
-            numberFieldY.setText(String.valueOf(light.position.getY()));
-        if (axis == 'Z')
-            numberFieldZ.setText(String.valueOf(light.position.getZ()));
-    }
-
     public void applyChangesObject(Object3D object) {
         //Object set position
         object.setPosition(new Vector3(Double.parseDouble(numberFieldX.getText()), Double.parseDouble(numberFieldY.getText()), Double.parseDouble(numberFieldZ.getText())));
@@ -135,15 +297,40 @@ public class Customizer {
         material.setReflection(slider.getValue());
         object.applyMaterial(material);
 
+        //Sets the rotation Triangle
+        if (object.name.contains("Triangle")) {
+            Triangle triangle = (Triangle) object;
+            triangle.rotateX(sliderRotateX.getValue());
+            triangle.rotateY(sliderRotateY.getValue());
+            triangle.rotateZ(sliderRotateZ.getValue());
+
+            rotationLabel.setText("Rotation : x=" + String.format("%.2f", sliderRotateX.getValue()) + ", y=" + String.format("%.2f", sliderRotateY.getValue()) + ", z=" + String.format("%.2f", sliderRotateZ.getValue()));
+            sliderRotateX.setValue(0.00);
+            sliderRotateY.setValue(0.00);
+            sliderRotateZ.setValue(0.00);
+        }
     }
 
     public void applyChangesLight(Light light) {
-        //Light set position
         light.setPosition(new Vector3(Double.parseDouble(numberFieldX.getText()), Double.parseDouble(numberFieldY.getText()), Double.parseDouble(numberFieldZ.getText())));
-        //Sets intensity of current light
         light.setIntensity(slider.getValue());
-        //Sets color of current light
         light.setColor(colorPicker.getValue());
+    }
+
+    public void applyChangesCustomObject(ObjLoader customObject) {
+        customObject.move(new Vector3(Double.parseDouble(numberFieldX.getText()) - customObject.position.x, Double.parseDouble(numberFieldY.getText()) - customObject.position.y, Double.parseDouble(numberFieldZ.getText())  - customObject.position.z));
+
+        RayTracer18.Material.Material material = new RayTracer18.Material.Material(colorPicker.getValue());
+        material.setReflection(slider.getValue());
+        customObject.applyMaterial(material);
+
+        customObject.rotateX(sliderRotateX.getValue());
+        customObject.rotateY(sliderRotateY.getValue());
+        customObject.rotateZ(sliderRotateZ.getValue());
+
+        sliderRotateX.setValue(0.00);
+        sliderRotateY.setValue(0.00);
+        sliderRotateZ.setValue(0.00);
     }
 }
 

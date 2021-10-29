@@ -1,4 +1,4 @@
-package RayTracer18.Light;
+package RayTracer18.Lights;
 
 import RayTracer18.Vector3;
 import javafx.scene.paint.Color;

@@ -49,16 +49,10 @@ public class Renderer extends AnimationTimer {
                 threadStartIndex += widthPerThread;
                 workers.add(w1);
                 Renderer.threads.add(new Thread(w1, "Worker_" + threadStartIndex));
-
-
             }
         }
-
-
-
         if(!running){
             for (Thread t: Renderer.threads) {
-
                 t.start();
             }
         }

@@ -24,6 +24,14 @@ public class Triangle extends Object3D{
         this.name = "Triangle";
     }
 
+    public static Vector3 calculateCenter(Vector3 vec1, Vector3 vec2, Vector3 vec3){
+        double newX = (vec1.getX() + vec2.getX() + vec3.getX()) / 3;
+        double newY = (vec1.getY() + vec2.getY() + vec3.getY()) / 3;
+        double newZ = (vec1.getZ() + vec2.getZ() + vec3.getZ()) / 3;
+        Vector3 centerVec = new Vector3(newX, newY, newZ);
+        return centerVec;
+    }
+
     //Möller–Trumbore intersection algorithm.
 
     /**
@@ -97,12 +105,6 @@ public class Triangle extends Object3D{
     @Override
     public Vector3 getNormalAt(Vector3 point) {
 
-
-//        if(getMaterial().hasNormalMap){
-//            return getMaterial().
-//        }
-
-
         if(!this.hasVertexNormals){
             Vector3 a = Vector3.sub(p2, p1);
             Vector3 b = Vector3.sub(p3, p1);
@@ -123,20 +125,109 @@ public class Triangle extends Object3D{
 
     public void rotateZ(double angle){
        Vector3 dVec1 = sub(this.p1, this.position);
-       dVec1.rotateZAxis(angle);
+       rotateZAxis(dVec1, angle);
        Vector3 newP1 = addVectors(dVec1, this.position);
 
        Vector3 dVec2 = sub(this.p2, this.position);
-       dVec2.rotateZAxis(angle);
+        rotateZAxis(dVec2, angle);
        Vector3 newP2 = addVectors(dVec2, this.position);
 
        Vector3 dVec3 = sub(this.p3, this.position);
-       dVec3.rotateZAxis(angle);
+        rotateZAxis(dVec3, angle);
        Vector3 newP3 = addVectors(dVec3, this.position);
 
        this.p1 = newP1;
        this.p2 = newP2;
        this.p3 = newP3;
+    }
+
+    public void rotateY(double angle){
+        Vector3 dVec1 = sub(this.p1, this.position);
+        rotateYAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, this.position);
+
+        Vector3 dVec2 = sub(this.p2, this.position);
+        rotateYAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, this.position);
+
+        Vector3 dVec3 = sub(this.p3, this.position);
+        rotateYAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, this.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+
+    public void rotateX(double angle){
+        Vector3 dVec1 = sub(this.p1, this.position);
+        rotateXAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, this.position);
+
+        Vector3 dVec2 = sub(this.p2, this.position);
+        rotateXAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, this.position);
+
+        Vector3 dVec3 = sub(this.p3, this.position);
+        rotateXAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, this.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+    public void rotateZAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        rotateZAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        rotateZAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        rotateZAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+
+    public void rotateYAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        rotateYAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        rotateYAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        rotateYAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
+    }
+
+    public void rotateXAround(Object3D target, double angle){
+        Vector3 dVec1 = sub(this.p1, target.position);
+        rotateXAxis(dVec1, angle);
+        Vector3 newP1 = addVectors(dVec1, target.position);
+
+        Vector3 dVec2 = sub(this.p2, target.position);
+        rotateXAxis(dVec2, angle);
+        Vector3 newP2 = addVectors(dVec2, target.position);
+
+        Vector3 dVec3 = sub(this.p3, target.position);
+        rotateXAxis(dVec3, angle);
+        Vector3 newP3 = addVectors(dVec3, target.position);
+
+        this.p1.copy(newP1);
+        this.p2.copy(newP2);
+        this.p3.copy(newP3);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package RayTracer18;
 
-import RayTracer18.Light.Light;
-import RayTracer18.Light.PointLight;
+import RayTracer18.Lights.Light;
+import RayTracer18.Lights.PointLight;
 import RayTracer18.Material.Material;
-import RayTracer18.ObjLoader.ObjLoader;
+import RayTracer18.Primitives.ObjLoader;
 import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -31,7 +31,7 @@ public class Main extends Application {
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(1000, 500);
+    Canvas canvas = new Canvas(900, 400);
     Customizer customizer = new Customizer();
 
     Label idLabel = new Label();
@@ -41,6 +41,8 @@ public class Main extends Application {
 
     public static ProgressBar progressBar = new ProgressBar(0);
     private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
+    private static ArrayList<ObjLoader> customObjects = new ArrayList<>();
+
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
@@ -125,9 +127,9 @@ public class Main extends Application {
             renderer.reRender();
 
         });
+        initCustomObjects();
         initScene(scene, canvas);
         createHierarchy();
-//        customizeLights();
 
         Button renderButton = new Button();
         renderButton.setText("Render");
@@ -151,13 +153,12 @@ public class Main extends Application {
         tree.setShowRoot(false);
         tree.setMaxHeight(150);
 
-        Label sliderLabel = new Label();
 
         rightPane.add(idLabel, 0, 1);
         rightPane.add(coordsLabel, 0, 2);
-        rightPane.add(sliderLabel, 0, 3);
         applyButton.setText("Apply");
-        rightPane.add(applyButton, 0, 15);
+        applyButton.setVisible(false);
+        rightPane.add(applyButton, 0, 22);
 
 
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -169,29 +170,34 @@ public class Main extends Application {
                 String name = selectedItem.getValue();
                 String id = name.substring(name.indexOf("id:")).substring(3).trim();
                 Light selectedLight = scene.getLightById(id);
+
                 Object3D selectedObject = scene.getObjectById(id);
 
                 idLabel.setText("Customizing: " + id);
 
 
                 if (selectedLight != null) {
+                    applyButton.setVisible(true);
                     customizer.sliderScale.setVisible(false);
                     customizer.labelScale.setVisible(false);
                     coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
-                    sliderLabel.setText("Light intensity");
                     customizer.lightCustomizer(selectedLight);
 
                 }
                 if (selectedObject != null) {
+                    applyButton.setVisible(true);
                     customizer.sliderScale.setVisible(true);
                     customizer.labelScale.setVisible(true);
                     coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
-                    sliderLabel.setText("Object reflectivity");
                     customizer.objectCustomizer(selectedObject);
                 }
 
                 //Creates button and applies light changes
                 applyButton.setOnAction(e -> {
+                    if (name.contains("CUSTOM"))
+                        for (ObjLoader customObject : customObjects)
+                            if (customObject.id.contains(selectedObject.id))
+                                customizer.applyChangesCustomObject(customObject);
                     if (selectedObject != null) {
                         customizer.applyChangesObject(selectedObject);
                         coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
@@ -201,7 +207,12 @@ public class Main extends Application {
                     }
 
                     customizer.sliderScale.setValue(1f);
-                    renderer.reRender();
+                    if (renderer.running) {
+                        renderer.reRender();
+                    } else {
+                        renderer.initRenderer(scene, canvas);
+                        renderer.start();
+                    }
                     createHierarchy();
                 });
 
@@ -228,9 +239,25 @@ public class Main extends Application {
         borderPane.setRight(rightPane);
         borderPane.setBottom(statusbar);
 
-        primaryStage.setScene(new Scene(borderPane, 1200, 800));
+        primaryStage.setScene(new Scene(borderPane, 1500, 800));
         primaryStage.show();
 
+    }
+
+    public void initCustomObjects() {
+        Material objtex = new Material(Color.PINK);
+
+        //TODO: Try catch for if not found
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/test.obj"), "CUSTOM Dominace asserting Rick Astley");
+        try {
+
+            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        objLoader.applyMaterial(objtex);
+
+        customObjects.add(objLoader);
     }
 
 
@@ -252,8 +279,6 @@ public class Main extends Application {
         }
 
 
-        Material objtex = new Material(Color.PINK);
-
         mirror.setReflection(1);
 
         Vector3 tp1 = new Vector3(-2, -0.5, 3);
@@ -264,27 +289,19 @@ public class Main extends Application {
 //        tp2.textureCords = new Vector2(0.5,0);
 //        tp3.textureCords = new Vector2(1,1);
         Triangle t = new Triangle(
-                new Vector3(0, -.5, 3),
+                Triangle.calculateCenter(tp1, tp2, tp3),
                 tp1, tp2, tp3
         );
         scene.add(t);
-        Vector3 test = new Vector3(1, 0, 0);
-        System.out.println(test.rotateZAxis(90));
-        t.rotateZ(20);
+        t.rotateY(125);
         t.applyMaterial(orange);
 
 
-        //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
-        try {
+        for (ObjLoader customObject : customObjects)
+            scene.add(customObject);
 
-            objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        objLoader.applyMaterial(objtex);
-        //scene.add(objLoader);
-
+        //objLoader.rotateY(25);
+        //objLoader.move(new Vector3(0,-2,2));
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);
         floor.applyMaterial(checker);

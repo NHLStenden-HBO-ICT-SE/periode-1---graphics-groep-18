@@ -3,7 +3,6 @@ package RayTracer18;
 import RayTracer18.Lights.Light;
 import RayTracer18.Lights.PointLight;
 import RayTracer18.Material.Material;
-import RayTracer18.Primitives.ObjLoader;
 import RayTracer18.Primitives.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -26,23 +25,151 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
+    public static ProgressBar progressBar = new ProgressBar(0);
+    public static ArrayList<ObjLoader> customObjects = new ArrayList<>();
+    private static final String basePath = new File("").getAbsolutePath() + "/RayTracer";
+    public Renderer renderer = new Renderer();
     BorderPane borderPane;
     GridPane gridPane;
     GridPane rightPane = new GridPane();
-
     Scene3D scene = new Scene3D();
     Canvas canvas = new Canvas(800, 400);
     Customizer customizer = new Customizer();
-
     Label idLabel = new Label();
     Label coordsLabel = new Label();
     Button applyButton = new Button();
-    public Renderer renderer = new Renderer();
+    TreeItem<String> rootHierarchy = new TreeItem<>("Entities");
+    TreeItem<String> rootObjects = new TreeItem<>("Objects");
+    TreeItem<String> rootLights = new TreeItem<>("Lights");
 
-    public static ProgressBar progressBar = new ProgressBar(0);
-    private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
-    public static ArrayList<ObjLoader> customObjects = new ArrayList<>();
+    public static void initScene(Scene3D scene, Canvas canvas) {
+        Material blue = new Material(Color.BLUE);
+        Material green = new Material(Color.GREEN);
+        Material red = new Material(Color.RED);
+        Material orange = new Material(Color.ORANGE);
+        Material mirror = new Material(Color.GRAY);
+        mirror.setReflection(1);
+        Material brick = new Material(Color.BLACK);
+        Material checker = new Material(Color.PURPLE);
+        checker.isChecker = true;
 
+
+        try {
+            brick.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/bricks.jpg")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Plane background = new Plane(new Vector3(0, 0, 3), new Vector3(0, 0, -1));
+        background.applyMaterial(orange);
+        scene.add(background);
+
+
+        //TODO: Try catch for if not found
+
+        //Rubic cube
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "Rubic Cube");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(0, 0, 0.5));
+
+        }
+        //Rick Astley
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "Rick Astley");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(-0.3, 0, 0.5));
+        }
+        //Nhl Logo
+        {
+            Material objtex = new Material(Color.BLUE);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(0.5, 0.1, 0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "NHL Logo");
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(-0.7, 0.5, 0.7));
+            objLoader.rotateY(5);
+        }
+
+        //Banana
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "Bananas");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+        }
+
+//        //Dragon
+        {
+            Material objtex = new Material(Color.GREEN);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "Dragon");
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(0, -0.06, 0.4));
+        }
+
+
+        Sphere mirrorSphere = new Sphere(new Vector3(1, 0.6, 1.3), 0.5);
+        mirrorSphere.applyMaterial(mirror);
+        scene.add(mirrorSphere);
+
+
+        Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
+        scene.add(floor);
+        floor.applyMaterial(checker);
+        Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
+        scene.add(p2);
+        p2.applyMaterial(green);
+        Plane p3 = new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1));
+        scene.add(p3);
+        p3.applyMaterial(orange);
+
+
+        Box box = new Box(new Vector3(-2, 0, 1.3), new Vector3(1, 1, 1));
+        box.applyMaterial(red);
+        //scene.add(box);
+
+        PointLight l = new PointLight(new Vector3(0, 0.2, 0.2), 1f, Color.ORANGE);
+        scene.add(l);
+
+
+        PointLight l2 = new PointLight(new Vector3(2, 0.2, 1.8), 1f, Color.BLUE);
+        scene.add(l2);
+        PointLight l3 = new PointLight(new Vector3(-2, 0.5, 0.7), 1f, Color.WHITE);
+        scene.add(l3);
+        scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
@@ -71,10 +198,6 @@ public class Main extends Application {
             }
         }
     }
-
-    TreeItem<String> rootHierarchy = new TreeItem<>("Entities");
-    TreeItem<String> rootObjects = new TreeItem<>("Objects");
-    TreeItem<String> rootLights = new TreeItem<>("Lights");
 
     public void createHierarchy() {
         ArrayList<Object3D> objectList = new ArrayList<>(scene.getHiarcyObjects());
@@ -240,136 +363,5 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(borderPane, 1500, 800));
         primaryStage.show();
 
-    }
-
-
-    public static void initScene(Scene3D scene, Canvas canvas) {
-        Material blue = new Material(Color.BLUE);
-        Material green = new Material(Color.GREEN);
-        Material red = new Material(Color.RED);
-        Material orange = new Material(Color.ORANGE);
-        Material mirror = new Material(Color.GRAY);
-        mirror.setReflection(1);
-        Material brick = new Material(Color.BLACK);
-        Material checker = new Material(Color.PURPLE);
-        checker.isChecker = true;
-
-
-        try {
-            brick.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/bricks.jpg")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        Plane background = new Plane(new Vector3(0, 0, 3), new Vector3(0, 0, -1));
-        background.applyMaterial(orange);
-        scene.add(background);
-
-
-        //TODO: Try catch for if not found
-
-        //Rubic cube
-        {
-            Material objtex = new Material(Color.PINK);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "[CUSTOM] Rubic Cube");
-            try {
-
-                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            objLoader.move(new Vector3(0, 0, 0.5));
-
-        }
-        //Rick Astley
-        {
-            Material objtex = new Material(Color.PINK);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Astley");
-            try {
-
-                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            objLoader.move(new Vector3(-0.3, 0, 0.5));
-        }
-        //Nhl Logo
-        {
-            Material objtex = new Material(Color.BLUE);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            objLoader.move(new Vector3(-0.7,0.5,0.7));
-            objLoader.rotateY(5);
-        }
-
-        //Banana
-        {
-            Material objtex = new Material(Color.PINK);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "[CUSTOM] Bananas");
-            try {
-
-                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-        }
-
-//        //Dragon
-        {
-            Material objtex = new Material(Color.GREEN);
-
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "[CUSTOM] Dragon");
-            objLoader.applyMaterial(objtex);
-            scene.add(objLoader);
-            objLoader.move(new Vector3(0,-0.06,0.4));
-        }
-
-
-        Sphere mirrorSphere = new Sphere(new Vector3(1, 0.6, 1.3), 0.5);
-        mirrorSphere.applyMaterial(mirror);
-        scene.add(mirrorSphere);
-
-
-        Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
-        scene.add(floor);
-        floor.applyMaterial(checker);
-        Plane p2 = new Plane(new Vector3(0, 10, 0), new Vector3(0, -1, 0));
-        scene.add(p2);
-        p2.applyMaterial(green);
-        Plane p3 = new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1));
-        scene.add(p3);
-        p3.applyMaterial(orange);
-
-
-        Box box = new Box(new Vector3(-2, 0, 1.3), new Vector3(1, 1, 1));
-        box.applyMaterial(red);
-        //scene.add(box);
-
-        PointLight l = new PointLight(new Vector3(0, 0.2, 0.2), 1f, Color.ORANGE);
-        scene.add(l);
-
-
-        PointLight l2 = new PointLight(new Vector3(2, 0.2, 1.8), 1f, Color.BLUE);
-        scene.add(l2);
-        PointLight l3 = new PointLight(new Vector3(-2,0.5 , 0.7), 1f, Color.WHITE);
-        scene.add(l3);
-        scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

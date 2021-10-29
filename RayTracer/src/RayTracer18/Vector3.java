@@ -36,48 +36,11 @@ public class Vector3 {
 //        this.normal = normal;
 //    }
 
-    public void setUv(Vector2 uv) {
-        this.uv = uv;
-    }
-
-    public void setUv(double u, double v) {
-        this.uv = new Vector2(u, v);
-    }
-
-    public Vector2 getUv() {
-        return uv;
-    }
-
-    public Vector3 clone() {
-        return new Vector3(this.x, this.y, this.z);
-    }
-
-    public Vector3 copy(Vector3 target) {
-        this.x = target.x;
-        this.y = target.y;
-        this.z = target.z;
-        return this;
-    }
-
     public Vector3(Vector3 toCopy) {
         this.x = toCopy.x;
         this.y = toCopy.y;
         this.z = toCopy.z;
     }
-
-
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
-    }
-
 
     public static Vector3 cross(Vector3 v0, Vector3 v1) {
         return new Vector3(
@@ -117,6 +80,40 @@ public class Vector3 {
         );
     }
 
+    public void setUv(double u, double v) {
+        this.uv = new Vector2(u, v);
+    }
+
+    public Vector2 getUv() {
+        return uv;
+    }
+
+    public void setUv(Vector2 uv) {
+        this.uv = uv;
+    }
+
+    public Vector3 clone() {
+        return new Vector3(this.x, this.y, this.z);
+    }
+
+    public Vector3 copy(Vector3 target) {
+        this.x = target.x;
+        this.y = target.y;
+        this.z = target.z;
+        return this;
+    }
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public double getZ() {
+        return this.z;
+    }
 
     public Vector3 multiply(Vector3 v2) {
 

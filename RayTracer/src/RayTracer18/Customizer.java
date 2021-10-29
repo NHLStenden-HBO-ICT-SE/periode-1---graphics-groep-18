@@ -2,10 +2,11 @@ package RayTracer18;
 
 import RayTracer18.Lights.Light;
 import RayTracer18.Primitives.*;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-
-import java.util.ArrayList;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 public class Customizer {
     Label labelScale = new Label();
@@ -322,7 +323,7 @@ public class Customizer {
     }
 
     public void applyChangesCustomObject(ObjLoader customObject) {
-        customObject.move(new Vector3(Double.parseDouble(numberFieldX.getText()) - customObject.position.x, Double.parseDouble(numberFieldY.getText()) - customObject.position.y, Double.parseDouble(numberFieldZ.getText())  - customObject.position.z));
+        customObject.move(new Vector3(Double.parseDouble(numberFieldX.getText()) - customObject.position.x, Double.parseDouble(numberFieldY.getText()) - customObject.position.y, Double.parseDouble(numberFieldZ.getText()) - customObject.position.z));
 
         customObject.rotateX(sliderRotateX.getValue());
         customObject.rotateY(sliderRotateY.getValue());

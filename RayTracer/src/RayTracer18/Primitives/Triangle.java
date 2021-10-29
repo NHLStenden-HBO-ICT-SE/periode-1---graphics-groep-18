@@ -5,9 +5,10 @@ import RayTracer18.Vector2;
 import RayTracer18.Vector3;
 import javafx.scene.paint.Color;
 
-import static RayTracer18.Vector3.*;
+import static RayTracer18.Vector3.addVectors;
+import static RayTracer18.Vector3.sub;
 
-public class Triangle extends Object3D{
+public class Triangle extends Object3D {
 
 
     public Vector3 p1, p2, p3;
@@ -15,7 +16,7 @@ public class Triangle extends Object3D{
 
     public boolean hasVertexNormals = false;
 
-    public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3){
+    public Triangle(Vector3 pos, Vector3 p1, Vector3 p2, Vector3 p3) {
 
         super(pos);
         this.p1 = p1;
@@ -24,7 +25,7 @@ public class Triangle extends Object3D{
         this.name = "Triangle";
     }
 
-    public static Vector3 calculateCenter(Vector3 vec1, Vector3 vec2, Vector3 vec3){
+    public static Vector3 calculateCenter(Vector3 vec1, Vector3 vec2, Vector3 vec3) {
         double newX = (vec1.getX() + vec2.getX() + vec3.getX()) / 3;
         double newY = (vec1.getY() + vec2.getY() + vec3.getY()) / 3;
         double newZ = (vec1.getZ() + vec2.getZ() + vec3.getZ()) / 3;
@@ -46,7 +47,7 @@ public class Triangle extends Object3D{
         Vector3 v2 = this.p3;
 
         Vector3 v0v1 = sub(v1, v0);
-        Vector3 v0v2 = sub(v2,v0);
+        Vector3 v0v2 = sub(v2, v0);
 
         Vector3 normal = Vector3.cross(v0v2, v0v1).normalize();
 
@@ -55,7 +56,7 @@ public class Triangle extends Object3D{
 
 
         double invDet = (1.0 / det);
-        Vector3 tvec = sub(r.getOrigin(),v0);
+        Vector3 tvec = sub(r.getOrigin(), v0);
         double u = tvec.dot(pvec) * invDet;
 
         if (u < 0 || u > 1)
@@ -69,15 +70,15 @@ public class Triangle extends Object3D{
         if (v < 0 || u + v > 1)
             return null;
 
-        double distance =  (v0v2.dot(qvec) * invDet);
+        double distance = (v0v2.dot(qvec) * invDet);
         //Return if the ray was shot backwards, the opposite of direction
-        if(distance < 0){
+        if (distance < 0) {
             return null;
         }
         Vector3 endpoint = new Vector3(r.getOrigin());
         Vector3 towards = r.getDirection().multiplyScalar(distance);
         endpoint.add(towards);
-        endpoint.setUv(u ,v);
+        endpoint.setUv(u, v);
         return endpoint;
     }
 
@@ -85,7 +86,7 @@ public class Triangle extends Object3D{
     public Color getColorAt(Vector3 cords) {
 
         Vector2 uv = cords.getUv();
-        if(getMaterial().textured){
+        if (getMaterial().textured) {
             double u = this.p1.textureCords.x + uv.x * (this.p2.textureCords.x - this.p1.textureCords.x) + uv.y * (this.p3.textureCords.x - this.p1.textureCords.x);
             double v = this.p1.textureCords.y + uv.x * (this.p2.textureCords.y - this.p1.textureCords.y) + uv.y * (this.p3.textureCords.y - this.p1.textureCords.y);
 
@@ -105,10 +106,10 @@ public class Triangle extends Object3D{
     @Override
     public Vector3 getNormalAt(Vector3 point) {
         //Point was used for interpolated normals but removed later on
-            Vector3 a = Vector3.sub(p2, p1);
-            Vector3 b = Vector3.sub(p3, p1);
-            Vector3 res = a.cross(b).normalize();
-            return res;
+        Vector3 a = Vector3.sub(p2, p1);
+        Vector3 b = Vector3.sub(p3, p1);
+        Vector3 res = a.cross(b).normalize();
+        return res;
         //Has vertex normals
 //        Vector3 p1n = this.p1.getNormal();
 //        Vector3 p2n = this.p2.getNormal();
@@ -119,25 +120,25 @@ public class Triangle extends Object3D{
 //        return Vector3.addVectors(p1n.multiplyScalar(v), p2n.multiplyScalar(w)).add(p3n.multiplyScalar(u));
     }
 
-    public void rotateZ(double angle){
-       Vector3 dVec1 = sub(this.p1, this.position);
-       dVec1.rotateZAxis(angle);
-       Vector3 newP1 = addVectors(dVec1, this.position);
+    public void rotateZ(double angle) {
+        Vector3 dVec1 = sub(this.p1, this.position);
+        dVec1.rotateZAxis(angle);
+        Vector3 newP1 = addVectors(dVec1, this.position);
 
-       Vector3 dVec2 = sub(this.p2, this.position);
-       dVec1.rotateZAxis(angle);
-       Vector3 newP2 = addVectors(dVec2, this.position);
+        Vector3 dVec2 = sub(this.p2, this.position);
+        dVec1.rotateZAxis(angle);
+        Vector3 newP2 = addVectors(dVec2, this.position);
 
-       Vector3 dVec3 = sub(this.p3, this.position);
-       dVec3.rotateZAxis(angle);
-       Vector3 newP3 = addVectors(dVec3, this.position);
+        Vector3 dVec3 = sub(this.p3, this.position);
+        dVec3.rotateZAxis(angle);
+        Vector3 newP3 = addVectors(dVec3, this.position);
 
-       this.p1 = newP1;
-       this.p2 = newP2;
-       this.p3 = newP3;
+        this.p1 = newP1;
+        this.p2 = newP2;
+        this.p3 = newP3;
     }
 
-    public void rotateY(double angle){
+    public void rotateY(double angle) {
         Vector3 dVec1 = sub(this.p1, this.position);
         dVec1.rotateYAxis(angle);
         Vector3 newP1 = addVectors(dVec1, this.position);
@@ -155,7 +156,7 @@ public class Triangle extends Object3D{
         this.p3.copy(newP3);
     }
 
-    public void rotateX(double angle){
+    public void rotateX(double angle) {
         Vector3 dVec1 = sub(this.p1, this.position);
         dVec1.rotateXAxis(angle);
         Vector3 newP1 = addVectors(dVec1, this.position);
@@ -173,7 +174,7 @@ public class Triangle extends Object3D{
         this.p3.copy(newP3);
     }
 
-    public void rotateXAround(Object3D target, double angle){
+    public void rotateXAround(Object3D target, double angle) {
         Vector3 dVec1 = sub(this.p1, target.position);
         dVec1.rotateXAxis(angle);
         Vector3 newP1 = addVectors(dVec1, target.position);
@@ -191,7 +192,7 @@ public class Triangle extends Object3D{
         this.p3.copy(newP3);
     }
 
-    public void rotateYAround(Object3D target, double angle){
+    public void rotateYAround(Object3D target, double angle) {
         Vector3 dVec1 = sub(this.p1, target.position);
         dVec1.rotateYAxis(angle);
         Vector3 newP1 = addVectors(dVec1, target.position);
@@ -209,7 +210,7 @@ public class Triangle extends Object3D{
         this.p3.copy(newP3);
     }
 
-    public void rotateZAround(Object3D target, double angle){
+    public void rotateZAround(Object3D target, double angle) {
         Vector3 dVec1 = sub(this.p1, target.position);
         dVec1.rotateZAxis(angle);
         Vector3 newP1 = addVectors(dVec1, target.position);

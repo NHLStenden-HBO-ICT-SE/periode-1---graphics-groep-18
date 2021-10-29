@@ -16,7 +16,8 @@ public class Box extends Object3D {
         this.name = "Box";
 
     }
-    public void setScale(double scale){
+
+    public void setScale(double scale) {
 //        this.position = new Vector3(this.position.x * scale, this.position.y * scale, this.position.z * scale);
         this.max = new Vector3(this.max.x * scale, this.max.y * scale, this.max.z * scale);
     }
@@ -59,8 +60,7 @@ public class Box extends Object3D {
         if (intersectFlag) {
             Vector3 endpoint = ray.getOrigin().add(ray.getDirection().multiplyScalar(tnear));
             return endpoint.add(getNormalAt(endpoint).multiplyScalar(Renderer.EPSILON));
-        }
-        else
+        } else
             return null;
     }
 
@@ -70,18 +70,18 @@ public class Box extends Object3D {
         double[] direction = point.subtract2(position).toArray();
         double biggestValue = Float.NaN;
 
-        for (int i = 0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (Double.isNaN(biggestValue) || biggestValue < Math.abs(direction[i])) {
-                biggestValue =  Math.abs(direction[i]);
+                biggestValue = Math.abs(direction[i]);
             }
         }
 
         if (biggestValue == 0) {
             return new Vector3(0, 0, 0);
         } else {
-            for (int i = 0; i<3; i++) {
+            for (int i = 0; i < 3; i++) {
                 if (Math.abs(direction[i]) == biggestValue) {
-                    float[] normal = new float[] {0,0,0};
+                    float[] normal = new float[]{0, 0, 0};
                     normal[i] = direction[i] > 0 ? 1 : -1;
 
                     return new Vector3(normal[0], normal[1], normal[2]);

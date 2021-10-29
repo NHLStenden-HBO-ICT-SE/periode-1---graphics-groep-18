@@ -143,15 +143,15 @@ public class Triangle extends Object3D{
 
     public void rotateY(double angle){
         Vector3 dVec1 = sub(this.p1, this.position);
-        rotateYAxis(dVec1, angle);
+        dVec1.rotateYAxis(angle);
         Vector3 newP1 = addVectors(dVec1, this.position);
 
         Vector3 dVec2 = sub(this.p2, this.position);
-        rotateYAxis(dVec2, angle);
+        dVec2.rotateYAxis(angle);
         Vector3 newP2 = addVectors(dVec2, this.position);
 
         Vector3 dVec3 = sub(this.p3, this.position);
-        rotateYAxis(dVec3, angle);
+        dVec3.rotateYAxis(angle);
         Vector3 newP3 = addVectors(dVec3, this.position);
 
         this.p1.copy(newP1);
@@ -179,15 +179,15 @@ public class Triangle extends Object3D{
 
     public void rotateYAround(Object3D target, double angle){
         Vector3 dVec1 = sub(this.p1, target.position);
-        rotateYAxis(dVec1, angle);
+        dVec1.rotateYAxis(angle);
         Vector3 newP1 = addVectors(dVec1, target.position);
 
         Vector3 dVec2 = sub(this.p2, target.position);
-        rotateYAxis(dVec2, angle);
+        dVec2.rotateYAxis(angle);
         Vector3 newP2 = addVectors(dVec2, target.position);
 
         Vector3 dVec3 = sub(this.p3, target.position);
-        rotateYAxis(dVec3, angle);
+        dVec3.rotateYAxis(angle);
         Vector3 newP3 = addVectors(dVec3, target.position);
 
         this.p1.copy(newP1);

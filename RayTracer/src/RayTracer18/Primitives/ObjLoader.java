@@ -140,7 +140,14 @@ public class ObjLoader extends Object3D {
     public void rotateY(double angle){
         for (Triangle t : faces){
             t.rotateYAround(this, angle);
+            if(t.hasVertexNormals){
+                t.p1.normal.rotateYAxis(angle);
+                t.p2.normal.rotateYAxis(angle);
+                t.p3.normal.rotateYAxis(angle);
+
+            }
         }
+        System.out.println("done");
     }
 
     @Override

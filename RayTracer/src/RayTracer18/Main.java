@@ -274,15 +274,14 @@ public class Main extends Application {
                 Triangle.calculateCenter(tp1, tp2, tp3),
                 tp1, tp2, tp3
         );
-        scene.add(t);
+        //scene.add(t);
 
-        t.rotateY(125);
-        t.rotateX(0);
+        
         t.applyMaterial(orange);
 
 
         //TODO: Try catch for if not found
-        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/rikuv.obj"), "Dominace asserting Rick Astley");
+        ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/ricksmall.obj"), "Dominace asserting Rick Astley");
         try {
 
             objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
@@ -291,8 +290,9 @@ public class Main extends Application {
         }
         objLoader.applyMaterial(objtex);
         scene.add(objLoader);
-        //objLoader.rotateY(25);
-        //objLoader.move(new Vector3(0,-2,2));
+        objLoader.rotateY(-0.1);
+
+
         Plane floor = new Plane(new Vector3(0, -0.5, 0), new Vector3(0, 1, 0));
         scene.add(floor);
         floor.applyMaterial(checker);
@@ -305,12 +305,12 @@ public class Main extends Application {
 
         Sphere mirrorSphere = new Sphere(new Vector3(-2, 0.5, 2), 1);
         mirrorSphere.applyMaterial(mirror);
+        //scene.add(mirrorSphere);
 
 
         Box box = new Box(new Vector3(-2, 0, 1.3), new Vector3(1, 1, 1));
         box.applyMaterial(red);
         //scene.add(box);
-        scene.add(mirrorSphere);
 
         PointLight l = new PointLight(new Vector3(0, 2, 0.2), 8f, Color.WHITE);
         scene.add(l);

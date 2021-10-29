@@ -11,7 +11,7 @@ public class Vector3 {
 
     public Vector2 uv = new Vector2(-10, -10);
 
-    private Vector3 normal = null;
+    public Vector3 normal = null;
 
     public Vector2 textureCords = null;
 
@@ -314,7 +314,7 @@ public class Vector3 {
         return vec;
     }
 
-    public static Vector3 rotateYAxis(Vector3 vec, double rad) {
+    public Vector3 rotateYAxis(double rad) {
         double theta = (rad * Math.PI) / 180;
         double[][] matrix = new double[][]{
                 {Math.cos(theta), 0, Math.sin(theta)},
@@ -327,14 +327,14 @@ public class Vector3 {
         for (int i = 0; i < matrix.length; i++) {
             double value = 0;
             for (int j = 0; j < matrix.length; j++) {
-                value += matrix[i][j] * vec.toArray()[j];
+                value += matrix[i][j] * this.toArray()[j];
             }
             listVectorY[i] = value;
         }
-        vec.x = listVectorY[0];
-        vec.y = listVectorY[1];
-        vec.z = listVectorY[2];
-        return vec;
+        this.x = listVectorY[0];
+        this.y = listVectorY[1];
+        this.z = listVectorY[2];
+        return this;
     }
 }
 

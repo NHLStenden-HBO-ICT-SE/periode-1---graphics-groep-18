@@ -107,7 +107,6 @@ public class Main extends Application {
             objLoader.applyMaterial(objtex);
             scene.add(objLoader);
             objLoader.move(new Vector3(-0.7, 0.5, 0.7));
-            objLoader.rotateY(5);
         }
 
         //Banana
@@ -248,7 +247,6 @@ public class Main extends Application {
             renderer.reRender();
 
         });
-        initCustomObjects();
         initScene(scene, canvas);
         createHierarchy();
 

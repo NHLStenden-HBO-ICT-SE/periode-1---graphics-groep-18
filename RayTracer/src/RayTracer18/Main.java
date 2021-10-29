@@ -196,7 +196,8 @@ public class Main extends Application {
                 applyButton.setOnAction(e -> {
                     if (name.contains("CUSTOM"))
                         for (ObjLoader customObject : customObjects)
-                            customizer.applyChangesCustomObject(customObject);
+                            if (customObject.id.contains(selectedObject.id))
+                                customizer.applyChangesCustomObject(customObject);
                     if (selectedObject != null) {
                         customizer.applyChangesObject(selectedObject);
                         coordsLabel.setText("Coordinates : " + selectedObject.position.toString());

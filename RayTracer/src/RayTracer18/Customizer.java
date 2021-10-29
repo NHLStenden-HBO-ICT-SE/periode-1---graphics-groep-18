@@ -180,6 +180,7 @@ public class Customizer {
 
         //Enables the used fields
         labelColorPicker.setVisible(true);
+        labelSlider.setVisible(true);
 
         colorPicker.setVisible(true);
         slider.setVisible(true);
@@ -190,12 +191,12 @@ public class Customizer {
         numberFieldY.setVisible(true);
         numberFieldZ.setVisible(true);
 
-        if (object.name.contains("Plane")) {
+        if (object instanceof Plane) {
             //Disables/Enables the unused fields
             labelScale.setVisible(false);
             sliderScale.setVisible(false);
         }
-        if (object.name.contains("Triangle")) {
+        if (object instanceof Triangle) {
             //Disables/Enables the unused fields
             labelScale.setVisible(false);
             labelRotateX.setVisible(true);
@@ -217,13 +218,16 @@ public class Customizer {
                 labelRotateZ.setText("Rotate Z: " + String.format("%.2f", newValue));
             });
         }
-        if (object.name.contains("CUSTOM")) {
+        if (object instanceof ObjLoader) {
             //Disables the unused fields
-//            colorPicker.setVisible(false);
-//            slider.setVisible(false);
-//            labelColorPicker.setVisible(false);
-//            labelSlider.setVisible(false);
-//            colorPicker.setVisible(false);
+            labelColorPicker.setVisible(false);
+            labelSlider.setVisible(false);
+            labelScale.setVisible(false);
+
+            colorPicker.setVisible(false);
+            slider.setVisible(false);
+            colorPicker.setVisible(false);
+            sliderScale.setVisible(false);
 
             //Enables the unused fields
             labelRotateX.setVisible(true);
@@ -278,11 +282,11 @@ public class Customizer {
         //Updates scale label in real time
         sliderScale.valueProperty().addListener((observable, oldValue, newValue) -> {
             labelScale.setText("Scale: " + String.format("%.2f", newValue));
-            if (object.name.contains("Sphere")) {
+            if (object instanceof Sphere) {
                 Sphere sphere = (Sphere) object;
                 sphere.setScale((Double) newValue);
             }
-            if (object.name.contains("Box")) {
+            if (object instanceof Box) {
                 Box box = (Box) object;
                 box.setScale((Double) newValue);
             }
@@ -298,7 +302,7 @@ public class Customizer {
         object.applyMaterial(material);
 
         //Sets the rotation Triangle
-        if (object.name.contains("Triangle")) {
+        if (object instanceof Triangle) {
             Triangle triangle = (Triangle) object;
             triangle.rotateX(sliderRotateX.getValue());
             triangle.rotateY(sliderRotateY.getValue());
@@ -319,10 +323,6 @@ public class Customizer {
 
     public void applyChangesCustomObject(ObjLoader customObject) {
         customObject.move(new Vector3(Double.parseDouble(numberFieldX.getText()) - customObject.position.x, Double.parseDouble(numberFieldY.getText()) - customObject.position.y, Double.parseDouble(numberFieldZ.getText())  - customObject.position.z));
-
-        RayTracer18.Material.Material material = new RayTracer18.Material.Material(colorPicker.getValue());
-        material.setReflection(slider.getValue());
-        customObject.applyMaterial(material);
 
         customObject.rotateX(sliderRotateX.getValue());
         customObject.rotateY(sliderRotateY.getValue());

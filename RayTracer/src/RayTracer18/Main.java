@@ -31,7 +31,7 @@ public class Main extends Application {
     GridPane rightPane = new GridPane();
 
     Scene3D scene = new Scene3D();
-    Canvas canvas = new Canvas(1400, 700);
+    Canvas canvas = new Canvas(800, 400);
     Customizer customizer = new Customizer();
 
     Label idLabel = new Label();
@@ -41,8 +41,7 @@ public class Main extends Application {
 
     public static ProgressBar progressBar = new ProgressBar(0);
     private static String basePath = new File("").getAbsolutePath() + "/RayTracer";
-    private static ArrayList<ObjLoader> customObjects = new ArrayList<>();
-
+    public static ArrayList<ObjLoader> customObjects = new ArrayList<>();
 
 
     public void addMouseScrolling(Node node) {
@@ -123,6 +122,9 @@ public class Main extends Application {
             scene.camera.setFov(newValue.doubleValue());
             label.setText(String.format("Field of View (FoV): %.1f ", Math.abs((double) newValue * 100 - 100)));
 
+
+            renderer.reRender();
+
         });
         initScene(scene, canvas);
         createHierarchy();
@@ -165,51 +167,52 @@ public class Main extends Application {
                                 Object newValue) {
                 TreeItem<String> selectedItem = (TreeItem<String>) newValue;
                 String name = selectedItem.getValue();
-                String id = name.substring(name.indexOf("id:")).substring(3).trim();
-                Light selectedLight = scene.getLightById(id);
-                Object3D selectedObject = scene.getObjectById(id);
 
-                idLabel.setText("Customizing: " + id);
+                if (name.contains("id")) {
+                    String id = name.substring(name.indexOf("id:")).substring(3).trim();
+                    Light selectedLight = scene.getLightById(id);
+                    Object3D selectedObject = scene.getObjectById(id);
+
+                    idLabel.setText("Customizing: " + id);
 
 
-                if (selectedLight != null) {
-                    applyButton.setVisible(true);
-                    customizer.sliderScale.setVisible(false);
-                    customizer.labelScale.setVisible(false);
-                    coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
-                    customizer.lightCustomizer(selectedLight);
-
-                }
-                if (selectedObject != null) {
-                    applyButton.setVisible(true);
-                    customizer.sliderScale.setVisible(true);
-                    customizer.labelScale.setVisible(true);
-                    coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
-                    customizer.objectCustomizer(selectedObject);
-                }
-
-                //Creates button and applies light changes
-                applyButton.setOnAction(e -> {
-                    if (name.contains("CUSTOM"))
-                        for (ObjLoader customObject : customObjects)
-                            //customizer.applyChangesCustomObject(customObject);
-                    if (selectedObject != null) {
-                        customizer.applyChangesObject(selectedObject);
-                        coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
-                    } else if (selectedLight != null) {
-                        customizer.applyChangesLight(selectedLight);
+                    if (selectedLight != null) {
+                        applyButton.setVisible(true);
+                        customizer.sliderScale.setVisible(false);
+                        customizer.labelScale.setVisible(false);
                         coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
+                        customizer.lightCustomizer(selectedLight);
+
+                    }
+                    if (selectedObject != null) {
+                        applyButton.setVisible(true);
+                        customizer.sliderScale.setVisible(true);
+                        customizer.labelScale.setVisible(true);
+                        coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
+                        customizer.objectCustomizer(selectedObject);
                     }
 
-                    customizer.sliderScale.setValue(1f);
-                    if (renderer.running) {
-                        renderer.reRender();
-                    } else {
-                        renderer.initRenderer(scene, canvas);
-                        renderer.start();
-                    }
-                    createHierarchy();
-                });
+                    //Creates button and applies light changes
+                    applyButton.setOnAction(e -> {
+                        customizer.applyChangesCustomObject((ObjLoader) selectedObject);
+                        if (selectedObject != null) {
+                            customizer.applyChangesObject(selectedObject);
+                            coordsLabel.setText("Coordinates : " + selectedObject.position.toString());
+                        } else if (selectedLight != null) {
+                            customizer.applyChangesLight(selectedLight);
+                            coordsLabel.setText("Coordinates : " + selectedLight.position.toString());
+                        }
+
+                        customizer.sliderScale.setValue(1f);
+                        if (renderer.running) {
+                            renderer.reRender();
+                        } else {
+                            renderer.initRenderer(scene, canvas);
+                            renderer.start();
+                        }
+                        createHierarchy();
+                    });
+                }
 
 
             }
@@ -259,97 +262,82 @@ public class Main extends Application {
         }
 
 
-        Plane background = new Plane(new Vector3(0,0,3), new Vector3(0,0,-1));
+        Plane background = new Plane(new Vector3(0, 0, 3), new Vector3(0, 0, -1));
         background.applyMaterial(orange);
         scene.add(background);
-
-
-
-
 
 
         //TODO: Try catch for if not found
 
         //Rubic cube
-//        {
-//            Material objtex = new Material(Color.PINK);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "[CUSTOM] Rubic Cube");
-//            try {
-//
-//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            objLoader.move(new Vector3(0,0,0.5));
-//
-//            customObjects.add(objLoader);
-//
-//        }
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "[CUSTOM] Rubic Cube");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(0, 0, 0.5));
+
+        }
         //Rick Astley
-//        {
-//            Material objtex = new Material(Color.PINK);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Asltey");
-//            try {
-//
-//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            customObjects.add(objLoader);
-//            objLoader.move(new Vector3(-0.3,0,0.5));
-//
-//        }
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Astley");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(-0.3, 0, 0.5));
+        }
         //Nhl Logo
-//        {
-//            Material objtex = new Material(Color.BLUE);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
-//
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            customObjects.add(objLoader);
-//            objLoader.move(new Vector3(-0.7,0.5,0.7));
-//            objLoader.rotateY(5);
-//
-//        }
+        {
+            Material objtex = new Material(Color.BLUE);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(-0.7,0.5,0.7));
+            objLoader.rotateY(5);
+        }
 
         //Banana
-//        {
-//            Material objtex = new Material(Color.PINK);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "[CUSTOM] Bananas");
-//            try {
-//
-//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            customObjects.add(objLoader);
-//
-//        }
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "[CUSTOM] Bananas");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+        }
 
 //        //Dragon
-//        {
-//            Material objtex = new Material(Color.GREEN);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "[CUSTOM] Dragon");
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            customObjects.add(objLoader);
-//            objLoader.move(new Vector3(0,-0.06,0.4));
-//        }
+        {
+            Material objtex = new Material(Color.GREEN);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "[CUSTOM] Dragon");
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(0,-0.06,0.4));
+        }
 
 
-
-        Sphere mirrorSphere = new Sphere(new Vector3(1,0.6,1.3), 0.5);
+        Sphere mirrorSphere = new Sphere(new Vector3(1, 0.6, 1.3), 0.5);
         mirrorSphere.applyMaterial(mirror);
         scene.add(mirrorSphere);
 
@@ -365,17 +353,15 @@ public class Main extends Application {
         p3.applyMaterial(orange);
 
 
-
-
         Box box = new Box(new Vector3(-2, 0, 1.3), new Vector3(1, 1, 1));
         box.applyMaterial(red);
         //scene.add(box);
 
-        PointLight l = new PointLight(new Vector3(0,0.2 , 0.2), 1f, Color.ORANGE);
+        PointLight l = new PointLight(new Vector3(0, 0.2, 0.2), 1f, Color.ORANGE);
         scene.add(l);
 
 
-        PointLight l2 = new PointLight(new Vector3(2,0.2,1.8), 1f, Color.BLUE);
+        PointLight l2 = new PointLight(new Vector3(2, 0.2, 1.8), 1f, Color.BLUE);
         scene.add(l2);
         PointLight l3 = new PointLight(new Vector3(-2,0.5 , 0.7), 1f, Color.WHITE);
         scene.add(l3);

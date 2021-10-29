@@ -40,7 +40,7 @@ public class Scene3D {
                 e.printStackTrace();
             }
             
-
+            Main.customObjects.add((ObjLoader) ob);
         }
         else {
             objects.add(ob);

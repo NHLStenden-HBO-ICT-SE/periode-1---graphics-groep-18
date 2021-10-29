@@ -142,7 +142,7 @@ public class ObjLoader extends Object3D {
             t.rotateXAround(this, angle);
 
         }
-        System.out.println("rotate Y done");
+        System.out.println("rotate X done");
     }
 
     public void rotateY(double angle){
@@ -158,7 +158,7 @@ public class ObjLoader extends Object3D {
             t.rotateZAround(this, angle);
 
         }
-        System.out.println("rotate Y done");
+        System.out.println("rotate Z done");
     }
 
     @Override

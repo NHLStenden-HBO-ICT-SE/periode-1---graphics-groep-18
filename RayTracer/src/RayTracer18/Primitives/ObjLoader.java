@@ -137,6 +137,19 @@ public class ObjLoader extends Object3D {
         return new Vector3(Double.parseDouble(data[1]), Double.parseDouble(data[2]), Double.parseDouble(data[3]));
     }
 
+    public void rotateX(double angle){
+        for (Triangle t : faces){
+            t.rotateXAround(this, angle);
+            if(t.hasVertexNormals){
+                t.p1.normal.rotateXAxis(angle);
+                t.p2.normal.rotateXAxis(angle);
+                t.p3.normal.rotateXAxis(angle);
+
+            }
+        }
+        System.out.println("rotate Y done");
+    }
+
     public void rotateY(double angle){
         for (Triangle t : faces){
             t.rotateYAround(this, angle);
@@ -147,7 +160,20 @@ public class ObjLoader extends Object3D {
 
             }
         }
-        System.out.println("done");
+        System.out.println("rotate Y done");
+    }
+
+    public void rotateZ(double angle){
+        for (Triangle t : faces){
+            t.rotateZAround(this, angle);
+            if(t.hasVertexNormals){
+                t.p1.normal.rotateZAxis(angle);
+                t.p2.normal.rotateZAxis(angle);
+                t.p3.normal.rotateZAxis(angle);
+
+            }
+        }
+        System.out.println("rotate Y done");
     }
 
     @Override

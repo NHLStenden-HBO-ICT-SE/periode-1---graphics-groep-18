@@ -54,7 +54,6 @@ public class Main extends Application {
                 scene.camera.setFov(scene.camera.getFov() - 0.05);
 
             }
-            renderer.reRender();
         });
     }
 
@@ -285,7 +284,6 @@ public class Main extends Application {
             scene.add(objLoader);
             objLoader.move(new Vector3(0, 0, 0.5));
 
-
         }
         //Rick Astley
         {
@@ -308,13 +306,12 @@ public class Main extends Application {
         {
             Material objtex = new Material(Color.BLUE);
 
-            ObjLoader objLoader = new ObjLoader(new Vector3(-0.5, 0.1, 0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
-
+            ObjLoader objLoader = new ObjLoader(new Vector3(0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
             objLoader.applyMaterial(objtex);
             scene.add(objLoader);
             customObjects.add(objLoader);
-            objLoader.move(new Vector3(-0.6, 0.1, 0));
-            objLoader.rotateY(10);
+            objLoader.move(new Vector3(-0.7,0.5,0.7));
+            objLoader.rotateY(5);
 
         }
 
@@ -335,7 +332,7 @@ public class Main extends Application {
 
         }
 
-        //Dragon
+//        //Dragon
         {
             Material objtex = new Material(Color.GREEN);
 
@@ -343,7 +340,7 @@ public class Main extends Application {
             objLoader.applyMaterial(objtex);
             scene.add(objLoader);
             customObjects.add(objLoader);
-            objLoader.move(new Vector3(0, 0, 0.4));
+            objLoader.move(new Vector3(0,-0.06,0.4));
         }
 
 
@@ -373,7 +370,7 @@ public class Main extends Application {
 
         PointLight l2 = new PointLight(new Vector3(2, 0.2, 1.8), 1f, Color.BLUE);
         scene.add(l2);
-        PointLight l3 = new PointLight(new Vector3(-2, 0.2, 0.2), 0.5f, Color.WHITE);
+        PointLight l3 = new PointLight(new Vector3(-2,0.5 , 0.7), 1f, Color.WHITE);
         scene.add(l3);
         scene.camera.setProjectorSize(new Vector2(canvas.getWidth(), canvas.getHeight()));
     }

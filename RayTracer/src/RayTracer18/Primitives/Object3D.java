@@ -60,11 +60,21 @@ public abstract class Object3D {
     }
 
 
+    /**
+     * Get a color at a world-space cord
+     * @param cords
+     * @return Color
+     */
     public Color getColorAt(Vector3 cords){
-        System.out.println("Not implented");
+        System.out.println("This function has not been implemented for " + this.getName());
         return null;
     }
 
+    /**
+     * Calculate a possible intersection with ray
+     * @param ray
+     * @return If there is no intersection it returns null otherwise it returns the Vector3 where it hit containing uv if possible.
+     */
     public Vector3 calculateIntersection(Ray ray) {
         return null;
     }

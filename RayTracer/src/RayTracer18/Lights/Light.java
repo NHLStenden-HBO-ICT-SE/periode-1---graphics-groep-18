@@ -12,14 +12,14 @@ public abstract class Light {
     public String name;
     public String id;
 
-    public Light(Vector3 position, double intensity, Color color){
+    public Light(Vector3 position, double intensity, Color color) {
         this.intensity = intensity;
         this.color = color;
         this.position = position;
         this.id = UUID.randomUUID().toString();
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
@@ -31,6 +31,7 @@ public abstract class Light {
                 ", position=" + position +
                 '}';
     }
+
     public void setPosition(Vector3 position) {
         this.position = position;
     }

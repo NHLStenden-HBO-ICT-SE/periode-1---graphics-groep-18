@@ -11,11 +11,11 @@ import java.util.List;
 
 public class Scene3D {
 
-    private ArrayList<Object3D> objects;
-    private ArrayList<Light> lights;
-    private ArrayList<Object3D> hierarchyObjects;
     public Camera camera;
     public Color voidColor;
+    private final ArrayList<Object3D> objects;
+    private final ArrayList<Light> lights;
+    private final ArrayList<Object3D> hierarchyObjects;
 
     public Scene3D() {
         this.objects = new ArrayList<Object3D>();
@@ -23,7 +23,7 @@ public class Scene3D {
         this.camera = new Camera(0.32, this);
         this.lights = new ArrayList<Light>();
         //Color if a pixel hits nothing
-        this.voidColor = Color.PINK;
+        this.voidColor = Color.BLACK;
 
     }
 
@@ -39,7 +39,7 @@ public class Scene3D {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            Main.customObjects.add((ObjLoader) ob);
         } else {
             objects.add(ob);
         }

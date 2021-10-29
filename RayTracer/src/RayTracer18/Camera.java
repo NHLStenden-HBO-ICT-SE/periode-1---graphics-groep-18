@@ -1,43 +1,20 @@
 package RayTracer18;
 
-import javafx.scene.canvas.Canvas;
-
-
 public class Camera {
 
     //Position is eye point
-    private Vector3 position;
+    private final Vector3 position;
     private Vector3 direction;
     private double fov;
     private double rotation;
 
-    private Vector3 topRight;
-    private Vector3 bottomLeft;
-    private Vector3 topLeft;
-    private Vector3 bottomRight;
+    private final Vector3 topRight;
+    private final Vector3 bottomLeft;
+    private final Vector3 topLeft;
+    private final Vector3 bottomRight;
     private Vector2 projectorSize;
-    private Scene3D scene;
+    private final Scene3D scene;
 
-    public void moveCamera() {
-
-    }
-
-    public void zoomCamera(Canvas canvas, Scene3D scene, double deltaY) {
-        if (deltaY < 0)
-            position.z += 0.1;
-        else
-            position.z -= 0.1;
-    }
-
-    public void resetCamera() {
-
-    }
-    public double getFov(){
-        return this.fov;
-    }
-    public Vector3 getPosition(){
-        return position.clone();
-    }
 
     public Camera(double fov, Scene3D scene) {
         this.fov = fov;
@@ -50,15 +27,29 @@ public class Camera {
 
     }
 
-    public void setProjectorSize(Vector2 size) {
-        this.projectorSize = size;
+    public double getFov() {
+        return this.fov;
     }
 
     public void setFov(double fov) {
         this.fov = fov;
     }
 
+    public Vector3 getPosition() {
+        return position.clone();
+    }
 
+    public void setProjectorSize(Vector2 size) {
+        this.projectorSize = size;
+    }
+
+    /**
+     * Get the ray hit at canvas x-y
+     *
+     * @param x
+     * @param y
+     * @return Rayhit containing the color and distance
+     */
     public RayHit getRayHit(double x, double y) {
 
         //Calculate the worldposition of the pixel on the projection plane

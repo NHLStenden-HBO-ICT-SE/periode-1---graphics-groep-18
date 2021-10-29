@@ -1,19 +1,16 @@
 package RayTracer18;
 
-import RayTracer18.Primitives.Object3D;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 
 public class RayHit {
 
-    private double distance;
     public Color color;
     public Vector2 targetPixels;
+    private double distance;
 
-    public RayHit(Color c, double distance){
-            this.distance = distance;
-            this.color = c;
+    public RayHit(Color c, double distance) {
+        this.distance = distance;
+        this.color = c;
     }
 
     public Color getColor() {
@@ -24,7 +21,7 @@ public class RayHit {
         return distance;
     }
 
-    public void setDistance(double d){
+    public void setDistance(double d) {
         this.distance = d;
     }
 

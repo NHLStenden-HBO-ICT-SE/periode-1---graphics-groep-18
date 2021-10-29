@@ -298,9 +298,7 @@ public class Main extends Application {
             }
             objLoader.applyMaterial(objtex);
             scene.add(objLoader);
-            customObjects.add(objLoader);
             objLoader.move(new Vector3(-0.3, 0, 0.5));
-
         }
         //Nhl Logo
         {
@@ -309,10 +307,8 @@ public class Main extends Application {
             ObjLoader objLoader = new ObjLoader(new Vector3(0.5,0.1,0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "[CUSTOM] NHL Logo");
             objLoader.applyMaterial(objtex);
             scene.add(objLoader);
-            customObjects.add(objLoader);
             objLoader.move(new Vector3(-0.7,0.5,0.7));
             objLoader.rotateY(5);
-
         }
 
         //Banana
@@ -328,8 +324,6 @@ public class Main extends Application {
             }
             objLoader.applyMaterial(objtex);
             scene.add(objLoader);
-            customObjects.add(objLoader);
-
         }
 
 //        //Dragon
@@ -339,7 +333,6 @@ public class Main extends Application {
             ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "[CUSTOM] Dragon");
             objLoader.applyMaterial(objtex);
             scene.add(objLoader);
-            customObjects.add(objLoader);
             objLoader.move(new Vector3(0,-0.06,0.4));
         }
 

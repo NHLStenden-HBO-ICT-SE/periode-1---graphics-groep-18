@@ -61,4 +61,27 @@ Wordt gebruikt in de final render om het nhl logo wat te draaien.
 - Alle objecten, als ze draaien, draaien ze om de origin van het object heen. Vaak is die origin niet in het object dus draait het om bijvoobeeld 0,0,0 heen.
 
 ###Setup
-Hoe run je dit
+#### Project uitpakken
+1. Pak de .zip uit in een folder.
+2. Open het project met IntelliJ IDEA (de buitenste folder). (andere IDE mag ook, maar geen installatie instructies voor)
+
+#### Lib (JavaFX) toevoegen
+3. Klik op File > Project Structure
+4. Klik op het 'Libraries' tabje.
+5. Verwijder alle libraries die erin staan met het minnetje.
+6. Voeg de library toe:
+   1. Klik op +
+   2. Selecteer Java
+   3. Navigeer naar de `uitgepakte folder > RayTracer > src > javafx > javafx` en klik de `lib` folder aan.
+   4. Voeg hem toe en Apply.
+   5. 
+#### VM opties toevoegen
+7. In IntelliJ IDEA, probeer de app te starten door rechtermuisknop op Main en die te runnen. Nu is de goede file geselecteerd.
+8. Rechtsbovenin op de `Main` dropdown > `Edit Configuration`
+9. Naast tab `Build and run` > `Modify options` > `Add VM options`
+10. Voeg in het nieuwe VM Options veld het volgende toe:
+    1. Vervang het onderstaande pad, met de locatie van het lib bestand in de uitgepakte folder
+       1. `--module-path F:\GitHub\RayTracing\RayTracer\src\javafx\javafx2\lib --add-modules=javafx.controls,javafx.fxml`
+
+#### Runnen
+11. Als het goed is kun je nu de applicatie starten.

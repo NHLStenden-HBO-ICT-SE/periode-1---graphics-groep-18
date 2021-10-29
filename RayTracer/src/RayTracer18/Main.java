@@ -289,7 +289,7 @@ public class Main extends Application {
         {
             Material objtex = new Material(Color.PINK);
 
-            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Asltey");
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "[CUSTOM] Rick Astley");
             try {
 
                 objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));

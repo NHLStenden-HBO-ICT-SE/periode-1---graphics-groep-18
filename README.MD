@@ -2,9 +2,6 @@
 ## 📒Note
 Wij vinden dat Rik Wildschut een hoger cijfer verdient, omdat hij veel meer werk heeft verzet dan de rest van de groep.
 
-## 📒Note
-Wij vinden dat Rik Wildschut een hoger cijfer verdient, omdat hij veel meer werk heeft verzet dan de rest van de groep.
-
 ## Objecten
 - Driehoeken 
 - Spheres 
@@ -16,6 +13,7 @@ Onze final scene bestaat uit 4 custom objecten (`.obj`) en een sphere die reflec
 In totaal zijn dit meer dan 11.000 objecten.
 De resolutie was 1400x700.
 Dit duurde met 12 threads op een Ryzen 5 2600 ongeveer 2.5 minuten.
+In 800x400 (wat de default is) is het ongeveer een minuut.
 
 
 ## Basis Onderdelen (60%)
@@ -74,14 +72,17 @@ Wordt gebruikt in de final render om het nhl logo wat te draaien.
    2. Selecteer Java
    3. Navigeer naar de `uitgepakte folder > RayTracer > src > javafx > javafx` en klik de `lib` folder aan.
    4. Voeg hem toe en Apply.
-   5. 
+   
 #### VM opties toevoegen
 7. In IntelliJ IDEA, probeer de app te starten door rechtermuisknop op Main en die te runnen. Nu is de goede file geselecteerd.
 8. Rechtsbovenin op de `Main` dropdown > `Edit Configuration`
 9. Naast tab `Build and run` > `Modify options` > `Add VM options`
 10. Voeg in het nieuwe VM Options veld het volgende toe:
-    1. Vervang het onderstaande pad, met de locatie van het lib bestand in de uitgepakte folder
+    1. Vervang het onderstaande pad, met het absolute path van het lib bestand in de uitgepakte folder
        1. `--module-path F:\GitHub\RayTracing\RayTracer\src\javafx\javafx2\lib --add-modules=javafx.controls,javafx.fxml`
 
 #### Runnen
-11. Als het goed is kun je nu de applicatie starten.
+11. Nu kun je de applicatie starten. Soms moet je de lib opnieuw toevoegen tot het werkt.
+
+Java versie: [16.0.1](https://www.oracle.com/java/technologies/javase/jdk16-archive-downloads.html)
+

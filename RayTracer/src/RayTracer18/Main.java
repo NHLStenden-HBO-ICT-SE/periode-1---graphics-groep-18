@@ -59,73 +59,72 @@ public class Main extends Application {
         scene.add(background);
 
 
-        //TODO: Try catch for if not found
 
-//        //Rubic cube
-//        {
-//            Material objtex = new Material(Color.PINK);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rubic6.obj"), "Rubic Cube");
-//            try {
-//
-//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            objLoader.move(new Vector3(0, 0, 0.5));
-//
-//        }
-//        //Rick Astley
-//        {
-//            Material objtex = new Material(Color.PINK);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/rick.obj"), "Rick Astley");
-//            try {
-//
-//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            objLoader.move(new Vector3(-0.3, 0, 0.5));
-//        }
-//        //Nhl Logo
-//        {
-//            Material objtex = new Material(Color.BLUE);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(0.5, 0.1, 0), new File(basePath + "/src/Models/FinalScene/nhl.obj"), "NHL Logo");
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            objLoader.move(new Vector3(-0.7, 0.5, 0.7));
-//        }
-//
-//        //Banana
-//        {
-//            Material objtex = new Material(Color.PINK);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/FinalScene/banana.obj"), "Bananas");
-//            try {
-//
-//                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//        }
-//
-////        //Dragon
-//        {
-//            Material objtex = new Material(Color.GREEN);
-//
-//            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/FinalScene/dragon.obj"), "Dragon");
-//            objLoader.applyMaterial(objtex);
-//            scene.add(objLoader);
-//            objLoader.move(new Vector3(0, -0.06, 0.4));
-//        }
+        //Rubic cube
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/finalScene/rubic6.obj"), "Rubic Cube");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/r1.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(0, 0, 0.5));
+
+        }
+        //Rick Astley
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/finalScene/rick.obj"), "Rick Astley");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/rickastley_D2.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(-0.3, 0, 0.5));
+        }
+        //Nhl Logo
+        {
+            Material objtex = new Material(Color.BLUE);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(0.5, 0.1, 0), new File(basePath + "/src/Models/finalScene/nhl.obj"), "NHL Logo");
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(-0.7, 0.5, 0.7));
+        }
+
+        //Banana
+        {
+            Material objtex = new Material(Color.PINK);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 0, 4), new File(basePath + "/src/Models/finalScene/banana.obj"), "Bananas");
+            try {
+
+                objtex.setColorMap(ImageIO.read(new File(basePath + "/src/Models/Textures/banana.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+        }
+
+//        //Dragon
+        {
+            Material objtex = new Material(Color.GREEN);
+
+            ObjLoader objLoader = new ObjLoader(new Vector3(-2, 2, 4), new File(basePath + "/src/Models/finalScene/dragon.obj"), "Dragon");
+            objLoader.applyMaterial(objtex);
+            scene.add(objLoader);
+            objLoader.move(new Vector3(0, -0.06, 0.4));
+        }
 
         Sphere mirrorSphere = new Sphere(new Vector3(1, 0.6, 1.3), 0.5);
         mirrorSphere.applyMaterial(mirror);
